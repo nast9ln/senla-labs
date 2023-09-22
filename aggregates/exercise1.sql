@@ -1,0 +1,1 @@
+select count (8) from cd.facilities;
