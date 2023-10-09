@@ -1,6 +1,6 @@
-package org.example.service;
+package org.example.main.service;
 
-import org.example.dto.PersonDto;
+import org.example.main.dto.PersonDto;
 
 public interface PersonService extends CRUD<PersonDto> {
 

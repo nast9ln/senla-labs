@@ -1,10 +1,14 @@
-package org.example.entity;
+package org.example.main.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.util.ExecuteUtil;
+import org.example.main.util.ExecuteUtil;
 
 import java.util.Date;
+
 @Data
 @Slf4j
 @Builder

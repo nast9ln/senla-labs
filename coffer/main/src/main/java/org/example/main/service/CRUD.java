@@ -1,4 +1,4 @@
-package org.example.service;
+package org.example.main.service;
 
 public interface CRUD<T> {
     void create(T dto);
