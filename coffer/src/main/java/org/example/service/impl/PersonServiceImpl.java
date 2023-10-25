@@ -10,6 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.sql.SQLException;
+
 @Component
 public class PersonServiceImpl implements PersonService {
     private static final Logger logger = LoggerFactory.getLogger(PersonServiceImpl.class);
@@ -32,7 +35,6 @@ public class PersonServiceImpl implements PersonService {
         logger.info("execute");
         Person person = personDtoMapper.toEntity(dto);
         return personRepository.execute(person);
-
     }
 
     @Override

@@ -8,6 +8,5 @@ create table coffer.person (
     phone varchar(11),
     email varchar not null ,
     password varchar not null ,
-    avatar bytea,
     is_deleted boolean not null default false
 );

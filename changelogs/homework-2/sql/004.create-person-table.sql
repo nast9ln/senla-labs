@@ -1,5 +1,5 @@
 create table coffer.person (
-    id serial primary key not null,
+    id bigserial primary key,
     gender varchar not null ,
     first_name varchar not null ,
     last_name varchar not null ,

@@ -9,6 +9,8 @@ import org.example.service.mapper.AdvertisementDtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLException;
+
 @Component
 @RequiredArgsConstructor
 public class AdvertisementServiceImpl implements AdvertisementService {

@@ -18,17 +18,17 @@ INSERT INTO coffer.top_param (time_top_start, time_in_top, is_top) VALUES
     ('2023-09-23 00:00:00', 7, true),
     ('2023-09-24 00:00:00', 7, true);
 
-INSERT INTO coffer.person (gender, first_name, last_name, birthday, city, phone, email, password, avatar, is_deleted) VALUES
-    ('Male', 'William', 'Wilson', '1987-12-18', 'Philadelphia', '7777777777', 'william@example.com', 'password6', NULL, false),
-    ('Female', 'Olivia', 'Martinez', '1995-02-28', 'Phoenix', '3333333333', 'olivia@example.com', 'password7', NULL, false),
-    ('Male', 'David', 'Garcia', '1991-06-03', 'San Antonio', '8888888888', 'david@example.com', 'password8', NULL, false),
-    ('Female', 'Sophia', 'Lopez', '1989-04-22', 'San Diego', '4444444444', 'sophia@example.com', 'password9', NULL, false),
-    ('Male', 'James', 'Hernandez', '1983-10-12', 'Dallas', '6666666666', 'james@example.com', 'password10', NULL, false),
-    ('Female', 'Liam', 'Perez', '1986-08-06', 'San Jose', '5555555555', 'liam@example.com', 'password11', NULL, false),
-    ('Male', 'Benjamin', 'Miller', '1993-03-25', 'Austin', '2222222222', 'benjamin@example.com', 'password12', NULL, false),
-    ('Female', 'Emma', 'Gonzalez', '1984-11-14', 'Fort Worth', '7777777777', 'emma@example.com', 'password13', NULL, false),
-    ('Male', 'Mason', 'Rodriguez', '1994-07-08', 'El Paso', '3333333333', 'mason@example.com', 'password14', NULL, false),
-    ('Female', 'Ava', 'Davis', '1990-09-02', 'Seattle', '6666666666', 'ava@example.com', 'password15', NULL, false);
+INSERT INTO coffer.person (gender, first_name, last_name, birthday, city, phone, email, password, is_deleted) VALUES
+    ('MAN', 'William', 'Wilson', '1987-12-18', 'Philadelphia', '7777777777', 'william@example.com', 'password6', false),
+    ('WOMAN', 'Olivia', 'Martinez', '1995-02-28', 'Phoenix', '3333333333', 'olivia@example.com', 'password7', false),
+    ('MAN', 'David', 'Garcia', '1991-06-03', 'San Antonio', '8888888888', 'david@example.com', 'password8',false),
+    ('WOMAN', 'Sophia', 'Lopez', '1989-04-22', 'San Diego', '4444444444', 'sophia@example.com', 'password9',false),
+    ('MAN', 'James', 'Hernandez', '1983-10-12', 'Dallas', '6666666666', 'james@example.com', 'password10', false),
+    ('WOMAN', 'Liam', 'Perez', '1986-08-06', 'San Jose', '5555555555', 'liam@example.com', 'password11', false),
+    ('MAN', 'Benjamin', 'Miller', '1993-03-25', 'Austin', '2222222222', 'benjamin@example.com', 'password12',false),
+    ('WOMAN', 'Emma', 'Gonzalez', '1984-11-14', 'Fort Worth', '7777777777', 'emma@example.com', 'password13', false),
+    ('MAN', 'Mason', 'Rodriguez', '1994-07-08', 'El Paso', '3333333333', 'mason@example.com', 'password14', false),
+    ('WOMAN', 'Ava', 'Davis', '1990-09-02', 'Seattle', '6666666666', 'ava@example.com', 'password15', false);
 
 -- Вставка объявлений
 INSERT INTO coffer.advertisement (person_id, category_id, top_param_id, created_data, header, cost, city, description, status, main_image_id, is_deleted) VALUES
