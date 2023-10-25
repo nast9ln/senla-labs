@@ -9,15 +9,9 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 public class ApplicationStart {
-
     public static void run (String path) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, BeanNotFoundException, InstantiationException {
         new BeanFactory(path).instantiate();
         new AutowiredManager().populateProperties();
         new ValueManager(path).processValueAnnotation();
     }
-//    public ApplicationStart(String path) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, BeanNotFoundException, InstantiationException {
-//        new BeanFactory(path).instantiate();
-//        new AutowiredManager().populateProperties();
-//        new ValueManager(path).processValueAnnotation();
-//    }
 }

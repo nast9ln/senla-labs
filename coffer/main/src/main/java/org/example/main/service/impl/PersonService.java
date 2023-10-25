@@ -15,16 +15,16 @@ public class PersonService implements org.example.main.service.PersonService {
     private static final Logger logger = LoggerFactory.getLogger(PersonService.class);
 
     @Autowired
-    private static PersonDtoMapper personDtoMapper;
+    private PersonDtoMapper personDtoMapper;
     @Autowired
-    private static PersonRepository personRepository;
+    private PersonRepository personRepository;
 
     public PersonService() {
     }
 
     public PersonService(PersonDtoMapper personDtoMapper, PersonRepository personRepository) {
-        PersonService.personDtoMapper = personDtoMapper;
-        PersonService.personRepository = personRepository;
+        this.personDtoMapper = personDtoMapper;
+        this.personRepository = personRepository;
     }
 
 
@@ -68,7 +68,7 @@ public class PersonService implements org.example.main.service.PersonService {
     }
 
     public void setPersonRepository(PersonRepositoryImpl personRepository) {
-        PersonService.personRepository = personRepository;
+        this.personRepository = personRepository;
     }
 
 
@@ -77,6 +77,6 @@ public class PersonService implements org.example.main.service.PersonService {
     }
 
     public void setPersonDtoMapper(PersonDtoMapper personDtoMapper) {
-        PersonService.personDtoMapper = personDtoMapper;
+        this.personDtoMapper = personDtoMapper;
     }
 }

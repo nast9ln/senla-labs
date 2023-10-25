@@ -8,24 +8,12 @@ import org.example.main.service.impl.PersonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 @Component
-
 public class PersonController implements CRUD<PersonDto> {
-    private static PersonService personService;
+    private PersonService personService;
     private static final Logger logger = LoggerFactory.getLogger(PersonController.class);
 
-
-    public PersonController() {
-
-    }
-
-    @Autowired
-    public PersonController(PersonService personService) {
-        PersonController.personService = personService;
-    }
-
-    public org.example.main.service.PersonService getPersonService() {
+    public PersonService getPersonService() {
         return personService;
     }
 
@@ -59,7 +47,8 @@ public class PersonController implements CRUD<PersonDto> {
     }
 
 
+    @Autowired
     public void setPersonService(PersonService personService) {
-        PersonController.personService = personService;
+        this.personService = personService;
     }
 }

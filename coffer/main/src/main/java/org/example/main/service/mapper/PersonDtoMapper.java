@@ -5,7 +5,6 @@ import org.example.main.dto.PersonDto;
 import org.example.main.entity.Person;
 
 @Component
-
 public class PersonDtoMapper {
     public PersonDtoMapper() {
     }

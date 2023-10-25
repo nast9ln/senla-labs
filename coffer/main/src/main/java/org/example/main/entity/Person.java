@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.main.util.ExecuteUtil;
 
 import java.util.Date;
 
@@ -26,8 +25,4 @@ public class Person {
     private String password;
     private byte[] avatar;
     private boolean isDeleted;
-
-    public String execute() {
-        return ExecuteUtil.execute();
-    }
 }
