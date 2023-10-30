@@ -1,34 +1,15 @@
 package org.example.controller;
 
-import lombok.RequiredArgsConstructor;
 import org.example.dto.AdvertisementDto;
-import org.example.service.AdvertisementService;
-import org.example.service.CRUD;
-import org.springframework.stereotype.Controller;
 
-@Controller
-@RequiredArgsConstructor
-public class AdvertisementController implements CRUD<AdvertisementDto> {
+public interface AdvertisementController {
 
-    private final AdvertisementService advertisementService;
+    void create(AdvertisementDto dto);
 
-    @Override
-    public void create(AdvertisementDto dto) {
-        advertisementService.create(dto);
-    }
+    AdvertisementDto read(Long id);
 
-    @Override
-    public AdvertisementDto read(Long id) {
-        return advertisementService.read(id);
-    }
+    void update(AdvertisementDto dto);
 
-    @Override
-    public void update(AdvertisementDto dto) {
-        advertisementService.update(dto);
-    }
+    void delete(Long id);
 
-    @Override
-    public void delete(Long id) {
-        advertisementService.delete(id);
-    }
 }

@@ -1,63 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>   
+<?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog
-   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xmlns:pro="http://www.liquibase.org/xml/ns/pro"
-   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
-      http://www.liquibase.org/xml/ns/pro 
-      http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd"
-      logicalFilePath="homework-2">
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="create-coffer-schema" author="Anastasia" >
-        <sqlFile encoding="utf8" path="./sql/001.create-coffer-schema.sql" relativeToChangelogFile="true"/>
-    </changeSet>
-
-    <changeSet id="create-role-table" author="Anastasia">
-        <sqlFile encoding="utf8" path="./sql/002.create-role-table.sql"  relativeToChangelogFile="true"/>
-    </changeSet>
-
-    <changeSet id="create-person_role-table" author="Anastasia">
-        <sqlFile encoding="utf8" path="./sql/003.create-person_role-table.sql" relativeToChangelogFile="true"/>
-    </changeSet>
-
-    <changeSet id="create-person-table" author="Anastasia">
-        <sqlFile encoding="utf8" path="./sql/004.create-person-table.sql" relativeToChangelogFile="true"/>
-    </changeSet>
-
-    <changeSet id="create-advertisement-table" author="Anastasia">
-        <sqlFile encoding="utf8" path="./sql/005.create-advertisement-table.sql" relativeToChangelogFile="true"/>
-    </changeSet>
-
-    <changeSet id="create-top_param-table" author="Anastasia">
-        <sqlFile encoding="utf8" path="./sql/006.create-top_param-table.sql" relativeToChangelogFile="true"/>
-    </changeSet>
-
-    <changeSet id="create-category-table" author="Anastasia">
-        <sqlFile encoding="utf8" path="./sql/007.create-category-table.sql" relativeToChangelogFile="true"/>
-    </changeSet>
-
-    <changeSet id="create-message-table" author="Anastasia">
-        <sqlFile encoding="utf8" path="./sql/008.create-message-table.sql" relativeToChangelogFile="true"/>
-    </changeSet>
-
-    <changeSet id="create-image-table" author="Anastasia">
-        <sqlFile encoding="utf8" path="./sql/009.create-image-table.sql" relativeToChangelogFile="true"/>
-    </changeSet>
-
-    <changeSet id="create-comment-table" author="Anastasia">
-        <sqlFile encoding="utf8" path="./sql/010.create-comment-table.sql" relativeToChangelogFile="true"/>
-    </changeSet>
-
-    <changeSet id="add-foreign-key" author="Anastasia">
-        <sqlFile encoding="utf8" path="./sql/011.add-foreign-key.sql" relativeToChangelogFile="true"/>
-    </changeSet>
-
-    <changeSet id="insert-values" author="Anastasia">
-        <sqlFile encoding="utf8" path="./sql/012.insert-values.sql" relativeToChangelogFile="true"/>
-    </changeSet>
-
-
-
-
-</databaseChangeLog> 
+    <include file="./sql/001.create-role-table.xml" relativeToChangelogFile="true"/>
+    <include file="./sql/002.create-person_role-table.xml" relativeToChangelogFile="true"/>
+    <include file="./sql/003.create-person-table.xml" relativeToChangelogFile="true"/>
+    <include file="./sql/004.create-advertisement-table.xml" relativeToChangelogFile="true"/>
+    <include file="./sql/005.create-top_param-table.xml" relativeToChangelogFile="true"/>
+    <include file="./sql/006.create-category-table.xml" relativeToChangelogFile="true"/>
+    <include file="./sql/007.create-message-table.xml" relativeToChangelogFile="true"/>
+    <include file="./sql/008.create-image-table.xml" relativeToChangelogFile="true"/>
+    <include file="./sql/009.create-comment-table.xml" relativeToChangelogFile="true"/>
+    <include file="./sql/010.add-foreign-key.xml" relativeToChangelogFile="true"/>
+    <include file="./sql/011.insert-values.xml" relativeToChangelogFile="true"/>
+</databaseChangeLog>

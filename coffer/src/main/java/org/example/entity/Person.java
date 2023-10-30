@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.enums.Gender;
-import org.example.util.ExecuteUtil;
 
 import java.time.LocalDateTime;
 
@@ -28,7 +27,4 @@ public class Person {
     private String password;
     private boolean isDeleted;
 
-    public String execute(ExecuteUtil executeUtil) {
-        return executeUtil.execute();
-    }
 }

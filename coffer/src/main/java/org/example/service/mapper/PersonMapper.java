@@ -5,8 +5,8 @@ import org.example.entity.Person;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PersonDtoMapper {
-    public PersonDtoMapper() {
+public class PersonMapper {
+    public PersonMapper() {
     }
 
     public Person toEntity(PersonDto dto) {

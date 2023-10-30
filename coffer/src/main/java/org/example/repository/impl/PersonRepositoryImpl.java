@@ -1,7 +1,6 @@
 package org.example.repository.impl;
 
 import lombok.AllArgsConstructor;
-import org.example.config.ParametersHolder;
 import org.example.entity.Person;
 import org.example.enums.Gender;
 import org.example.repository.PersonRepository;
@@ -19,14 +18,12 @@ import java.util.Map;
 public class PersonRepositoryImpl implements PersonRepository {
     private static final Logger logger = LoggerFactory.getLogger(PersonRepositoryImpl.class);
 
-    private final ParametersHolder parametersHolder;
     private static final Map<Long, Person> database = new HashMap<>();
 
     private long firstId = 0;
 
     @Autowired
-    public PersonRepositoryImpl(ParametersHolder parametersHolder) {
-        this.parametersHolder = parametersHolder;
+    public PersonRepositoryImpl() {
         Person person1 = Person.builder()
                 .gender(Gender.MAN)
                 .firstName("Max")
@@ -53,27 +50,33 @@ public class PersonRepositoryImpl implements PersonRepository {
         this.create(person2);
     }
 
-    public String execute(Person person) {
-        return parametersHolder.getSomeText();
-    }
-
     @Override
     public void create(Person entity) {
         logger.info("create");
-        entity.setId(firstId++);
+        entity.setId(firstId);
+        firstId++;
         database.put(entity.getId(), entity);
     }
 
     @Override
     public Person read(Long id) {
         logger.info("read");
-        return database.getOrDefault(id, new Person());
+        return database.get(id);
     }
 
     @Override
-    public void update(Person dto) {
+    public void update(Person person) {
         logger.info("update");
-        database.put(dto.getId(), dto);
+        Person exist = database.get(person.getId());
+        exist.setGender(person.getGender());
+        exist.setFirstName(person.getFirstName());
+        exist.setLastName(person.getLastName());
+        exist.setBirthday(person.getBirthday());
+        exist.setCity(person.getCity());
+        exist.setPhone(person.getPhone());
+        exist.setEmail(person.getEmail());
+        exist.setPassword(person.getPassword());
+        exist.setDeleted(person.isDeleted());
     }
 
     @Override

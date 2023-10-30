@@ -3,9 +3,8 @@ package org.example.service.impl;
 import org.example.dto.PersonDto;
 import org.example.entity.Person;
 import org.example.repository.PersonRepository;
-import org.example.repository.impl.PersonRepositoryImpl;
 import org.example.service.PersonService;
-import org.example.service.mapper.PersonDtoMapper;
+import org.example.service.mapper.PersonMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,25 +13,16 @@ import org.springframework.stereotype.Component;
 public class PersonServiceImpl implements PersonService {
     private static final Logger logger = LoggerFactory.getLogger(PersonServiceImpl.class);
 
-    private PersonDtoMapper personDtoMapper;
+    private PersonMapper personDtoMapper;
     private PersonRepository personRepository;
 
     public PersonServiceImpl() {
     }
 
     @Autowired
-    public PersonServiceImpl(PersonDtoMapper personDtoMapper, PersonRepository personRepository) {
+    public PersonServiceImpl(PersonMapper personDtoMapper, PersonRepository personRepository) {
         this.personDtoMapper = personDtoMapper;
         this.personRepository = personRepository;
-    }
-
-
-    @Override
-    public String execute(PersonDto dto) {
-        logger.info("execute");
-        Person person = personDtoMapper.toEntity(dto);
-        return personRepository.execute(person);
-
     }
 
     @Override
