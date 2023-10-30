@@ -2,8 +2,9 @@ package org.example.service.impl;
 
 import org.example.dto.PersonDto;
 import org.example.entity.Person;
+import org.example.repository.AdvertisementRepository;
 import org.example.repository.PersonRepository;
-import org.example.repository.impl.PersonRepositoryImpl;
+import org.example.repository.PersonRoleRepository;
 import org.example.service.PersonService;
 import org.example.service.mapper.PersonDtoMapper;
 import org.slf4j.Logger;
@@ -19,29 +20,31 @@ public class PersonServiceImpl implements PersonService {
 
     private PersonDtoMapper personDtoMapper;
     private PersonRepository personRepository;
+    private AdvertisementRepository advertisementRepository;
+    private PersonRoleRepository roleRepository;
 
     public PersonServiceImpl() {
     }
 
     @Autowired
-    public PersonServiceImpl(PersonDtoMapper personDtoMapper, PersonRepository personRepository) {
+    public PersonServiceImpl(PersonDtoMapper personDtoMapper, PersonRepository personRepository, AdvertisementRepository advertisementRepository, PersonRoleRepository roleRepository) {
         this.personDtoMapper = personDtoMapper;
         this.personRepository = personRepository;
-    }
-
-
-    @Override
-    public String execute(PersonDto dto) {
-        logger.info("execute");
-        Person person = personDtoMapper.toEntity(dto);
-        return personRepository.execute(person);
+        this.advertisementRepository = advertisementRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Override
-    public void create(PersonDto dto) {
+    public PersonDto create(PersonDto dto) {
         logger.info("create");
         Person person = personDtoMapper.toEntity(dto);
-        personRepository.create(person);
+        person = personRepository.create(person);
+        try {
+            roleRepository.createRelation(person.getId(), person.getRoles());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return personDtoMapper.toDto(person);
     }
 
     @Override
@@ -52,16 +55,17 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public void update(PersonDto dto) {
+    public PersonDto update(PersonDto dto) {
         logger.info("update");
         Person person = personDtoMapper.toEntity(dto);
-        personRepository.update(person);
+        person = personRepository.update(person);
+        return personDtoMapper.toDto(person);
     }
 
     @Override
     public void delete(Long id) {
         logger.info("delete");
+        advertisementRepository.deleteByPersonId(id);
         personRepository.delete(id);
     }
-
 }

@@ -3,11 +3,11 @@ package org.example.service;
 import java.sql.SQLException;
 
 public interface CRUD<T> {
-    void create(T dto);
+    T create(T entity);
 
     T read(Long id);
 
-    void update(T dto);
+    T update(T entity);
 
     void delete(Long id);
 }

@@ -6,23 +6,19 @@ import org.example.entity.Advertisement;
 import org.example.repository.AdvertisementRepository;
 import org.example.service.AdvertisementService;
 import org.example.service.mapper.AdvertisementDtoMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.sql.SQLException;
 
 @Component
 @RequiredArgsConstructor
 public class AdvertisementServiceImpl implements AdvertisementService {
     private final AdvertisementDtoMapper advertisementDtoMapper;
 
-    @Autowired
     private final AdvertisementRepository advertisementRepository;
 
     @Override
-    public void create(AdvertisementDto dto) {
+    public AdvertisementDto create(AdvertisementDto dto) {
         Advertisement advertisement = advertisementDtoMapper.toEntity(dto);
-        advertisementRepository.create(advertisement);
+        return advertisementDtoMapper.toDto(advertisementRepository.create(advertisement));
     }
 
     @Override
@@ -32,9 +28,10 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public void update(AdvertisementDto dto) {
+    public AdvertisementDto update(AdvertisementDto dto) {
         Advertisement advertisement = advertisementDtoMapper.toEntity(dto);
-        advertisementRepository.update(advertisement);
+        advertisement = advertisementRepository.update(advertisement);
+        return advertisementDtoMapper.toDto(advertisement);
     }
 
     @Override

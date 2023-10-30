@@ -9,16 +9,15 @@ public class AdvertisementDtoMapper {
     public Advertisement toEntity(AdvertisementDto dto) {
         return Advertisement.builder()
                 .id(dto.getId())
-                .userId(dto.getUserId())
+                .personId(dto.getUserId())
                 .categoryId(dto.getCategoryId())
-                .mainPictureId(dto.getMainPictureId())
+                .mainImageId(dto.getMainPictureId())
                 .topParamId(dto.getTopParamId())
                 .createdDate(dto.getCreatedData())
                 .cost(dto.getCost())
                 .city(dto.getCity())
                 .header(dto.getHeader())
                 .description(dto.getDescription())
-                .type(dto.getType())
                 .status(dto.getStatus())
                 .build();
     }
@@ -26,16 +25,15 @@ public class AdvertisementDtoMapper {
     public AdvertisementDto toDto(Advertisement entity) {
         return AdvertisementDto.builder()
                 .id(entity.getId())
-                .userId(entity.getUserId())
+                .userId(entity.getPersonId())
                 .categoryId(entity.getCategoryId())
-                .mainPictureId(entity.getMainPictureId())
+                .mainPictureId(entity.getMainImageId())
                 .topParamId(entity.getTopParamId())
                 .createdData(entity.getCreatedDate())
                 .cost(entity.getCost())
                 .city(entity.getCity())
                 .header(entity.getHeader())
                 .description(entity.getDescription())
-                .type(entity.getType())
                 .status(entity.getStatus())
                 .build();
     }

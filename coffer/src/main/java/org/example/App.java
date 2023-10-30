@@ -1,13 +1,10 @@
 package org.example;
 
 
-import org.example.config.JDBCPostgreSQLConnectImpl;
-import org.example.controller.PersonController;
-import org.example.dto.PersonDto;
+import org.example.config.JDBCPostgreSQLConnectionHolder;
+import org.example.controller.PersonControllerImpl;
 import org.example.entity.Person;
-import org.example.entity.Role;
-import org.example.enums.Gender;
-import org.example.enums.NameRole;
+import org.example.repository.AdvertisementRepository;
 import org.example.repository.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +13,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class App {
@@ -30,30 +23,69 @@ public class App {
 
         logger.info("slf4j ExampleApp started.");
 
-        JDBCPostgreSQLConnectImpl connect = context.getBean(JDBCPostgreSQLConnectImpl.class);
-        //connect.connect();
+        JDBCPostgreSQLConnectionHolder connect = context.getBean(JDBCPostgreSQLConnectionHolder.class);
         PersonRepository personRepository = context.getBean(PersonRepository.class);
+        AdvertisementRepository advertisementRepository = context.getBean(AdvertisementRepository.class);
+
+        //    personRepository.delete(12L);
+        //Создание нового пользователя
 //        personRepository.create(Person.builder()
-//                .gender(Gender.MAN)
-//                .firstName("Kostya")
-//                .lastName("Krylov")
-//                .birthday(LocalDate.of(1999, 10, 12))
-//                .city("Moskow")
-//                .phone("+333")
-//                .email("mdfmmm@h.com")
-//                .password("12sf12")
+//                .gender(Gender.WOMAN)
+//                .firstName("Anastasia")
+//                .lastName("Stuk")
+//                .birthday(LocalDate.of(2005, 01, 14))
+//                .city("Vitebsk")
+//                .phone("+211")
+//                .email("nast9ln@h.com")
+//                .password("1202")
 //                .isDeleted(false)
 //                .roles(Arrays.asList(new Role(null, NameRole.ADMIN), new Role(null,NameRole.USER)))
 //                .build());
-//        Person person_read = personRepository.read(28L);
-//        System.out.println(person_read.getId().toString()+ person_read.getFirstName().toString());
-//        for (Role role : person_read.getRoles())
-//            System.out.println(role.getName());
-        //   personRepository.create(new Person(11L, Gender.WOMAN, "Milly", "Sun", LocalDateTime.of(2000, 10, 12, 0, 0),"Los","+377","mailm@mail", "2234",false));
 
-  /*      Person gPerson= new Person();
-        gPerson=personRepository.read(16L);
-        System.out.println(gPerson.getFirstName()+"!!!!!!!!!!11111!");*/
+
+      //  Создание нового объявления
+//        advertisementRepository.create(Advertisement.builder()
+//                .personId(13L)
+//                .categoryId(2L)
+//                .topParamId(null)
+//                        .createdDate(LocalDateTime.now())
+//                        .cost(100)
+//                        .city("Minsk")
+//                        .header("red fur")
+//                        .description("new red fur")
+//                        .status("ACTIVE")
+//                        .mainImageId(null)
+//                        .isDeleted(false)
+//        .build());
+
+
+//        //получаем пользователя, выводим его объявления
+
+        PersonControllerImpl personController = context.getBean(PersonControllerImpl.class);
+        personController.delete(3L);
+        Person readPerson = new Person();
+        readPerson=personRepository.read(10L);
+        System.out.println(readPerson.getFirstName());
+
+        //выводим все объявления
+//        for (Advertisement advertisement : readPerson.getAdvertisements())
+//            System.out.println(advertisement);
+//
+//        //Чтение ролей у пользователя
+//        for (Role role : readPerson.getRoles())
+//            System.out.println(role.getName());
+
+//        //Вносим изменения  - устанавливаем другой город
+//        Advertisement advertisementNew = readPerson.getAdvertisements().get(0);
+//        advertisementNew.setCity("minsk");
+//        advertisementRepository.update(advertisementNew);
+//
+//
+//        //выводим все объявления после того, как одно обновили
+//        for (Advertisement advertisement : readPerson.getAdvertisements())
+//            System.out.println(advertisement);
+
+
 //        personRepository.update((Person.builder()
 //                .id(9L)
 //                .gender(Gender.MAN)
@@ -67,18 +99,12 @@ public class App {
 //                .isDeleted(false)
 //                .roles(Arrays.asList(new Role(null, NameRole.ADMIN), new Role(null,NameRole.USER)))
 //                .build()));
-           personRepository.delete(28L);
 
+//        Person personUpdate = readPerson;
+//        personUpdate.setCity("Moskow");
+//        personRepository.update(personUpdate);
 
-//        PersonController personController = context.getBean(PersonController.class);
-//        PersonDto personDto = personController.read(1L);
-//        System.out.println(personDto);
-//        personController.delete(2L);
-//        personDto.setEmail("newMail");
-//        //     personController.update(personDto);
-//        System.out.println(personController.read(1L));
-//        System.out.println(personController.parseToJson(personDto));
-//        System.out.println(personController.execute(personDto));
+//        personRepository.delete(13L);
 
 
     }

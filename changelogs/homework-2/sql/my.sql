@@ -1,1 +1,0 @@
-select * from coffer.person_role join coffer.role on person_role.role_id=role.id where person_role.person_id=15;

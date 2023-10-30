@@ -6,5 +6,4 @@ import org.example.service.CRUD;
 import java.sql.Connection;
 
 public interface PersonRepository extends CRUD<Person> {
-    String execute( Person person);
 }

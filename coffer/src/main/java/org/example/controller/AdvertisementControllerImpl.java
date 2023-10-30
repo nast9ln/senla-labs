@@ -6,17 +6,15 @@ import org.example.service.AdvertisementService;
 import org.example.service.CRUD;
 import org.springframework.stereotype.Controller;
 
-import java.sql.SQLException;
-
 @Controller
 @RequiredArgsConstructor
-public class AdvertisementController implements CRUD<AdvertisementDto> {
+public class AdvertisementControllerImpl implements CRUD<AdvertisementDto> {
 
     private final AdvertisementService advertisementService;
 
     @Override
-    public void create(AdvertisementDto dto){
-        advertisementService.create(dto);
+    public AdvertisementDto create(AdvertisementDto dto) {
+        return advertisementService.create(dto);
     }
 
     @Override
@@ -25,8 +23,8 @@ public class AdvertisementController implements CRUD<AdvertisementDto> {
     }
 
     @Override
-    public void update(AdvertisementDto dto) {
-        advertisementService.update(dto);
+    public AdvertisementDto update(AdvertisementDto dto) {
+        return advertisementService.update(dto);
     }
 
     @Override

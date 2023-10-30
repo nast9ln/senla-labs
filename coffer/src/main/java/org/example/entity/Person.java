@@ -27,6 +27,7 @@ public class Person {
     private String password;
     private boolean isDeleted;
     private List<Role> roles = new ArrayList<>();
+    private List<Advertisement> advertisements = new ArrayList<>();
     public String execute(ExecuteUtil executeUtil) {
         return executeUtil.execute();
     }

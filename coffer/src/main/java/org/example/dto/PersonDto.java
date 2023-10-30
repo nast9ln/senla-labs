@@ -7,6 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.enums.Gender;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -26,5 +29,7 @@ public class PersonDto {
     private String phone;
     @JsonProperty("email")
     private String email;
+    @JsonProperty("advertisementDtos")
+    private List<AdvertisementDto> advertisementDtos = new ArrayList<>();
 
 }
