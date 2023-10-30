@@ -3,7 +3,6 @@ package org.example.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.AdvertisementDto;
 import org.example.service.AdvertisementService;
-import org.example.service.CRUD;
 import org.springframework.stereotype.Controller;
 
 @Controller
