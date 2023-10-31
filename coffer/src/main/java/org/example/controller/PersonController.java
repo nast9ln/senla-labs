@@ -1,0 +1,15 @@
+package org.example.controller;
+
+import org.example.dto.PersonDto;
+
+public interface PersonController {
+
+    void create(PersonDto dto);
+
+    PersonDto read(Long id);
+
+    void update(PersonDto dto);
+
+    void delete(Long id);
+
+}
