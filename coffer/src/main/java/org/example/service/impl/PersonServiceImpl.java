@@ -18,7 +18,7 @@ import java.sql.SQLException;
 public class PersonServiceImpl implements PersonService {
     private static final Logger logger = LoggerFactory.getLogger(PersonServiceImpl.class);
 
-    private PersonDtoMapper personDtoMapper;
+    private PersonMapper personDtoMapper;
     private PersonRepository personRepository;
     private AdvertisementRepository advertisementRepository;
     private PersonRoleRepository roleRepository;
@@ -27,7 +27,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Autowired
-    public PersonServiceImpl(PersonDtoMapper personDtoMapper, PersonRepository personRepository, AdvertisementRepository advertisementRepository, PersonRoleRepository roleRepository) {
+    public PersonServiceImpl(PersonMapper personDtoMapper, PersonRepository personRepository, AdvertisementRepository advertisementRepository, PersonRoleRepository roleRepository) {
         this.personDtoMapper = personDtoMapper;
         this.personRepository = personRepository;
         this.advertisementRepository = advertisementRepository;

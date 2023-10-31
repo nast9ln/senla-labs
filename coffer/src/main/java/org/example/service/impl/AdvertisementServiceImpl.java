@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class AdvertisementServiceImpl implements AdvertisementService {
-    private final AdvertisementDtoMapper advertisementDtoMapper;
+    private final AdvertisementMapper advertisementDtoMapper;
 
     private final AdvertisementRepository advertisementRepository;
 

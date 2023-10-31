@@ -5,7 +5,7 @@ import org.example.entity.Advertisement;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AdvertisementDtoMapper {
+public class AdvertisementMapper {
     public Advertisement toEntity(AdvertisementDto dto) {
         return Advertisement.builder()
                 .id(dto.getId())

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class PersonControllerImpl implements PersonController {
-
     private final ObjectMapper objectMapper;
     private final PersonServiceImpl personService;
     private static final Logger logger = LoggerFactory.getLogger(PersonControllerImpl.class);
@@ -45,7 +44,5 @@ public class PersonControllerImpl implements PersonController {
     public void delete(Long id) {
         logger.info("delete");
         personService.delete(id);
-
     }
-
 }

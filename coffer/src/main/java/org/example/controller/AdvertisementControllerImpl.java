@@ -3,18 +3,17 @@ package org.example.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.AdvertisementDto;
 import org.example.service.AdvertisementService;
-import org.example.service.CRUD;
 import org.springframework.stereotype.Controller;
 
 @Controller
 @RequiredArgsConstructor
-public class AdvertisementControllerImpl implements CRUD<AdvertisementDto> {
+public class AdvertisementControllerImpl implements AdvertisementController {
 
     private final AdvertisementService advertisementService;
 
     @Override
-    public AdvertisementDto create(AdvertisementDto dto) {
-        return advertisementService.create(dto);
+    public void create(AdvertisementDto dto) {
+        advertisementService.create(dto);
     }
 
     @Override
@@ -23,8 +22,8 @@ public class AdvertisementControllerImpl implements CRUD<AdvertisementDto> {
     }
 
     @Override
-    public AdvertisementDto update(AdvertisementDto dto) {
-        return advertisementService.update(dto);
+    public void update(AdvertisementDto dto) {
+        advertisementService.update(dto);
     }
 
     @Override
