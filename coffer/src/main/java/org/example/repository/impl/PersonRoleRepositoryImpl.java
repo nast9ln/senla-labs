@@ -3,7 +3,7 @@ package org.example.repository.impl;
 import lombok.RequiredArgsConstructor;
 import org.example.entity.PersonRole;
 import org.example.entity.Role;
-import org.example.enums.NameRole;
+import org.example.enums.RoleEnum;
 import org.example.repository.PersonRoleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,7 +62,7 @@ public class PersonRoleRepositoryImpl implements PersonRoleRepository {
                 try (ResultSet rolesSet = statement.executeQuery()) {
                     while (rolesSet.next()) {
                         Role role = new Role();
-                        role.setName(NameRole.valueOf(rolesSet.getString("name")));
+                        role.setName(RoleEnum.valueOf(rolesSet.getString("name")));
                         role.setId(rolesSet.getLong("id"));
                         rolesFromDatabase.add(role);
                     }

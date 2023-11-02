@@ -15,9 +15,12 @@ public class PersonMapper {
                 .gender(dto.getGender())
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())
+                .birthday(dto.getBirthday())
                 .city(dto.getCity())
                 .phone(dto.getPhone())
                 .email(dto.getEmail())
+                .password(dto.getPassword())
+                .isDeleted(dto.isDeleted())
                 .build();
     }
 
@@ -27,9 +30,12 @@ public class PersonMapper {
                 .gender(entity.getGender())
                 .firstName(entity.getFirstName())
                 .lastName(entity.getLastName())
+                .birthday(entity.getBirthday())
                 .city(entity.getCity())
                 .phone(entity.getPhone())
                 .email(entity.getEmail())
+                .password(entity.getPassword())
+                .isDeleted(entity.isDeleted())
                 .build();
     }
 }

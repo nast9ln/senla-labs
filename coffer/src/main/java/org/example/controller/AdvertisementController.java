@@ -1,8 +1,8 @@
-package org.example.service;
+package org.example.controller;
 
 import org.example.dto.AdvertisementDto;
 
-public interface AdvertisementService {
+public interface AdvertisementController {
 
     AdvertisementDto create(AdvertisementDto dto);
 

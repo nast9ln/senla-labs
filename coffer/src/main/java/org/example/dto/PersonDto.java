@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.enums.Gender;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,13 +24,21 @@ public class PersonDto {
     private String firstName;
     @JsonProperty("lastName")
     private String lastName;
+    @JsonProperty("birthday")
+    private LocalDate birthday;
     @JsonProperty("city")
     private String city;
     @JsonProperty("phone")
     private String phone;
     @JsonProperty("email")
     private String email;
-    @JsonProperty("advertisementDtos")
+    @JsonProperty("password")
+    private String password;
+    @JsonProperty("isDeleted")
+    private boolean isDeleted;
+    @JsonProperty("roles")
+    private List<RoleDto> roles = new ArrayList<>();
+    @JsonProperty("advertisementDto")
     private List<AdvertisementDto> advertisementDtos = new ArrayList<>();
 
 }

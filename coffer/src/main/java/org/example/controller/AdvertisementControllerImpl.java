@@ -12,8 +12,8 @@ public class AdvertisementControllerImpl implements AdvertisementController {
     private final AdvertisementService advertisementService;
 
     @Override
-    public void create(AdvertisementDto dto) {
-        advertisementService.create(dto);
+    public AdvertisementDto create(AdvertisementDto dto) {
+        return advertisementService.create(dto);
     }
 
     @Override
@@ -22,8 +22,8 @@ public class AdvertisementControllerImpl implements AdvertisementController {
     }
 
     @Override
-    public void update(AdvertisementDto dto) {
-        advertisementService.update(dto);
+    public AdvertisementDto update(AdvertisementDto dto) {
+        return advertisementService.update(dto);
     }
 
     @Override

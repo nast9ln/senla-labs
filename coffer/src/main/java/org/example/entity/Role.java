@@ -1,7 +1,7 @@
 package org.example.entity;
 
 import lombok.*;
-import org.example.enums.NameRole;
+import org.example.enums.RoleEnum;
 
 @Data
 @Builder
@@ -9,5 +9,5 @@ import org.example.enums.NameRole;
 @NoArgsConstructor
 public class Role {
     private Long id;
-    private NameRole name;
+    private RoleEnum name;
 }

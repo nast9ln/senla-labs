@@ -1,17 +1,14 @@
 package org.example.repository.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.example.config.MyTransaction;
-import org.example.config.ParametersHolder;
 import org.example.entity.Advertisement;
 import org.example.entity.Person;
 import org.example.entity.Role;
 import org.example.enums.Gender;
-import org.example.enums.NameRole;
+import org.example.enums.RoleEnum;
 import org.example.repository.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
@@ -19,13 +16,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-@EnableAspectJAutoProxy
+
 public class PersonRepositoryImpl implements PersonRepository {
     private static final Logger logger = LoggerFactory.getLogger(PersonRepositoryImpl.class);
 
@@ -36,9 +32,8 @@ public class PersonRepositoryImpl implements PersonRepository {
             "person_role.person_id=?";
     private static final String READ_ADVERTISEMENT = "select * from advertisement where person_id=? and is_deleted=false";
     private static final String INSERT_PERSON = "insert into person (gender, first_name, last_name, birthday, city, phone, email, password,is_deleted) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String DELETE_PERSON = "update person set is_deleted=true where id=?";
+    private static final String DELETE_PERSON = "update person set is_deleted=true where id=?;";
 
-    private final ParametersHolder parametersHolder;
     private final Connection connection;
 
     @Override
@@ -76,10 +71,6 @@ public class PersonRepositoryImpl implements PersonRepository {
     }
 
 
-
-
-
-    @MyTransaction
     @Override
     public Person read(Long id) {
         logger.info("read");
@@ -112,7 +103,7 @@ public class PersonRepositoryImpl implements PersonRepository {
                         while (roleResultSet.next()) {
                             Role role = new Role();
                             role.setId(roleResultSet.getLong("id"));
-                            role.setName(NameRole.valueOf(roleResultSet.getString("name")));
+                            role.setName(RoleEnum.valueOf(roleResultSet.getString("name")));
                             roles.add(role);
                         }
                         person.roles(roles);
@@ -177,8 +168,7 @@ public class PersonRepositoryImpl implements PersonRepository {
     @Override
     public void delete(Long id) {
         logger.info("delete");
-        String query = DELETE_PERSON;
-        try (PreparedStatement deletePersonStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement deletePersonStatement = connection.prepareStatement(DELETE_PERSON)) {
             deletePersonStatement.setLong(1, id);
             deletePersonStatement.executeUpdate();
         } catch (Exception e) {

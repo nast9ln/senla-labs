@@ -5,7 +5,7 @@ import org.example.dto.AdvertisementDto;
 import org.example.entity.Advertisement;
 import org.example.repository.AdvertisementRepository;
 import org.example.service.AdvertisementService;
-import org.example.service.mapper.AdvertisementDtoMapper;
+import org.example.service.mapper.AdvertisementMapper;
 import org.springframework.stereotype.Component;
 
 @Component

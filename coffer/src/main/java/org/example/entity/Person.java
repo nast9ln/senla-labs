@@ -3,8 +3,6 @@ package org.example.entity;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.example.enums.Gender;
-import org.example.util.ExecuteUtil;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +26,4 @@ public class Person {
     private boolean isDeleted;
     private List<Role> roles = new ArrayList<>();
     private List<Advertisement> advertisements = new ArrayList<>();
-    public String execute(ExecuteUtil executeUtil) {
-        return executeUtil.execute();
-    }
 }
