@@ -7,7 +7,6 @@ import org.example.dto.PersonDto;
 import org.example.service.impl.PersonServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Component;
 
 

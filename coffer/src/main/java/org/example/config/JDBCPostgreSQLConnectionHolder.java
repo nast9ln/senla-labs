@@ -1,6 +1,10 @@
 package org.example.config;
 
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.example.controller.PersonControllerImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,16 +15,14 @@ import org.springframework.context.event.EventListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Configuration
 @RequiredArgsConstructor
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class JDBCPostgreSQLConnectionHolder {
-    private final List<Connection> openConnections = new ArrayList<>();
-    private final ConcurrentHashMap<Thread, Connection> threadConnectionConcurrentHashMap = new ConcurrentHashMap<>();
+    private static final Logger logger = LoggerFactory.getLogger(JDBCPostgreSQLConnectionHolder.class);
+    private final ConcurrentHashMap<String, Connection> threadConnectionMap = new ConcurrentHashMap<>();
     @Value("${database.url}")
     protected String url;
     @Value("${database.user}")
@@ -29,32 +31,32 @@ public class JDBCPostgreSQLConnectionHolder {
     private String password;
 
     @Bean
-    public Connection connect() {
+    public Connection createConnection() {
         try {
             Class.forName("org.postgresql.Driver");
             Connection connection = DriverManager.getConnection(url, user, password);
-            connection.setAutoCommit(false);
-            openConnections.add(connection);
-            System.out.println("connect succesful");
+            logger.trace("connection successful");
             return connection;
-
         } catch (Exception e) {
-            System.out.println(e);
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
+    @SneakyThrows
     public Connection getConnection() {
-        Thread currentThread = Thread.currentThread();
-        Connection connection = threadConnectionConcurrentHashMap.get(currentThread);
+        String currentThread = Thread.currentThread().getName();
+        Connection connection = threadConnectionMap.get(currentThread);
         if (connection != null && !isConnectionClose(connection)) {
+            logger.trace("connection is not null and is not close");
             return connection;
         } else {
-            connection = connect();
-            threadConnectionConcurrentHashMap.put(currentThread, connection);
+            logger.trace("new connection has been created");
+            connection = DriverManager.getConnection(url, user, password);
+            threadConnectionMap.put(currentThread, connection);
             return connection;
         }
     }
+
 
     private boolean isConnectionClose(Connection connection) {
         try {
@@ -66,13 +68,26 @@ public class JDBCPostgreSQLConnectionHolder {
 
     @EventListener(ContextClosedEvent.class)
     public void onApplicationEvent(ContextClosedEvent event) {
-        for (Connection connection : openConnections) {
+        for (Connection connection : threadConnectionMap.values()) {
             try {
-                System.out.println("Closed connection");
+                logger.trace("Closed connections");
                 connection.close();
             } catch (SQLException e) {
-                System.out.println("Error with closing connection");
+                logger.trace("Error with closing connections");
                 throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public void closeConnection() {
+        String currentThread = Thread.currentThread().getName();
+        Connection connection = threadConnectionMap.get(currentThread);
+        if (connection != null) {
+            try {
+                connection.close();
+                threadConnectionMap.remove(currentThread);
+            } catch (SQLException e) {
+                throw new RuntimeException("Error while closing connection.", e);
             }
         }
     }

@@ -3,36 +3,37 @@ package org.example.repository.impl;
 import lombok.RequiredArgsConstructor;
 import org.example.entity.Advertisement;
 import org.example.repository.AdvertisementRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 
 @Component
 @RequiredArgsConstructor
 public class AdvertisementRepositoryImpl implements AdvertisementRepository {
+    private static final Logger logger = LoggerFactory.getLogger(AdvertisementRepositoryImpl.class);
     private static final String INSERT_ADVERTISEMENT = "insert into advertisement ( person_id, category_id, top_param_id, created_data, cost," +
             "city, header, description, status, main_image_id, is_deleted) values (?,?,?,?,?,?,?,?,?,?,?)";
     private static final String UPDATE_ADVERTISEMENT = "update advertisement set person_id=?, category_id=?, top_param_id=?, " +
             "created_data=?, header=?, cost=?, city=?, description=?, status=?, main_image_id=?, is_deleted=? where id=?";
-    public static final String READ_ADVERTISEMENT = "select * from advertisement where id=%s";
+    public static final String READ_ADVERTISEMENT = "select * from advertisement where id=?";
     public static final String READ_ADVERTISEMENT_BY_PERSON_ID = "select * from advertisement where person_id=%s";
 
 
     public static final String DELETE_ADVERTISEMENT = "update advertisement set is_deleted=true where id=%s";
     private static final String DELETE_ADVERTISEMENT_BY_PERSON_ID = "update advertisement set is_deleted=true where person_id=?";
 
-    private Set<Advertisement> advertisements = new LinkedHashSet<>();
     private final Connection connection;
 
     @Override
     public Advertisement create(Advertisement entity) {
+        logger.info("create");
         String query = INSERT_ADVERTISEMENT;
         try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setLong(1, entity.getPersonId());
@@ -69,25 +70,26 @@ public class AdvertisementRepositoryImpl implements AdvertisementRepository {
 
     @Override
     public Advertisement read(Long id) {
+        logger.info("read");
         Advertisement advertisement = new Advertisement();
-        try {
-            String query = String.format(READ_ADVERTISEMENT, id);
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            while (resultSet.next()) {
-                advertisement.setId(resultSet.getLong("id"));
-                advertisement.setPersonId(resultSet.getLong("person_id"));
-                advertisement.setCategoryId(resultSet.getLong("category_id"));
-                advertisement.setTopParamId(resultSet.getLong("top_param_id"));
-                advertisement.setCreatedDate(LocalDateTime.parse(resultSet.getString("created_data"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss[.SSSSSS]")));
-                advertisement.setCost(resultSet.getInt("cost"));
-                advertisement.setCity(resultSet.getString("city"));
-                advertisement.setHeader(resultSet.getString("header"));
-                advertisement.setDescription(resultSet.getString("description"));
-                advertisement.setStatus(resultSet.getString("status"));
-                advertisement.setMainImageId(resultSet.getLong("main_image_id"));
-                advertisement.setDeleted(resultSet.getBoolean("is_deleted"));
-                advertisements.add(advertisement);
+        String query = READ_ADVERTISEMENT;
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    advertisement.setId(resultSet.getLong("id"));
+                    advertisement.setPersonId(resultSet.getLong("person_id"));
+                    advertisement.setCategoryId(resultSet.getLong("category_id"));
+                    advertisement.setTopParamId(resultSet.getLong("top_param_id"));
+                    advertisement.setCreatedDate(LocalDateTime.parse(resultSet.getString("created_data"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss[.SSSSSS]")));
+                    advertisement.setCost(resultSet.getInt("cost"));
+                    advertisement.setCity(resultSet.getString("city"));
+                    advertisement.setHeader(resultSet.getString("header"));
+                    advertisement.setDescription(resultSet.getString("description"));
+                    advertisement.setStatus(resultSet.getString("status"));
+                    advertisement.setMainImageId(resultSet.getLong("main_image_id"));
+                    advertisement.setDeleted(resultSet.getBoolean("is_deleted"));
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -96,26 +98,28 @@ public class AdvertisementRepositoryImpl implements AdvertisementRepository {
     }
 
     public List<Advertisement> readByPersonId(Long id) {
+        logger.info("read by person id");
         Advertisement advertisement = new Advertisement();
-        List <Advertisement> advertisements = new ArrayList<>();
-        try {
-            String query = String.format(READ_ADVERTISEMENT_BY_PERSON_ID, id);
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            while (resultSet.next()) {
-                advertisement.setId(resultSet.getLong("id"));
-                advertisement.setPersonId(resultSet.getLong("person_id"));
-                advertisement.setCategoryId(resultSet.getLong("category_id"));
-                advertisement.setTopParamId(resultSet.getLong("top_param_id"));
-                advertisement.setCreatedDate(LocalDateTime.parse(resultSet.getString("created_data"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss[.SSSSSS]")));
-                advertisement.setCost(resultSet.getInt("cost"));
-                advertisement.setCity(resultSet.getString("city"));
-                advertisement.setHeader(resultSet.getString("header"));
-                advertisement.setDescription(resultSet.getString("description"));
-                advertisement.setStatus(resultSet.getString("status"));
-                advertisement.setMainImageId(resultSet.getLong("main_image_id"));
-                advertisement.setDeleted(resultSet.getBoolean("is_deleted"));
-                advertisements.add(advertisement);
+        List<Advertisement> advertisements = new ArrayList<>();
+        String query = READ_ADVERTISEMENT_BY_PERSON_ID;
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    advertisement.setId(resultSet.getLong("id"));
+                    advertisement.setPersonId(resultSet.getLong("person_id"));
+                    advertisement.setCategoryId(resultSet.getLong("category_id"));
+                    advertisement.setTopParamId(resultSet.getLong("top_param_id"));
+                    advertisement.setCreatedDate(LocalDateTime.parse(resultSet.getString("created_data"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss[.SSSSSS]")));
+                    advertisement.setCost(resultSet.getInt("cost"));
+                    advertisement.setCity(resultSet.getString("city"));
+                    advertisement.setHeader(resultSet.getString("header"));
+                    advertisement.setDescription(resultSet.getString("description"));
+                    advertisement.setStatus(resultSet.getString("status"));
+                    advertisement.setMainImageId(resultSet.getLong("main_image_id"));
+                    advertisement.setDeleted(resultSet.getBoolean("is_deleted"));
+                    advertisements.add(advertisement);
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -125,8 +129,8 @@ public class AdvertisementRepositoryImpl implements AdvertisementRepository {
 
     @Override
     public Advertisement update(Advertisement advertisement) {
+        logger.info("update");
         String query = UPDATE_ADVERTISEMENT;
-
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, advertisement.getPersonId());
             statement.setLong(2, advertisement.getCategoryId());
@@ -149,9 +153,10 @@ public class AdvertisementRepositoryImpl implements AdvertisementRepository {
 
     @Override
     public void delete(Long id) {
+        logger.info("delete");
+        String query = String.format(DELETE_ADVERTISEMENT, id);
         try {
             Statement statement = connection.createStatement();
-            String query = String.format(DELETE_ADVERTISEMENT, id);
             statement.executeUpdate(query);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -160,12 +165,11 @@ public class AdvertisementRepositoryImpl implements AdvertisementRepository {
 
     @Override
     public void deleteByPersonId(Long id) {
-        try {
-            String query = DELETE_ADVERTISEMENT_BY_PERSON_ID;
-            try (PreparedStatement deleteAdvStatement = connection.prepareStatement(query)) {
-                deleteAdvStatement.setLong(1, id);
-                deleteAdvStatement.executeUpdate();
-            }
+        logger.info("delete by person id");
+        String query = DELETE_ADVERTISEMENT_BY_PERSON_ID;
+        try (PreparedStatement deleteAdvStatement = connection.prepareStatement(query)) {
+            deleteAdvStatement.setLong(1, id);
+            deleteAdvStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

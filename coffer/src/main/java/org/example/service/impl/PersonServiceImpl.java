@@ -1,7 +1,7 @@
 package org.example.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.example.config.MyTransaction;
+import org.example.config.Transaction;
 import org.example.dto.AdvertisementDto;
 import org.example.dto.PersonDto;
 import org.example.entity.Advertisement;
@@ -35,32 +35,30 @@ public class PersonServiceImpl implements PersonService {
     private final PersonRoleRepository roleRepository;
 
     @Override
-    @MyTransaction
+    @Transaction
     public PersonDto create(PersonDto dto) {
         logger.info("create");
         Person person = personDtoMapper.toEntity(dto);
         person = personRepository.create(person);
-        System.out.println("mm");
         try {
             if (person.getRoles() == null)
                 person.setRoles(Arrays.asList(new Role(2L, RoleEnum.USER)));
             roleRepository.createRelation(person.getId(), person.getRoles());
         } catch (SQLException e) {
-            System.out.println("vvv");
             throw new RuntimeException(e);
         }
         return personDtoMapper.toDto(person);
     }
 
     @Override
-    @MyTransaction
+    @Transaction
     public PersonDto read(Long id) {
         logger.info("read");
         Person person = personRepository.read(id);
         List<Advertisement> advertisements;
         List<AdvertisementDto> advertisementDtos = new ArrayList<>();
 
-        advertisements=advertisementRepository.readByPersonId(id);
+        advertisements = advertisementRepository.readByPersonId(id);
 
         for (Advertisement advertisement : advertisements) {
             advertisementDtos.add(advertisementDtoMapper.toDto(advertisement));
@@ -71,7 +69,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    @MyTransaction
+    @Transaction
     public PersonDto update(PersonDto dto) {
         logger.info("update");
         Person person = personDtoMapper.toEntity(dto);
@@ -80,7 +78,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    @MyTransaction
+    @Transaction
     public void delete(Long id) {
         logger.info("delete");
         advertisementRepository.deleteByPersonId(id);

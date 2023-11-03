@@ -6,8 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PersonMapper {
-    public PersonMapper() {
-    }
 
     public Person toEntity(PersonDto dto) {
         return Person.builder()

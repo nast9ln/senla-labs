@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
-import java.sql.DriverManager;
 
 @Configuration
 public class DataSourceConfig {
@@ -16,6 +15,7 @@ public class DataSourceConfig {
     private String user;
     @Value("${database.password}")
     private String password;
+
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();

@@ -1,7 +1,5 @@
 package org.example.service;
 
-import java.sql.SQLException;
-
 public interface CRUD<T> {
     T create(T entity);
 

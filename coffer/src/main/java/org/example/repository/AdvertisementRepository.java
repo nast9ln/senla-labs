@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface AdvertisementRepository extends CRUD<Advertisement> {
     void deleteByPersonId(Long id);
+
     List<Advertisement> readByPersonId(Long id);
 }

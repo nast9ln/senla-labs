@@ -9,7 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,18 +21,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PersonRoleRepositoryImpl implements PersonRoleRepository {
     private static final Logger logger = LoggerFactory.getLogger(PersonRoleRepositoryImpl.class);
-    private final Connection connection;
+    public static final String READ_ROLE = "select * from coffer.role where person_id=%?";
     private static final String INSERT_PERSON_ROLE = "insert into person_role (person_id, role_id) values (?, ?)";
     private static final String DELETE_ROLES = "delete from person_role where person_id=?";
+    private final Connection connection;
 
     @Override
     public PersonRole create(PersonRole entity) {
-        try {
-            Statement statement;
-            String query = String.format("insert into coffer.person_role(person_id, role_id) values (%s, %s)", entity.getPersonId(), entity.getRoleId());
-            statement = connection.createStatement();
+        logger.info("create person role");
+        String query = INSERT_PERSON_ROLE;
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, entity.getPersonId());
+            statement.setLong(2, entity.getRoleId());
             statement.executeUpdate(query);
-            logger.info("create person role");
             return entity;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -75,17 +79,16 @@ public class PersonRoleRepositoryImpl implements PersonRoleRepository {
     @Override
     public PersonRole read(Long id) {
         logger.info("read role");
+        String query = READ_ROLE;
         PersonRole.PersonRoleBuilder personRole = PersonRole.builder();
-        try {
-            String query = String.format("select * from coffer.role where person_id=%s", id);
-            Statement statement;
-            ResultSet resultSet;
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(query);
-            while (resultSet.next()) {
-                personRole
-                        .personId(resultSet.getLong("person_id"))
-                        .roleId(resultSet.getLong("role_id"));
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    personRole
+                            .personId(resultSet.getLong("person_id"))
+                            .roleId(resultSet.getLong("role_id"));
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -106,8 +109,8 @@ public class PersonRoleRepositoryImpl implements PersonRoleRepository {
                 deletePersonRoleStatement.setLong(1, id);
                 deletePersonRoleStatement.executeUpdate();
             }
-        } catch (Exception e) {
-            System.out.println(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

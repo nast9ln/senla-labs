@@ -1,8 +1,12 @@
 package org.example.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.enums.Gender;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
