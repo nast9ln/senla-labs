@@ -8,7 +8,9 @@ import org.springframework.stereotype.Component;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -20,6 +22,9 @@ public class AdvertisementRepositoryImpl implements AdvertisementRepository {
     private static final String UPDATE_ADVERTISEMENT = "update advertisement set person_id=?, category_id=?, top_param_id=?, " +
             "created_data=?, header=?, cost=?, city=?, description=?, status=?, main_image_id=?, is_deleted=? where id=?";
     public static final String READ_ADVERTISEMENT = "select * from advertisement where id=%s";
+    public static final String READ_ADVERTISEMENT_BY_PERSON_ID = "select * from advertisement where person_id=%s";
+
+
     public static final String DELETE_ADVERTISEMENT = "update advertisement set is_deleted=true where id=%s";
     private static final String DELETE_ADVERTISEMENT_BY_PERSON_ID = "update advertisement set is_deleted=true where person_id=?";
 
@@ -68,10 +73,7 @@ public class AdvertisementRepositoryImpl implements AdvertisementRepository {
         try {
             String query = String.format(READ_ADVERTISEMENT, id);
             Statement statement = connection.createStatement();
-            ;
             ResultSet resultSet = statement.executeQuery(query);
-            ;
-
             while (resultSet.next()) {
                 advertisement.setId(resultSet.getLong("id"));
                 advertisement.setPersonId(resultSet.getLong("person_id"));
@@ -91,6 +93,34 @@ public class AdvertisementRepositoryImpl implements AdvertisementRepository {
             throw new RuntimeException(e);
         }
         return advertisement;
+    }
+
+    public List<Advertisement> readByPersonId(Long id) {
+        Advertisement advertisement = new Advertisement();
+        List <Advertisement> advertisements = new ArrayList<>();
+        try {
+            String query = String.format(READ_ADVERTISEMENT_BY_PERSON_ID, id);
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                advertisement.setId(resultSet.getLong("id"));
+                advertisement.setPersonId(resultSet.getLong("person_id"));
+                advertisement.setCategoryId(resultSet.getLong("category_id"));
+                advertisement.setTopParamId(resultSet.getLong("top_param_id"));
+                advertisement.setCreatedDate(LocalDateTime.parse(resultSet.getString("created_data"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss[.SSSSSS]")));
+                advertisement.setCost(resultSet.getInt("cost"));
+                advertisement.setCity(resultSet.getString("city"));
+                advertisement.setHeader(resultSet.getString("header"));
+                advertisement.setDescription(resultSet.getString("description"));
+                advertisement.setStatus(resultSet.getString("status"));
+                advertisement.setMainImageId(resultSet.getLong("main_image_id"));
+                advertisement.setDeleted(resultSet.getBoolean("is_deleted"));
+                advertisements.add(advertisement);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return advertisements;
     }
 
     @Override

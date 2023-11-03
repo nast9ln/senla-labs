@@ -39,6 +39,6 @@ public class PersonDto {
     @JsonProperty("roles")
     private List<RoleDto> roles = new ArrayList<>();
     @JsonProperty("advertisementDto")
-    private List<AdvertisementDto> advertisementDtos = new ArrayList<>();
+    private List<AdvertisementDto> advertisementDto = new ArrayList<>();
 
 }

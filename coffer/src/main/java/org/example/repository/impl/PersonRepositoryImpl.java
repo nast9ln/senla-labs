@@ -110,30 +110,30 @@ public class PersonRepositoryImpl implements PersonRepository {
                     }
                 }
 
-                List<Advertisement> advertisements = new ArrayList<>();
-                query = READ_ADVERTISEMENT;
-                try (PreparedStatement advStatement = connection.prepareStatement(query)) {
-                    advStatement.setLong(1, id);
-                    try (ResultSet advResultSet = advStatement.executeQuery()) {
-                        while (advResultSet.next()) {
-                            Advertisement advertisement = new Advertisement();
-                            advertisement.setId(advResultSet.getLong("id"));
-                            advertisement.setPersonId(advResultSet.getLong("person_id"));
-                            advertisement.setCategoryId(advResultSet.getLong("category_id"));
-                            advertisement.setTopParamId(Optional.ofNullable(advResultSet.getString("top_param_id")).map(Long::getLong).orElse(null));
-                            advertisement.setCreatedDate(LocalDateTime.parse(advResultSet.getString("created_data"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss[.SSSSSS]")));
-                            advertisement.setCost(advResultSet.getInt("cost"));
-                            advertisement.setCity(advResultSet.getString("city"));
-                            advertisement.setHeader(advResultSet.getString("header"));
-                            advertisement.setDescription(advResultSet.getString("description"));
-                            advertisement.setStatus(advResultSet.getString("status"));
-                            advertisement.setMainImageId(advResultSet.getLong("main_image_id"));
-                            advertisement.setDeleted(advResultSet.getBoolean("is_deleted"));
-                            advertisements.add(advertisement);
-                        }
-                        person.advertisements(advertisements);
-                    }
-                }
+//                List<Advertisement> advertisements = new ArrayList<>();
+//                query = READ_ADVERTISEMENT;
+//                try (PreparedStatement advStatement = connection.prepareStatement(query)) {
+//                    advStatement.setLong(1, id);
+//                    try (ResultSet advResultSet = advStatement.executeQuery()) {
+//                        while (advResultSet.next()) {
+//                            Advertisement advertisement = new Advertisement();
+//                            advertisement.setId(advResultSet.getLong("id"));
+//                            advertisement.setPersonId(advResultSet.getLong("person_id"));
+//                            advertisement.setCategoryId(advResultSet.getLong("category_id"));
+//                            advertisement.setTopParamId(Optional.ofNullable(advResultSet.getString("top_param_id")).map(Long::getLong).orElse(null));
+//                            advertisement.setCreatedDate(LocalDateTime.parse(advResultSet.getString("created_data"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss[.SSSSSS]")));
+//                            advertisement.setCost(advResultSet.getInt("cost"));
+//                            advertisement.setCity(advResultSet.getString("city"));
+//                            advertisement.setHeader(advResultSet.getString("header"));
+//                            advertisement.setDescription(advResultSet.getString("description"));
+//                            advertisement.setStatus(advResultSet.getString("status"));
+//                            advertisement.setMainImageId(advResultSet.getLong("main_image_id"));
+//                            advertisement.setDeleted(advResultSet.getBoolean("is_deleted"));
+//                            advertisements.add(advertisement);
+//                        }
+//                        person.advertisements(advertisements);
+//                    }
+//                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -17,6 +17,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -32,8 +33,49 @@ public class App {
         JDBCPostgreSQLConnectionHolder connect = context.getBean(JDBCPostgreSQLConnectionHolder.class);
         PersonRepository personRepository = context.getBean(PersonRepository.class);
         AdvertisementRepository advertisementRepository = context.getBean(AdvertisementRepository.class);
-        PersonControllerImpl personController = context.getBean(PersonControllerImpl.class);
+    //    PersonControllerImpl personController = context.getBean(PersonControllerImpl.class);
         PersonServiceImpl personService = context.getBean(PersonServiceImpl.class);
+
+
+
+        int numThreads = 5;
+        Thread[] threads = new Thread[numThreads];
+
+        PersonControllerImpl personController = context.getBean(PersonControllerImpl.class);
+        for (int i=0; i < numThreads; i++) {
+            threads[i]=new Thread(()-> {
+                Connection connection = connect.getConnection();
+                if(connection!=null) {
+                    System.out.println("thread" + Thread.currentThread().getName() + "got a connection");
+                    personController.create(PersonDto.builder()
+                .gender(Gender.WOMAN)
+                .firstName("Lina")
+                .lastName("Stuk")
+                .birthday(LocalDate.of(2005, 01, 14))
+                .city("Vitebsk")
+                .phone("+211")
+                .email("nast9ln@h.com")
+                .password("1202")
+                .isDeleted(false)
+                .roles(Arrays.asList(new RoleDto(RoleEnum.ADMIN), new RoleDto(RoleEnum.USER)))
+                .build());
+
+                }
+                else System.out.println("thread"+ Thread.currentThread().getName() + "failed");
+            });
+            threads[i].start();
+        }
+
+        for (Thread thread : threads){
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
+
 
         //Создание нового пользователя
 //        personController.create(PersonDto.builder()
@@ -49,8 +91,8 @@ public class App {
 //                .roles(Arrays.asList(new RoleDto(RoleEnum.ADMIN), new RoleDto(RoleEnum.USER)))
 //                .build());
 //
-        PersonDto personRead = personController.read(10L);
-        System.out.println(personRead);
+//        PersonDto personRead = personController.read(10L);
+//        System.out.println(personRead);
 
        // personController.delete(25L);
 
@@ -98,9 +140,9 @@ public class App {
 
 
 
-        PersonDto personUpdate = personRead;
-        personUpdate.setCity("Moskow");
-        personController.update(personUpdate);
+//        PersonDto personUpdate = personRead;
+//        personUpdate.setCity("Moskow");
+//        personController.update(personUpdate);
 
 //        personRepository.delete(13L);
 

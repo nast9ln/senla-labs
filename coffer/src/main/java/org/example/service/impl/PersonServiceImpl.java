@@ -2,7 +2,9 @@ package org.example.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.example.config.MyTransaction;
+import org.example.dto.AdvertisementDto;
 import org.example.dto.PersonDto;
+import org.example.entity.Advertisement;
 import org.example.entity.Person;
 import org.example.entity.Role;
 import org.example.enums.RoleEnum;
@@ -10,13 +12,16 @@ import org.example.repository.AdvertisementRepository;
 import org.example.repository.PersonRepository;
 import org.example.repository.PersonRoleRepository;
 import org.example.service.PersonService;
+import org.example.service.mapper.AdvertisementMapper;
 import org.example.service.mapper.PersonMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -26,6 +31,7 @@ public class PersonServiceImpl implements PersonService {
     private final PersonMapper personDtoMapper;
     private final PersonRepository personRepository;
     private final AdvertisementRepository advertisementRepository;
+    private final AdvertisementMapper advertisementDtoMapper;
     private final PersonRoleRepository roleRepository;
 
     @Override
@@ -51,7 +57,17 @@ public class PersonServiceImpl implements PersonService {
     public PersonDto read(Long id) {
         logger.info("read");
         Person person = personRepository.read(id);
-        return personDtoMapper.toDto(person);
+        List<Advertisement> advertisements;
+        List<AdvertisementDto> advertisementDtos = new ArrayList<>();
+
+        advertisements=advertisementRepository.readByPersonId(id);
+
+        for (Advertisement advertisement : advertisements) {
+            advertisementDtos.add(advertisementDtoMapper.toDto(advertisement));
+        }
+        PersonDto personDto = personDtoMapper.toDto(person);
+        personDto.setAdvertisementDto(advertisementDtos);
+        return personDto;
     }
 
     @Override
