@@ -54,7 +54,7 @@ public class App {
             personController.create((PersonDto.builder()
                     .gender(Gender.WOMAN)
                     .firstName("THREAD 3")
-                    .lastName(null)
+                    .lastName("null")
                     .birthday(LocalDate.of(2005, 1, 14))
                     .city("Vitebsk")
                     .phone("+211")

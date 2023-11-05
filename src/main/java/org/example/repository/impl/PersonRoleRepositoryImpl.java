@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PersonRoleRepositoryImpl implements PersonRoleRepository {
     private static final Logger logger = LoggerFactory.getLogger(PersonRoleRepositoryImpl.class);
-    public static final String READ_ROLE = "select * from coffer.role where person_id=%?";
+    public static final String READ_ROLE = "select * from coffer.role where person_id=?";
     private static final String INSERT_PERSON_ROLE = "insert into person_role (person_id, role_id) values (?, ?)";
     private static final String DELETE_ROLES = "delete from person_role where person_id=?";
     private final Connection connection;

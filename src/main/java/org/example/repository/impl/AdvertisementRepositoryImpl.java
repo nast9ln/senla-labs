@@ -23,10 +23,10 @@ public class AdvertisementRepositoryImpl implements AdvertisementRepository {
     private static final String UPDATE_ADVERTISEMENT = "update advertisement set person_id=?, category_id=?, top_param_id=?, " +
             "created_data=?, header=?, cost=?, city=?, description=?, status=?, main_image_id=?, is_deleted=? where id=?";
     public static final String READ_ADVERTISEMENT = "select * from advertisement where id=?";
-    public static final String READ_ADVERTISEMENT_BY_PERSON_ID = "select * from advertisement where person_id=%s";
+    public static final String READ_ADVERTISEMENT_BY_PERSON_ID = "select * from advertisement where person_id=?";
 
 
-    public static final String DELETE_ADVERTISEMENT = "update advertisement set is_deleted=true where id=%s";
+    public static final String DELETE_ADVERTISEMENT = "update advertisement set is_deleted=true where id=?";
     private static final String DELETE_ADVERTISEMENT_BY_PERSON_ID = "update advertisement set is_deleted=true where person_id=?";
 
     private final Connection connection;
@@ -154,10 +154,10 @@ public class AdvertisementRepositoryImpl implements AdvertisementRepository {
     @Override
     public void delete(Long id) {
         logger.info("delete");
-        String query = String.format(DELETE_ADVERTISEMENT, id);
-        try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(query);
+        String query = DELETE_ADVERTISEMENT;
+        try (PreparedStatement deleteAdvStatement = connection.prepareStatement(query)) {
+            deleteAdvStatement.setLong(1, id);
+            deleteAdvStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
