@@ -14,8 +14,8 @@ public class AdvertisementDto implements Serializable {
     @JsonProperty("id")
     private Long id;
 
-    @JsonProperty("userId")
-    private Long userId;
+    @JsonProperty("personId")
+    private Long personId;
 
     @JsonProperty("categoryId")
     private Long categoryId;

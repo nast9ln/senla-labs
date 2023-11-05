@@ -9,7 +9,7 @@ public class AdvertisementMapper {
     public Advertisement toEntity(AdvertisementDto dto) {
         return Advertisement.builder()
                 .id(dto.getId())
-                .personId(dto.getUserId())
+                .personId(dto.getPersonId())
                 .categoryId(dto.getCategoryId())
                 .mainImageId(dto.getMainPictureId())
                 .topParamId(dto.getTopParamId())
@@ -25,7 +25,7 @@ public class AdvertisementMapper {
     public AdvertisementDto toDto(Advertisement entity) {
         return AdvertisementDto.builder()
                 .id(entity.getId())
-                .userId(entity.getPersonId())
+                .personId(entity.getPersonId())
                 .categoryId(entity.getCategoryId())
                 .mainPictureId(entity.getMainImageId())
                 .topParamId(entity.getTopParamId())

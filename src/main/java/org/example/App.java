@@ -1,13 +1,21 @@
 package org.example;
 
+import org.example.controller.AdvertisementController;
 import org.example.controller.PersonControllerImpl;
+import org.example.dto.AdvertisementDto;
 import org.example.dto.PersonDto;
 import org.example.dto.RoleDto;
+import org.example.entity.Advertisement;
+import org.example.entity.Person;
+import org.example.entity.Role;
 import org.example.enums.Gender;
 import org.example.enums.RoleEnum;
+import org.example.repository.AdvertisementRepository;
+import org.example.repository.PersonRepository;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 public class App {
@@ -101,44 +109,43 @@ public class App {
 
 
         //  Создание нового объявления
-//        advertisementRepository.create(Advertisement.builder()
-//                .personId(13L)
+//        AdvertisementController advertisementController = context.getBean(AdvertisementController.class);
+//        advertisementController.create(AdvertisementDto.builder()
+//                .personId(313L)
 //                .categoryId(2L)
 //                .topParamId(null)
-//                        .createdDate(LocalDateTime.now())
-//                        .cost(100)
-//                        .city("Minsk")
-//                        .header("red fur")
-//                        .description("new red fur")
-//                        .status("ACTIVE")
-//                        .mainImageId(null)
-//                        .isDeleted(false)
+//                .createdData(LocalDateTime.now())
+//                .cost(100)
+//                .city("Minsk")
+//                .header("red fur")
+//                .description("new red fur")
+//                .status("ACTIVE")
+//                .mainPictureId(null)
+//                .isDeleted(false)
 //        .build());
 
 
 //        //получаем пользователя, выводим его объявления
-
-        //      personController.delete(3L);
-//        Person readPerson = new Person();
-//        readPerson=personRepository.read(10L);
+//        PersonDto readPerson = new PersonDto();
+//        readPerson=personController.read(1L);
 //        System.out.println(readPerson.getFirstName());
 
 
         //выводим все объявления
-//        for (Advertisement advertisement : readPerson.getAdvertisements())
+//        for (AdvertisementDto advertisement : readPerson.getAdvertisementDto())
 //            System.out.println(advertisement);
 //
 //        //Чтение ролей у пользователя
-//        for (Role role : readPerson.getRoles())
+//        for (RoleDto role : readPerson.getRoles())
 //            System.out.println(role.getName());
 
 //        //Вносим изменения  - устанавливаем другой город
-//        Advertisement advertisementNew = readPerson.getAdvertisements().get(0);
+//        AdvertisementDto advertisementNew = readPerson.getAdvertisementDto().get(0);
 //        advertisementNew.setCity("minsk");
-//        advertisementRepository.update(advertisementNew);
+//        advertisementController.update(advertisementNew);
 //
 //        //выводим все объявления после того, как одно обновили
-//        for (Advertisement advertisement : readPerson.getAdvertisements())
+//        for (AdvertisementDto advertisement : readPerson.getAdvertisementDto())
 //            System.out.println(advertisement);
         context.close();
     }

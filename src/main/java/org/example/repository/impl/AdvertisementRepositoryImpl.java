@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Component
@@ -109,7 +110,7 @@ public class AdvertisementRepositoryImpl implements AdvertisementRepository {
                     advertisement.setId(resultSet.getLong("id"));
                     advertisement.setPersonId(resultSet.getLong("person_id"));
                     advertisement.setCategoryId(resultSet.getLong("category_id"));
-                    advertisement.setTopParamId(resultSet.getLong("top_param_id"));
+                    advertisement.setTopParamId(Optional.ofNullable(resultSet.getString("top_param_id")).map(Long::valueOf).orElse(null));
                     advertisement.setCreatedDate(LocalDateTime.parse(resultSet.getString("created_data"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss[.SSSSSS]")));
                     advertisement.setCost(resultSet.getInt("cost"));
                     advertisement.setCity(resultSet.getString("city"));
