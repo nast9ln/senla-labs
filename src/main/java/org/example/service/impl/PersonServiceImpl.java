@@ -1,7 +1,6 @@
 package org.example.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.example.config.Transaction;
 import org.example.dto.AdvertisementDto;
 import org.example.dto.PersonDto;
 import org.example.entity.Advertisement;
@@ -17,6 +16,7 @@ import org.example.service.mapper.PersonMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class PersonServiceImpl implements PersonService {
     private final PersonRoleRepository roleRepository;
 
     @Override
-    @Transaction
+ //   @Transactional
     public PersonDto create(PersonDto dto) {
         logger.info("create");
         Person person = personDtoMapper.toEntity(dto);
@@ -51,7 +51,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    @Transaction
+  //  @Transactional
     public PersonDto read(Long id) {
         logger.info("read");
         Person person = personRepository.read(id);
@@ -69,7 +69,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    @Transaction
+  //  @Transactional
     public PersonDto update(PersonDto dto) {
         logger.info("update");
         Person person = personDtoMapper.toEntity(dto);
@@ -78,7 +78,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    @Transaction
+  //  @Transactional
     public void delete(Long id) {
         logger.info("delete");
         advertisementRepository.deleteByPersonId(id);

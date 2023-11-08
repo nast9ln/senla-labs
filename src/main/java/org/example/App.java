@@ -12,15 +12,24 @@ import org.example.enums.Gender;
 import org.example.enums.RoleEnum;
 import org.example.repository.AdvertisementRepository;
 import org.example.repository.PersonRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.PropertySource;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
+@ComponentScan("org.example")
+@PropertySource(value = "application.properties")
 public class App {
+    @Value("${database.url}")
+    private static String url;
+    @Value("${hibernate.show_sql}")
+    private static boolean showSql;
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("org.example");
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(App.class);
 
         PersonControllerImpl personController = context.getBean(PersonControllerImpl.class);
 

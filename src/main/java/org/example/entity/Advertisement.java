@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
 public class Advertisement {
     private Long id;
     private Long personId;
@@ -24,4 +23,7 @@ public class Advertisement {
     private String status;
     private Long mainImageId;
     private boolean isDeleted;
+
+    public Advertisement() {
+    }
 }

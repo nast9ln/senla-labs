@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.EventListener;
 
@@ -33,6 +34,7 @@ public class JDBCPostgreSQLConnectionHolder {
     @Bean
     public Connection createConnection() {
         try {
+            System.out.println(url+"!!!!!");
             Class.forName("org.postgresql.Driver");
             Connection connection = DriverManager.getConnection(url, user, password);
             logger.trace("connection successful");
@@ -75,19 +77,6 @@ public class JDBCPostgreSQLConnectionHolder {
             } catch (SQLException e) {
                 logger.trace("Error with closing connections");
                 throw new RuntimeException(e);
-            }
-        }
-    }
-
-    public void closeConnection() {
-        String currentThread = Thread.currentThread().getName();
-        Connection connection = threadConnectionMap.get(currentThread);
-        if (connection != null) {
-            try {
-                connection.close();
-                threadConnectionMap.remove(currentThread);
-            } catch (SQLException e) {
-                throw new RuntimeException("Error while closing connection.", e);
             }
         }
     }

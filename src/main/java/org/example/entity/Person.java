@@ -15,8 +15,6 @@ import java.util.List;
 @Data
 @Slf4j
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class Person {
     private Long id;
     private Gender gender;

@@ -12,7 +12,6 @@ import javax.sql.DataSource;
 
 @Configuration
 @Data
-@PropertySource(value = "application.properties", ignoreResourceNotFound = true)
 @RequiredArgsConstructor
 public class LiquibaseConfig {
     private final DataSource dataSource;
@@ -21,6 +20,7 @@ public class LiquibaseConfig {
 
     @Bean
     public SpringLiquibase liquibase() {
+        System.out.println(changelogFile+"!?");
         SpringLiquibase liquibase = new SpringLiquibase();
         liquibase.setChangeLog(changelogFile);
         liquibase.setDataSource(dataSource);
