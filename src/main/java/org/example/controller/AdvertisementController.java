@@ -8,7 +8,7 @@ public interface AdvertisementController {
 
     AdvertisementDto read(Long id);
 
-    AdvertisementDto update(AdvertisementDto dto);
+    void update(AdvertisementDto dto);
 
     void delete(Long id);
 

@@ -35,9 +35,9 @@ public class PersonControllerImpl implements PersonController {
     }
 
     @Override
-    public PersonDto update(PersonDto dto) {
+    public void update(PersonDto dto) {
         logger.info("update");
-        return personService.update(dto);
+        personService.update(dto);
     }
 
     @Override

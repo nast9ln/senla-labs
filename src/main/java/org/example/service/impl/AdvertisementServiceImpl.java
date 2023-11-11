@@ -27,15 +27,14 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     @Override
     public AdvertisementDto read(Long id) {
-        Advertisement advertisement = advertisementRepository.read(id);
+        Advertisement advertisement = advertisementRepository.get(id).orElseThrow();
         return advertisementDtoMapper.toDto(advertisement);
     }
 
     @Override
-    public AdvertisementDto update(AdvertisementDto dto) {
+    public void update(AdvertisementDto dto) {
         Advertisement advertisement = advertisementDtoMapper.toEntity(dto);
-        advertisement = advertisementRepository.update(advertisement);
-        return advertisementDtoMapper.toDto(advertisement);
+        advertisementRepository.update(advertisement);
     }
 
     @Override

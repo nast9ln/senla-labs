@@ -9,7 +9,7 @@ public interface PersonController {
 
     PersonDto read(Long id);
 
-    PersonDto update(PersonDto dto);
+    void update(PersonDto dto);
 
     void delete(Long id);
 

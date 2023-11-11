@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
+import org.example.entity.Person;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ public class AdvertisementDto implements Serializable {
     private Long id;
 
     @JsonProperty("personId")
-    private Long personId;
+    private Person person;
 
     @JsonProperty("categoryId")
     private Long categoryId;

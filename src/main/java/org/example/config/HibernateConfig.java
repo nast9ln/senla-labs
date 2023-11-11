@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -20,6 +21,8 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @RequiredArgsConstructor
+@EnableJpaRepositories(basePackages = {"org.example.repository"})
+
 public class HibernateConfig {
     @Value("${database.url}")
     protected String url;
@@ -31,9 +34,9 @@ public class HibernateConfig {
     private String ddlAuto;
     @Value("${hibernate.dialect}")
     private String dialect;
-    @Value("${hibernate.show_sql}")
+    //    @Value("${hibernate.show_sql}")
     private boolean showSql = true;
-    @Value("${hibernate.format_sql}")
+    //    @Value("${hibernate.format_sql}")
     private boolean formatSql = true;
 
     @Bean

@@ -34,87 +34,89 @@ public class App {
         PersonControllerImpl personController = context.getBean(PersonControllerImpl.class);
 
 
-        Thread createThread = new Thread(() -> {
-            System.out.println("Create Thread " + Thread.currentThread().getName() + " got a connection");
-            personController.create((PersonDto.builder()
-                    .gender(Gender.WOMAN)
-                    .firstName("THREAD 1")
-                    .lastName("Stuk")
-                    .birthday(LocalDate.of(2005, 1, 14))
-                    .city("Vitebsk")
-                    .phone("+211")
-                    .email("nast9ln@h.com")
-                    .password("1202")
-                    .isDeleted(false)
-                    .roles(Arrays.asList(new RoleDto(RoleEnum.ADMIN), new RoleDto(RoleEnum.USER)))
-                    .build()));
-        });
+//        Thread createThread = new Thread(() -> {
+//            System.out.println("Create Thread " + Thread.currentThread().getName() + " got a connection");
+//            personController.create((PersonDto.builder()
+//                    .gender(Gender.WOMAN)
+//                    .firstName("THREAD 1")
+//                    .lastName("Stuk")
+//                    .birthday(LocalDate.of(2005, 1, 14))
+//                    .city("Vitebsk")
+//                    .phone("+211")
+//                    .email("nast9ln@h.com")
+//                    .password("1202")
+//                    .isDeleted(false)
+//                    .roles(Arrays.asList(new RoleDto(RoleEnum.ADMIN), new RoleDto(RoleEnum.USER)))
+//                    .build()));
+//        });
+//
+//        Thread createThread2 = new Thread(() -> {
+//            System.out.println("Create Thread " + Thread.currentThread().getName() + " got a connection");
+//            personController.create((PersonDto.builder()
+//                    .gender(Gender.WOMAN)
+//                    .firstName("THREAD 2")
+//                    .lastName("test")
+//                    .birthday(LocalDate.of(2005, 1, 14))
+//                    .city("Vitebsk")
+//                    .phone("+211")
+//                    .email("nast9ln@h.com")
+//                    .password("1202")
+//                    .isDeleted(false)
+//                    .roles(Arrays.asList(new RoleDto(RoleEnum.ADMIN), new RoleDto(RoleEnum.USER)))
+//                    .build()));
+//        });
+//
+//        Thread createThread3 = new Thread(() -> {
+//            System.out.println("Create Thread " + Thread.currentThread().getName() + " got a connection");
+//            personController.create((PersonDto.builder()
+//                    .gender(Gender.WOMAN)
+//                    .firstName("THREAD 3")
+//                    .lastName("null")
+//                    .birthday(LocalDate.of(2005, 1, 14))
+//                    .city("Vitebsk")
+//                    .phone("+211")
+//                    .email("nast9ln@h.com")
+//                    .password("1202")
+//                    .isDeleted(false)
+//                    .roles(Arrays.asList(new RoleDto(RoleEnum.ADMIN), new RoleDto(RoleEnum.USER)))
+//                    .build()));
+//        });
+//
+//        Thread deleteThread = new Thread(() -> {
+//            System.out.println("Delete Thread " + Thread.currentThread().getName() + " got a connection");
+//            personController.delete(300L);
+//        });
+//
+//        createThread.start();
+//        createThread2.start();
+//        createThread3.start();
+//        deleteThread.start();
+//
+//        try {
+//            createThread.join();
+//            createThread2.join();
+//            createThread3.join();
+//            deleteThread.join();
+//
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
 
-        Thread createThread2 = new Thread(() -> {
-            System.out.println("Create Thread " + Thread.currentThread().getName() + " got a connection");
-            personController.create((PersonDto.builder()
-                    .gender(Gender.WOMAN)
-                    .firstName("THREAD 2")
-                    .lastName("test")
-                    .birthday(LocalDate.of(2005, 1, 14))
-                    .city("Vitebsk")
-                    .phone("+211")
-                    .email("nast9ln@h.com")
-                    .password("1202")
-                    .isDeleted(false)
-                    .roles(Arrays.asList(new RoleDto(RoleEnum.ADMIN), new RoleDto(RoleEnum.USER)))
-                    .build()));
-        });
 
-        Thread createThread3 = new Thread(() -> {
-            System.out.println("Create Thread " + Thread.currentThread().getName() + " got a connection");
-            personController.create((PersonDto.builder()
-                    .gender(Gender.WOMAN)
-                    .firstName("THREAD 3")
-                    .lastName("null")
-                    .birthday(LocalDate.of(2005, 1, 14))
-                    .city("Vitebsk")
-                    .phone("+211")
-                    .email("nast9ln@h.com")
-                    .password("1202")
-                    .isDeleted(false)
-                    .roles(Arrays.asList(new RoleDto(RoleEnum.ADMIN), new RoleDto(RoleEnum.USER)))
-                    .build()));
-        });
-
-        Thread deleteThread = new Thread(() -> {
-            System.out.println("Delete Thread " + Thread.currentThread().getName() + " got a connection");
-            personController.delete(300L);
-        });
-
-        createThread.start();
-        createThread2.start();
-        createThread3.start();
-        deleteThread.start();
-
-        try {
-            createThread.join();
-            createThread2.join();
-            createThread3.join();
-            deleteThread.join();
-
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
 
         //Создание нового пользователя
-//        personController.create(PersonDto.builder()
-//                .gender(Gender.WOMAN)
-//                .firstName("Lina")
-//                .lastName("Stuk")
-//                .birthday(LocalDate.of(2005, 01, 14))
-//                .city("Vitebsk")
-//                .phone("+211")
-//                .email("nast9ln@h.com")
-//                .password("1202")
-//                .isDeleted(false)
-//                .roles(Arrays.asList(new RoleDto(RoleEnum.ADMIN), new RoleDto(RoleEnum.USER)))
-//                .build());
+        personController.create(PersonDto.builder()
+                .gender(Gender.WOMAN)
+                .firstName("Lina")
+                .lastName("Stuk")
+                .birthday(LocalDate.of(2005, 01, 14))
+                .city("Vitebsk")
+                .phone("+211")
+                .email("nast9ln@h.com")
+                .password("1202")
+                .isDeleted(false)
+                .roles(Arrays.asList(new RoleDto(RoleEnum.ADMIN), new RoleDto(RoleEnum.USER)))
+                .build());
 
 
         //  Создание нового объявления

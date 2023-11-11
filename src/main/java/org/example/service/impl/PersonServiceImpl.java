@@ -9,7 +9,7 @@ import org.example.entity.Role;
 import org.example.enums.RoleEnum;
 import org.example.repository.AdvertisementRepository;
 import org.example.repository.PersonRepository;
-import org.example.repository.PersonRoleRepository;
+import org.example.repository.RoleRepository;
 import org.example.service.PersonService;
 import org.example.service.mapper.AdvertisementMapper;
 import org.example.service.mapper.PersonMapper;
@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,53 +31,50 @@ public class PersonServiceImpl implements PersonService {
     private final PersonRepository personRepository;
     private final AdvertisementRepository advertisementRepository;
     private final AdvertisementMapper advertisementDtoMapper;
-    private final PersonRoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
     @Override
- //   @Transactional
+    @Transactional
     public PersonDto create(PersonDto dto) {
         logger.info("create");
         Person person = personDtoMapper.toEntity(dto);
         person = personRepository.create(person);
-        try {
-            if (person.getRoles() == null)
-                person.setRoles(Arrays.asList(new Role(2L, RoleEnum.USER)));
-            roleRepository.createRelation(person.getId(), person.getRoles());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        List<Role> roles = new ArrayList<>();
+        if (person.getRoles() == null)
+            person.setRoles(Arrays.asList(new Role(2L, RoleEnum.USER)));
+        person.getRoles().forEach(r -> roleRepository.findByName(r.getName()).add(r));
+        person.setRoles(roles);
         return personDtoMapper.toDto(person);
     }
 
     @Override
-  //  @Transactional
+    @Transactional
     public PersonDto read(Long id) {
         logger.info("read");
-        Person person = personRepository.read(id);
-        List<Advertisement> advertisements;
-        List<AdvertisementDto> advertisementDtos = new ArrayList<>();
+        Person person = personRepository.get(id).orElseThrow();
+        List<Advertisement> advertisements=advertisementRepository.readByPersonId(id);
+        List<AdvertisementDto> advertisementDtos= new ArrayList<>();
 
-        advertisements = advertisementRepository.readByPersonId(id);
+        for (Advertisement advertisement: advertisements){
+        advertisementDtos.add(advertisementDtoMapper.toDto(advertisement));
+    }
 
-        for (Advertisement advertisement : advertisements) {
-            advertisementDtos.add(advertisementDtoMapper.toDto(advertisement));
-        }
+
         PersonDto personDto = personDtoMapper.toDto(person);
         personDto.setAdvertisementDto(advertisementDtos);
         return personDto;
     }
 
     @Override
-  //  @Transactional
-    public PersonDto update(PersonDto dto) {
+    @Transactional
+    public void update(PersonDto dto) {
         logger.info("update");
         Person person = personDtoMapper.toEntity(dto);
-        person = personRepository.update(person);
-        return personDtoMapper.toDto(person);
+        personRepository.update(person);
     }
 
     @Override
-  //  @Transactional
+    @Transactional
     public void delete(Long id) {
         logger.info("delete");
         advertisementRepository.deleteByPersonId(id);
