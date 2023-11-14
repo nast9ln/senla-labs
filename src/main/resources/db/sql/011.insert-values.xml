@@ -1,0 +1,99 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="insert-values" author="Anastasia">
+        <sql>INSERT INTO role (name)
+             VALUES ('ADMIN'),
+                    ('USER');</sql>
+        <sql>INSERT INTO category (name)
+             VALUES ('Furniture'),
+                    ('Clothing'),
+                    ('Phones'),
+                    ('Computer Electronics'),
+                    ('Home Appliances'),
+                    ('Beauty and Health'),
+                    ('Weddings and Parties');</sql>
+        <sql>INSERT INTO top_param (time_top_start, time_in_top, is_top)
+             VALUES ('2023-09-22 00:00:00', 7, true),
+                    ('2023-09-23 00:00:00', 7, true),
+                    ('2023-09-24 00:00:00', 7, true);</sql>
+        <sql>INSERT INTO person (gender, first_name, last_name, birthday, city, phone, email, password, avatar,
+                                        is_deleted)
+             VALUES ('MAN', 'William', 'Wilson', '1987-12-18', 'Philadelphia', '7777777777', 'william@example.com',
+                     'password6', NULL, false),
+                    ('WOMAN', 'Olivia', 'Martinez', '1995-02-28', 'Phoenix', '3333333333', 'olivia@example.com',
+                     'password7', NULL, false),
+                    ('MAN', 'David', 'Garcia', '1991-06-03', 'San Antonio', '8888888888', 'david@example.com',
+                     'password8', NULL, false),
+                    ('WOMAN', 'Sophia', 'Lopez', '1989-04-22', 'San Diego', '4444444444', 'sophia@example.com',
+                     'password9', NULL, false),
+                    ('MAN', 'James', 'Hernandez', '1983-10-12', 'Dallas', '6666666666', 'james@example.com',
+                     'password10', NULL, false),
+                    ('WOMAN', 'Liam', 'Perez', '1986-08-06', 'San Jose', '5555555555', 'liam@example.com',
+                     'password11', NULL, false),
+                    ('MAN', 'Benjamin', 'Miller', '1993-03-25', 'Austin', '2222222222', 'benjamin@example.com',
+                     'password12', NULL, false),
+                    ('Female', 'Emma', 'Gonzalez', '1984-11-14', 'Fort Worth', '7777777777', 'emma@example.com',
+                     'WOMAN', NULL, false),
+                    ('MAN', 'Mason', 'Rodriguez', '1994-07-08', 'El Paso', '3333333333', 'mason@example.com',
+                     'password14', NULL, false),
+                    ('WOMAN', 'Ava', 'Davis', '1990-09-02', 'Seattle', '6666666666', 'ava@example.com', 'password15',
+                     NULL, false);</sql>
+        <sql>INSERT INTO advertisement (person_id, category_id, top_param_id, created_data, header, cost, city,
+                                               description, status, main_image_id, is_deleted)
+             VALUES (1, 1, null, '2023-09-22 10:00:00', 'Sofa for sale', 500, 'New York', 'High-quality sofa for sale',
+                     'Active', 2, false),
+                    (2, 2, 2, '2023-09-23 12:00:00', 'Designer Dress', 200, 'Los Angeles',
+                     'Beautiful designer dress for sale', 'Active', 4, false),
+                    (3, 3, 3, '2023-09-24 14:00:00', 'iPhone 13 Pro', 800, 'Chicago',
+                     'Brand new iPhone 13 Pro for sale', 'Active', 6, false),
+                    (4, 4, null, '2023-09-25 16:00:00', 'Gaming Laptop', 1200, 'Houston',
+                     'Powerful gaming laptop for sale', 'Active', 7, false),
+                    (5, 5, null, '2023-09-26 18:00:00', 'Washing Machine', 300, 'San Francisco',
+                     'High-capacity washing machine for sale', 'Active', 8, false),
+                    (6, 6, null, '2023-09-27 10:00:00', 'Skin Care Products', 50, 'New York',
+                     'High-quality skin care products for sale', 'Active', 9, false),
+                    (7, 7, null, '2023-09-28 12:00:00', 'Wedding Dress', 600, 'Los Angeles',
+                     'Elegant wedding dress for sale', 'Active', 10, false),
+                    (3, 4, null, '2023-10-01 18:00:00', 'Gaming Console', 400, 'San Francisco',
+                     'Latest gaming console for sale', 'Active', 11, false),
+                    (2, 1, null, '2023-10-02 10:00:00', 'Coffee Table', 150, 'New York',
+                     'Stylish coffee table for sale', 'Active', 12, false),
+                    (1, 2, null, '2023-10-03 12:00:00', 'Leather Jacket', 80, 'Los Angeles',
+                     'Vintage leather jacket for sale', 'Active', NULL, false);</sql>
+        <sql>INSERT INTO image (advertisement_id, path, is_deleted)
+             VALUES (1, '', false),
+                    (1, '', false),
+                    (1, '', false),
+                    (2, '', false),
+                    (2, '', false),
+                    (3, '', false),
+                    (4, '', false),
+                    (5, '', false),
+                    (6, '', false),
+                    (7, '', false),
+                    (8, '', false),
+                    (9, '', false);</sql>
+        <sql>INSERT INTO person_role (person_id, role_id)
+             VALUES (1, 2),
+                    (2, 2),
+                    (3, 2),
+                    (4, 2),
+                    (5, 2),
+                    (6, 2),
+                    (7, 2),
+                    (8, 2),
+                    (9, 2),
+                    (10, 2);</sql>
+        <sql>INSERT INTO comment (advertisement_id, person_id, text, created_data, is_deleted)
+             VALUES (1, 2, 'good', '2023-09-22 11:00:00', false),
+                    (2, 1, 'wow', '2023-09-23 13:00:00', false);</sql>
+        <sql>INSERT INTO message (sender_id, advertisement_id, text, created_data, is_deleted)
+             VALUES (1, 4, 'hi', '2023-09-22 14:00:00', false),
+                    (4, 4, 'hi, my dear buyer', '2023-09-23 16:00:00', false);</sql>
+    </changeSet>
+
+</databaseChangeLog>
