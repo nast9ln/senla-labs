@@ -11,7 +11,7 @@ import org.example.enums.RoleEnum;
 @AllArgsConstructor
 @Entity
 @Table(name = "role")
-public class Role {
+public class Role extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,4 +21,9 @@ public class Role {
 
     public Role() {
     }
+
+    public Role(RoleEnum name) {
+        this.name = name;
+    }
+
 }

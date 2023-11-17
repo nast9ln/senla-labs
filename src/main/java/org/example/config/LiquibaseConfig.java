@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 import javax.sql.DataSource;
 
@@ -20,7 +19,6 @@ public class LiquibaseConfig {
 
     @Bean
     public SpringLiquibase liquibase() {
-        System.out.println(changelogFile+"!?");
         SpringLiquibase liquibase = new SpringLiquibase();
         liquibase.setChangeLog(changelogFile);
         liquibase.setDataSource(dataSource);
@@ -28,3 +26,5 @@ public class LiquibaseConfig {
     }
 
 }
+
+

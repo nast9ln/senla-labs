@@ -4,8 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -22,10 +21,10 @@ import java.util.Properties;
 @EnableTransactionManagement
 @RequiredArgsConstructor
 @EnableJpaRepositories(basePackages = {"org.example.repository"})
-
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 public class HibernateConfig {
     @Value("${database.url}")
-    protected String url;
+    private String url;
     @Value("${database.user}")
     private String user;
     @Value("${database.password}")
@@ -34,34 +33,26 @@ public class HibernateConfig {
     private String ddlAuto;
     @Value("${hibernate.dialect}")
     private String dialect;
-    //    @Value("${hibernate.show_sql}")
-    private boolean showSql = true;
-    //    @Value("${hibernate.format_sql}")
-    private boolean formatSql = true;
+    @Value("${hibernate.show_sql}")
+    private boolean showSql;
+    @Value("${hibernate.format_sql}")
+    private boolean formatSql;
 
     @Bean
     public DataSource dataSource() {
-        System.out.println();
-        System.out.println(ddlAuto+ "WOW");
-        System.out.println(password);
-        System.out.println();
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/coffer");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("postgres");
+        dataSource.setUrl(url);
+        dataSource.setUsername(user);
+        dataSource.setPassword(password);
         return dataSource;
     }
 
-    @Bean
-    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
-        return new PersistenceExceptionTranslationPostProcessor();
-    }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-        localContainerEntityManagerFactoryBean.setDataSource(dataSource());
+        localContainerEntityManagerFactoryBean.setDataSource(dataSource);
         localContainerEntityManagerFactoryBean.setPersistenceUnitName("localContainerEntity");
         localContainerEntityManagerFactoryBean.setPackagesToScan("org.example.entity");
 
@@ -73,21 +64,23 @@ public class HibernateConfig {
     }
 
 
-    Properties additionalProperties() {
+    public Properties additionalProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-        properties.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost:5432/coffer?user=postgres&password=postgres");
         properties.setProperty("hibernate.dialect", dialect);
+        properties.setProperty("hibernate.connection.url", url);
+        properties.setProperty("hibernate.connection.username", user);
+        properties.setProperty("hibernate.connection.password", password);
         properties.put("hibernate.show_sql", showSql);
         properties.put("hibernate.format_sql", formatSql);
+        properties.put("hibernate.hbm2ddl.auto", ddlAuto);
         return properties;
     }
 
 
     @Bean
-    public PlatformTransactionManager transactionManager() {
+    public PlatformTransactionManager transactionManager(LocalContainerEntityManagerFactoryBean managerFactoryBean) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+        transactionManager.setEntityManagerFactory(managerFactoryBean.getObject());
         return transactionManager;
     }
 }

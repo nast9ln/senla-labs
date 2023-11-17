@@ -1,6 +1,15 @@
 package org.example.entity;
 
-public class Image {
+
+import jakarta.persistence.*;
+
+@Table(name = "image")
+@Entity
+public class Image extends AbstractEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long advertisementId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "advertisement_id")
+    private Advertisement advertisement;
 }

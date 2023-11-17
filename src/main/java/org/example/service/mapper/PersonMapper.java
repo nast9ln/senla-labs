@@ -6,6 +6,8 @@ import org.example.entity.Person;
 import org.example.entity.Role;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+
 @Component
 public class PersonMapper {
 
@@ -21,7 +23,7 @@ public class PersonMapper {
                 .email(dto.getEmail())
                 .password(dto.getPassword())
                 .isDeleted(dto.isDeleted())
-                .roles(dto.getRoles().stream().map(this::toRole).toList())
+                .roles(new HashSet<>(dto.getRoles().stream().map(this::toRole).toList()))
                 .build();
     }
 

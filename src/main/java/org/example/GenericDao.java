@@ -1,10 +1,12 @@
 package org.example;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Optional;
+import org.example.entity.AbstractEntity;
 
-public interface GenericDao<T, PK extends Serializable> {
+import java.io.Serializable;
+import java.util.Optional;
+import java.util.Set;
+
+public interface GenericDao<T extends AbstractEntity, PK extends Serializable> {
 
     T create(T entity);
 
@@ -12,8 +14,10 @@ public interface GenericDao<T, PK extends Serializable> {
 
     void delete(PK id);
 
-    List<T> getAll();
+    Set<T> getAll();
 
     Optional<T> get(PK id);
+
+    void deleteAll();
 
 }

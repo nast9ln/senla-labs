@@ -23,7 +23,7 @@ public class AdvertisementControllerImpl implements AdvertisementController {
 
     @Override
     public void update(AdvertisementDto dto) {
-         advertisementService.update(dto);
+        advertisementService.update(dto);
     }
 
     @Override

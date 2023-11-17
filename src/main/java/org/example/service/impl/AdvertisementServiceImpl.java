@@ -1,23 +1,18 @@
 package org.example.service.impl;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.AdvertisementDto;
 import org.example.entity.Advertisement;
 import org.example.repository.AdvertisementRepository;
 import org.example.service.AdvertisementService;
 import org.example.service.mapper.AdvertisementMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class AdvertisementServiceImpl implements AdvertisementService {
     private final AdvertisementMapper advertisementDtoMapper;
-
     private final AdvertisementRepository advertisementRepository;
-
 
     @Override
     public AdvertisementDto create(AdvertisementDto dto) {

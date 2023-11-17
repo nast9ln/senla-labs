@@ -1,7 +1,5 @@
 package org.example.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.PersonDto;
 import org.example.service.impl.PersonServiceImpl;
@@ -13,14 +11,8 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class PersonControllerImpl implements PersonController {
-    private final ObjectMapper objectMapper;
     private final PersonServiceImpl personService;
     private static final Logger logger = LoggerFactory.getLogger(PersonControllerImpl.class);
-
-    public String parseToJson(PersonDto dto) throws JsonProcessingException {
-        logger.info("parseToJson");
-        return objectMapper.writeValueAsString(dto);
-    }
 
     @Override
     public PersonDto create(PersonDto dto) {

@@ -21,7 +21,7 @@
                     ('2023-09-23 00:00:00', 7, true),
                     ('2023-09-24 00:00:00', 7, true);</sql>
         <sql>INSERT INTO person (gender, first_name, last_name, birthday, city, phone, email, password, avatar,
-                                        is_deleted)
+                                 is_deleted)
              VALUES ('MAN', 'William', 'Wilson', '1987-12-18', 'Philadelphia', '7777777777', 'william@example.com',
                      'password6', NULL, false),
                     ('WOMAN', 'Olivia', 'Martinez', '1995-02-28', 'Phoenix', '3333333333', 'olivia@example.com',
@@ -43,7 +43,7 @@
                     ('WOMAN', 'Ava', 'Davis', '1990-09-02', 'Seattle', '6666666666', 'ava@example.com', 'password15',
                      NULL, false);</sql>
         <sql>INSERT INTO advertisement (person_id, category_id, top_param_id, created_data, header, cost, city,
-                                               description, status, main_image_id, is_deleted)
+                                        description, status, main_image_id, is_deleted)
              VALUES (1, 1, null, '2023-09-22 10:00:00', 'Sofa for sale', 500, 'New York', 'High-quality sofa for sale',
                      'Active', 2, false),
                     (2, 2, 2, '2023-09-23 12:00:00', 'Designer Dress', 200, 'Los Angeles',

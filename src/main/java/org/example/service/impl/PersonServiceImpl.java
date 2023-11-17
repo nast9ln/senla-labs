@@ -18,9 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -39,9 +37,9 @@ public class PersonServiceImpl implements PersonService {
         logger.info("create");
         Person person = personDtoMapper.toEntity(dto);
         person = personRepository.create(person);
-        List<Role> roles = new ArrayList<>();
+        Set<Role> roles = new HashSet<>();
         if (person.getRoles() == null)
-            person.setRoles(Arrays.asList(new Role(2L, RoleEnum.USER)));
+            person.setRoles(new HashSet<>(Arrays.asList(new Role(2L, RoleEnum.USER))));
         person.getRoles().forEach(r -> roleRepository.findByName(r.getName()).add(r));
         person.setRoles(roles);
         return personDtoMapper.toDto(person);
@@ -52,13 +50,12 @@ public class PersonServiceImpl implements PersonService {
     public PersonDto read(Long id) {
         logger.info("read");
         Person person = personRepository.get(id).orElseThrow();
-        List<Advertisement> advertisements=advertisementRepository.readByPersonId(id);
-        List<AdvertisementDto> advertisementDtos= new ArrayList<>();
+        List<Advertisement> advertisements = advertisementRepository.readByPersonId(id);
+        List<AdvertisementDto> advertisementDtos = new ArrayList<>();
 
-        for (Advertisement advertisement: advertisements){
-        advertisementDtos.add(advertisementDtoMapper.toDto(advertisement));
-    }
-
+        for (Advertisement advertisement : advertisements) {
+            advertisementDtos.add(advertisementDtoMapper.toDto(advertisement));
+        }
 
         PersonDto personDto = personDtoMapper.toDto(person);
         personDto.setAdvertisementDto(advertisementDtos);
@@ -79,5 +76,15 @@ public class PersonServiceImpl implements PersonService {
         logger.info("delete");
         advertisementRepository.deleteByPersonId(id);
         personRepository.delete(id);
+    }
+
+    @Transactional
+    public Set<Person> findAllWithJPQL() {
+        return personRepository.findAllWithJPQL();
+    }
+
+    @Transactional
+    public Set<Person> findAllWithEntityGraph() {
+        return personRepository.findAllWithEntityGraph();
     }
 }

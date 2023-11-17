@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 import org.example.entity.Person;
+import org.example.entity.TopParam;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -25,7 +26,7 @@ public class AdvertisementDto implements Serializable {
     private Long mainPictureId;
 
     @JsonProperty("topParamId")
-    private Long topParamId;
+    private TopParam topParamId;
 
     @JsonProperty("createdDate")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
