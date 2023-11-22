@@ -5,7 +5,7 @@ public interface CRUD<T> {
 
     T read(Long id);
 
-    T update(T entity);
+    void update(T entity);
 
     void delete(Long id);
 }
