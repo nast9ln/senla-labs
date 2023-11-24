@@ -1,7 +1,7 @@
 package org.example.entity;
 
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import org.example.enums.CategoryType;
 
 @Table(name = "category")

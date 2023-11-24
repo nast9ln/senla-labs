@@ -1,8 +1,8 @@
 package org.example.repository;
 
-import jakarta.persistence.EntityGraph;
-import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.*;
+import javax.persistence.EntityGraph;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
 import org.example.AbstractDaoImpl;
 import org.example.entity.Advertisement;
 import org.example.entity.Advertisement_;

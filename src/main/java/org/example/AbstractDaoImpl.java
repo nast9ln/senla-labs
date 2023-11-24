@@ -1,8 +1,8 @@
 package org.example;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.criteria.CriteriaQuery;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaQuery;
 import lombok.RequiredArgsConstructor;
 import org.example.entity.AbstractEntity;
 import org.springframework.transaction.annotation.Transactional;

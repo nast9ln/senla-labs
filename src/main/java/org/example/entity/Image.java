@@ -1,7 +1,7 @@
 package org.example.entity;
 
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Table(name = "image")
 @Entity
