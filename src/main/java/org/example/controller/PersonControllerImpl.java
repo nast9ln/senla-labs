@@ -18,7 +18,7 @@ public class PersonControllerImpl implements PersonController {
 
     @Override
     @PostMapping
-    public PersonDto create(PersonDto dto) {
+    public PersonDto create(@RequestBody PersonDto dto) {
         logger.info("create");
         return personService.create(dto);
     }
