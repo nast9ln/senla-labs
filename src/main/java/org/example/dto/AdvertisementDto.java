@@ -2,8 +2,10 @@ package org.example.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.example.entity.Person;
 import org.example.entity.TopParam;
 
@@ -12,15 +14,17 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AdvertisementDto implements Serializable {
     @JsonProperty("id")
     private Long id;
 
-    @JsonProperty("personId")
-    private Person person;
+    @JsonProperty("person")
+    private PersonDto person;
 
-    @JsonProperty("categoryId")
-    private Long categoryId;
+    @JsonProperty("category")
+    private Long category;
 
     @JsonProperty("mainPictureId")
     private Long mainPictureId;
@@ -53,3 +57,4 @@ public class AdvertisementDto implements Serializable {
     @JsonProperty("isDeleted")
     private boolean isDeleted;
 }
+

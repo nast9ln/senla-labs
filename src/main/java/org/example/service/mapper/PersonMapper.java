@@ -7,6 +7,7 @@ import org.example.entity.Role;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
+import java.util.stream.Collectors;
 
 @Component
 public class PersonMapper {
@@ -23,7 +24,7 @@ public class PersonMapper {
                 .email(dto.getEmail())
                 .password(dto.getPassword())
                 .isDeleted(dto.isDeleted())
-                .roles(new HashSet<>(dto.getRoles().stream().map(this::toRole).toList()))
+                .roles(new HashSet<>(dto.getRoles().stream().map(this::toRole).collect(Collectors.toList())))
                 .build();
     }
 
@@ -53,7 +54,7 @@ public class PersonMapper {
                 .email(entity.getEmail())
                 .password(entity.getPassword())
                 .isDeleted(entity.isDeleted())
-                .roles(entity.getRoles().stream().map(this::toRoleDto).toList())
+                .roles(entity.getRoles().stream().map(this::toRoleDto).collect(Collectors.toList()))
                 .build();
     }
 }

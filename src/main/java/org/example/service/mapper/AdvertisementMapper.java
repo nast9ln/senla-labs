@@ -1,16 +1,20 @@
 package org.example.service.mapper;
 
+import lombok.RequiredArgsConstructor;
 import org.example.dto.AdvertisementDto;
 import org.example.entity.Advertisement;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class AdvertisementMapper {
+
+    private final PersonMapper personMapper;
     public Advertisement toEntity(AdvertisementDto dto) {
         return Advertisement.builder()
                 .id(dto.getId())
-                .person(dto.getPerson())
-                .categoryId(dto.getCategoryId())
+                .person(personMapper.toEntity(dto.getPerson()))
+                .categoryId(dto.getCategory())
                 .mainImageId(dto.getMainPictureId())
                 .topParamId(dto.getTopParamId())
                 .createdDate(dto.getCreatedData())
@@ -25,8 +29,8 @@ public class AdvertisementMapper {
     public AdvertisementDto toDto(Advertisement entity) {
         return AdvertisementDto.builder()
                 .id(entity.getId())
-                .person(entity.getPerson())
-                .categoryId(entity.getCategoryId())
+                .person(personMapper.toDto(entity.getPerson()))
+                .category(entity.getCategoryId())
                 .mainPictureId(entity.getMainImageId())
                 .topParamId(entity.getTopParamId())
                 .createdData(entity.getCreatedDate())

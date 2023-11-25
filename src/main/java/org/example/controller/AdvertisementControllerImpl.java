@@ -3,21 +3,24 @@ package org.example.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.AdvertisementDto;
 import org.example.service.AdvertisementService;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
+@RequestMapping("/advertisement")
 @RequiredArgsConstructor
 public class AdvertisementControllerImpl implements AdvertisementController {
 
     private final AdvertisementService advertisementService;
 
     @Override
+    @PostMapping
     public AdvertisementDto create(AdvertisementDto dto) {
         return advertisementService.create(dto);
     }
 
     @Override
-    public AdvertisementDto read(Long id) {
+    @GetMapping
+    public AdvertisementDto read(@RequestParam("id") Long id) {
         return advertisementService.read(id);
     }
 
