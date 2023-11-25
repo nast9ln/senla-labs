@@ -7,5 +7,5 @@ public class CommentDto {
     private Long userId;
     private Long advertisementId;
     private String text;
-    private LocalDateTime createdData;
+    private Long createdData;
 }

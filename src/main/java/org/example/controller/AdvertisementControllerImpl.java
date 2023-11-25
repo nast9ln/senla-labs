@@ -3,8 +3,12 @@ package org.example.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.AdvertisementDto;
 import org.example.service.AdvertisementService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
+@Validated
 @RestController
 @RequestMapping("/advertisement")
 @RequiredArgsConstructor
@@ -14,7 +18,7 @@ public class AdvertisementControllerImpl implements AdvertisementController {
 
     @Override
     @PostMapping
-    public AdvertisementDto create(AdvertisementDto dto) {
+    public AdvertisementDto create(@Valid @RequestBody AdvertisementDto dto) {
         return advertisementService.create(dto);
     }
 
@@ -25,12 +29,14 @@ public class AdvertisementControllerImpl implements AdvertisementController {
     }
 
     @Override
-    public void update(AdvertisementDto dto) {
+    @PutMapping
+    public void update(@RequestBody AdvertisementDto dto) {
         advertisementService.update(dto);
     }
 
     @Override
-    public void delete(Long id) {
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable Long id) {
         advertisementService.delete(id);
     }
 }

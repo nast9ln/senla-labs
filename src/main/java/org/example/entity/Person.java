@@ -4,6 +4,7 @@ import javax.persistence.*;
 import lombok.*;
 import org.example.enums.Gender;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,7 +28,7 @@ public class Person extends AbstractEntity {
     @Column(name = "last_name")
     private String lastName;
     @Column
-    private LocalDate birthday;
+    private Instant birthday;
     @Column
     private String city;
     @Column
@@ -47,6 +48,6 @@ public class Person extends AbstractEntity {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "person", fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Advertisement> advertisements = new HashSet<>();
 }

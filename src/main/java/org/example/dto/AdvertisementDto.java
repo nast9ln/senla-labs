@@ -1,16 +1,15 @@
 package org.example.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.entity.Person;
 import org.example.entity.TopParam;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -20,6 +19,7 @@ public class AdvertisementDto implements Serializable {
     @JsonProperty("id")
     private Long id;
 
+    @NotNull
     @JsonProperty("person")
     private PersonDto person;
 
@@ -33,8 +33,7 @@ public class AdvertisementDto implements Serializable {
     private TopParam topParamId;
 
     @JsonProperty("createdDate")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdData;
+    private Long createdData;
 
     @JsonProperty("cost")
     private int cost;

@@ -4,6 +4,6 @@ import java.time.LocalDateTime;
 
 public class TopParamDto {
     private Long id;
-    private LocalDateTime endDateInTop;
+    private Long endDateInTop;
     private boolean isTop;
 }

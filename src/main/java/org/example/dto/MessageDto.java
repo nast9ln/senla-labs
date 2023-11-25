@@ -7,5 +7,5 @@ public class MessageDto {
     private Long senderId;
     private Long receiverId;
     private String text;
-    private LocalDateTime createdData;
+    private Long createdData;
 }

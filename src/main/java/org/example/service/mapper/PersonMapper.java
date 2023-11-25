@@ -5,20 +5,23 @@ import org.example.dto.RoleDto;
 import org.example.entity.Person;
 import org.example.entity.Role;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
 @Component
 public class PersonMapper {
 
+   @Transactional
     public Person toEntity(PersonDto dto) {
         return Person.builder()
                 .id(dto.getId())
                 .gender(dto.getGender())
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())
-                .birthday(dto.getBirthday())
+                .birthday(Instant.ofEpochSecond(dto.getBirthday()))
                 .city(dto.getCity())
                 .phone(dto.getPhone())
                 .email(dto.getEmail())
@@ -42,13 +45,14 @@ public class PersonMapper {
                 .build();
     }
 
+    @Transactional
     public PersonDto toDto(Person entity) {
         return PersonDto.builder()
                 .id(entity.getId())
                 .gender(entity.getGender())
                 .firstName(entity.getFirstName())
                 .lastName(entity.getLastName())
-                .birthday(entity.getBirthday())
+                .birthday(entity.getBirthday().getEpochSecond())
                 .city(entity.getCity())
                 .phone(entity.getPhone())
                 .email(entity.getEmail())

@@ -25,7 +25,7 @@ public class PersonDto {
     @JsonProperty("lastName")
     private String lastName;
     @JsonProperty("birthday")
-    private LocalDate birthday;
+    private Long birthday;
     @JsonProperty("city")
     private String city;
     @JsonProperty("phone")

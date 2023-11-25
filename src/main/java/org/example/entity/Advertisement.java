@@ -4,6 +4,7 @@ import javax.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,19 +21,18 @@ public class Advertisement extends AbstractEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person person;
 
     @Column(name = "category_id")
     private Long categoryId;
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "top_param_id", referencedColumnName = "id")
     private TopParam topParamId;
 
     @Column(name = "created_data")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdDate;
+    private Instant createdDate;
 
     @Column
     private int cost;
@@ -60,5 +60,11 @@ public class Advertisement extends AbstractEntity {
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdDate = Instant.now();
+    }
+
 
 }
