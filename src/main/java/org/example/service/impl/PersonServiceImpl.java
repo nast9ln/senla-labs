@@ -7,6 +7,7 @@ import org.example.entity.Advertisement;
 import org.example.entity.Person;
 import org.example.entity.Role;
 import org.example.enums.RoleEnum;
+import org.example.exception.EntityNotFoundException;
 import org.example.repository.AdvertisementRepository;
 import org.example.repository.PersonRepository;
 import org.example.repository.RoleRepository;
@@ -17,10 +18,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.*;
 
 @Component
+@Transactional
 @RequiredArgsConstructor
 public class PersonServiceImpl implements PersonService {
     private static final Logger logger = LoggerFactory.getLogger(PersonServiceImpl.class);
@@ -32,7 +35,6 @@ public class PersonServiceImpl implements PersonService {
     private final RoleRepository roleRepository;
 
     @Override
-    @Transactional
     public PersonDto create(PersonDto dto) {
         logger.info("create");
         Person person = personDtoMapper.toEntity(dto);
@@ -46,10 +48,9 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    @Transactional
     public PersonDto read(Long id) {
         logger.info("read");
-        Person person = personRepository.get(id).orElseThrow();
+        Person person = personRepository.get(id).orElseThrow(()->new EntityNotFoundException("Не найден пользователь с id {0}", id));
         List<Advertisement> advertisements = advertisementRepository.readByPersonId(id);
         List<AdvertisementDto> advertisementDtos = new ArrayList<>();
 
@@ -63,27 +64,26 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    @Transactional
     public void update(PersonDto dto) {
         logger.info("update");
-        Person person = personDtoMapper.toEntity(dto);
-        personRepository.update(person);
+        Person newPerson = personDtoMapper.toEntity(dto);
+        Person exPerson = personRepository.get(dto.getId()).orElseThrow(()-> new EntityNotFoundException("Не найдено объявление с id {0}", dto.getId()));
+        personDtoMapper.update(exPerson, newPerson);
+        personRepository.update(exPerson);
     }
 
     @Override
-    @Transactional
     public void delete(Long id) {
         logger.info("delete");
+        Person person = personRepository.get(id).orElseThrow(()->new EntityNotFoundException("Не найден пользователь с id {0}", id));
         advertisementRepository.deleteByPersonId(id);
         personRepository.delete(id);
     }
 
-    @Transactional
     public Set<Person> findAllWithJPQL() {
         return personRepository.findAllWithJPQL();
     }
 
-    @Transactional
     public Set<Person> findAllWithEntityGraph() {
         return personRepository.findAllWithEntityGraph();
     }

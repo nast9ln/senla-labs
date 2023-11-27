@@ -3,6 +3,7 @@ package org.example.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.AdvertisementDto;
 import org.example.service.AdvertisementService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,14 +30,15 @@ public class AdvertisementControllerImpl implements AdvertisementController {
     }
 
     @Override
+    @Transactional
     @PutMapping
     public void update(@RequestBody AdvertisementDto dto) {
         advertisementService.update(dto);
     }
 
     @Override
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable Long id) {
+    @DeleteMapping("/{advertisement-id}")
+    public void delete(@PathVariable("advertisement-id") Long id) {
         advertisementService.delete(id);
     }
 }

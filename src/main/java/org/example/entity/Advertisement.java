@@ -2,10 +2,8 @@ package org.example.entity;
 
 import javax.persistence.*;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,13 +47,13 @@ public class Advertisement extends AbstractEntity {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "advertisement")
-    private List<Comment> comments = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "advertisement", cascade = CascadeType.ALL)
+    private List<Comment> comments;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "advertisement")
-    private List<Image> image = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "advertisement", cascade = CascadeType.ALL)
+    private List<Image> images;
 
 
     @Column(name = "is_deleted")

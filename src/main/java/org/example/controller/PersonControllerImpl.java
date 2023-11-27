@@ -18,6 +18,7 @@ public class PersonControllerImpl implements PersonController {
 
     @Override
     @PostMapping
+
     public PersonDto create(@RequestBody PersonDto dto) {
         logger.info("create");
         return personService.create(dto);
@@ -32,7 +33,7 @@ public class PersonControllerImpl implements PersonController {
 
     @Override
     @PutMapping
-    public void update(PersonDto dto) {
+    public void update(@RequestBody PersonDto dto) {
         logger.info("update");
         personService.update(dto);
     }

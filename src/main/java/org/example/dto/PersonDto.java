@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.enums.Gender;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class PersonDto {
     @JsonProperty("lastName")
     private String lastName;
     @JsonProperty("birthday")
-    private Long birthday;
+    private Instant birthday;
     @JsonProperty("city")
     private String city;
     @JsonProperty("phone")

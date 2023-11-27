@@ -48,6 +48,6 @@ public class Person extends AbstractEntity {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "person", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Advertisement> advertisements = new HashSet<>();
 }

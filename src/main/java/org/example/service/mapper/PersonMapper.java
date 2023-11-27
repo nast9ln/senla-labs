@@ -14,14 +14,13 @@ import java.util.stream.Collectors;
 @Component
 public class PersonMapper {
 
-   @Transactional
     public Person toEntity(PersonDto dto) {
         return Person.builder()
                 .id(dto.getId())
                 .gender(dto.getGender())
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())
-                .birthday(Instant.ofEpochSecond(dto.getBirthday()))
+                .birthday((dto.getBirthday()))
                 .city(dto.getCity())
                 .phone(dto.getPhone())
                 .email(dto.getEmail())
@@ -45,14 +44,13 @@ public class PersonMapper {
                 .build();
     }
 
-    @Transactional
     public PersonDto toDto(Person entity) {
         return PersonDto.builder()
                 .id(entity.getId())
                 .gender(entity.getGender())
                 .firstName(entity.getFirstName())
                 .lastName(entity.getLastName())
-                .birthday(entity.getBirthday().getEpochSecond())
+                .birthday(entity.getBirthday())
                 .city(entity.getCity())
                 .phone(entity.getPhone())
                 .email(entity.getEmail())
@@ -60,5 +58,17 @@ public class PersonMapper {
                 .isDeleted(entity.isDeleted())
                 .roles(entity.getRoles().stream().map(this::toRoleDto).collect(Collectors.toList()))
                 .build();
+    }
+
+    public void update(Person exPerson, Person newPerson) {
+        exPerson.setGender(newPerson.getGender());
+        exPerson.setFirstName(newPerson.getFirstName());
+        exPerson.setLastName(newPerson.getLastName());
+        exPerson.setBirthday(newPerson.getBirthday());
+        exPerson.setCity(newPerson.getCity());
+        exPerson.setPhone(newPerson.getPhone());
+        exPerson.setEmail(newPerson.getEmail());
+        exPerson.setPassword(newPerson.getPassword());
+        exPerson.setDeleted(newPerson.isDeleted());
     }
 }

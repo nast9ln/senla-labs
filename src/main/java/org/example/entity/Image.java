@@ -12,4 +12,8 @@ public class Image extends AbstractEntity {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "advertisement_id")
     private Advertisement advertisement;
+    @Column(name = "path")
+    private byte[] path;
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
 }

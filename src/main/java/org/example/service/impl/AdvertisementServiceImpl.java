@@ -11,11 +11,13 @@ import org.example.repository.PersonRepository;
 import org.example.service.AdvertisementService;
 import org.example.service.mapper.AdvertisementMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.Objects;
 
 @Component
+@Transactional
 @RequiredArgsConstructor
 public class AdvertisementServiceImpl implements AdvertisementService {
     private final AdvertisementMapper advertisementDtoMapper;
@@ -24,9 +26,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     @Override
     public AdvertisementDto create(AdvertisementDto dto) {
-        if (Objects.isNull(dto.getPerson())) {
-            throw new RelativeNotFoundException("При создании объявления пользователь не может быть null");
-        }
+        dto.setId(null);
         Advertisement advertisement = advertisementDtoMapper.toEntity(dto);
         Long personId = advertisement.getPerson().getId();
         Person person = personRepository.get(personId)
@@ -43,15 +43,15 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     @Override
     public void update(AdvertisementDto dto) {
-        if (Objects.isNull(dto.getPerson())) {
-            throw new RelativeNotFoundException("При обновлении объявления пользователь не может быть null");
-        }
-        Advertisement advertisement = advertisementDtoMapper.toEntity(dto);
-        advertisementRepository.update(advertisement);
+        Advertisement newAd = advertisementDtoMapper.toEntity(dto);
+        Advertisement exAd = advertisementRepository.get(dto.getId()).orElseThrow(() -> new EntityNotFoundException("Не найдено объявление с id {0}", dto.getId()));
+        advertisementDtoMapper.update(exAd, newAd);
+        advertisementRepository.update(exAd);
     }
 
     @Override
     public void delete(Long id) {
+        Advertisement advertisement=advertisementRepository.get(id).orElseThrow(()->new EntityNotFoundException("Не найдено объявление с id {0}", id));
         advertisementRepository.delete(id);
     }
 }

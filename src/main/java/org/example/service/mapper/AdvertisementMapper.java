@@ -50,4 +50,15 @@ public class AdvertisementMapper {
                 .status(entity.getStatus())
                 .build();
     }
+
+    public void update(Advertisement exAd, Advertisement newAd) {
+        exAd.setHeader(newAd.getHeader());
+        exAd.setCity(newAd.getCity());
+        exAd.setTopParamId(newAd.getTopParamId());
+        exAd.setCost(newAd.getCost());
+        exAd.setDescription(newAd.getDescription());
+        exAd.setStatus(newAd.getStatus());
+        exAd.setMainImageId(newAd.getMainImageId());
+        exAd.setDeleted(newAd.isDeleted());
+    }
 }
