@@ -14,8 +14,8 @@ import javax.sql.DataSource;
 @RequiredArgsConstructor
 public class LiquibaseConfig {
     private final DataSource dataSource;
-//    @Value("${liquibase.changeLogFile}")
-    private String changelogFile = "classpath:changelog.xml";
+    @Value("${liquibase.changeLogFile}")
+    private String changelogFile;
 
     @Bean
     public SpringLiquibase liquibase() {

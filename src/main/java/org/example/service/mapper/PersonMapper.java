@@ -56,7 +56,7 @@ public class PersonMapper {
                 .email(entity.getEmail())
                 .password(entity.getPassword())
                 .isDeleted(entity.isDeleted())
-                .roles(entity.getRoles().stream().map(this::toRoleDto).collect(Collectors.toList()))
+                .roles(entity.getRoles().stream().map(this::toRoleDto).collect(Collectors.toSet()))
                 .build();
     }
 

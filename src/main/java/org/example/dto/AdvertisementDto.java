@@ -10,6 +10,7 @@ import org.example.entity.TopParam;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.Instant;
 
 @Data
 @Builder
@@ -24,7 +25,7 @@ public class AdvertisementDto implements Serializable {
     private PersonDto person;
 
     @JsonProperty("category")
-    private Long category;
+    private Long categoryId;
 
     @JsonProperty("mainPictureId")
     private Long mainPictureId;
@@ -33,7 +34,7 @@ public class AdvertisementDto implements Serializable {
     private TopParam topParamId;
 
     @JsonProperty("createdDate")
-    private Long createdData;
+    private Instant createdDate;
 
     @JsonProperty("cost")
     private int cost;
@@ -41,9 +42,13 @@ public class AdvertisementDto implements Serializable {
     @JsonProperty("city")
     private String city;
 
+    @NotNull
+    @NotBlank
     @JsonProperty("header")
     private String header;
 
+    @NotNull
+    @NotBlank
     @JsonProperty("description")
     private String description;
 

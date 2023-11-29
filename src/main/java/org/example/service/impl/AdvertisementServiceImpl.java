@@ -13,7 +13,6 @@ import org.example.service.mapper.AdvertisementMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
 import java.util.Objects;
 
 @Component
@@ -29,29 +28,32 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         dto.setId(null);
         Advertisement advertisement = advertisementDtoMapper.toEntity(dto);
         Long personId = advertisement.getPerson().getId();
+        if (Objects.isNull(personId)) {
+            throw new RelativeNotFoundException("Person id must be not null");
+        }
         Person person = personRepository.get(personId)
-                .orElseThrow(() -> new EntityNotFoundException("Пользователь для объявления не найден с id: {0}", personId));
+                .orElseThrow(() -> new EntityNotFoundException("The user for the ad was not found with the id: {0}", personId));
         advertisement.setPerson(person);
         return advertisementDtoMapper.toDto(advertisementRepository.create(advertisement));
     }
 
     @Override
     public AdvertisementDto read(Long id) {
-        Advertisement advertisement = advertisementRepository.get(id).orElseThrow();
+        Advertisement advertisement = advertisementRepository.get(id).orElseThrow(() -> new EntityNotFoundException("Ad not found with id: {0}", id));
         return advertisementDtoMapper.toDto(advertisement);
     }
 
     @Override
     public void update(AdvertisementDto dto) {
         Advertisement newAd = advertisementDtoMapper.toEntity(dto);
-        Advertisement exAd = advertisementRepository.get(dto.getId()).orElseThrow(() -> new EntityNotFoundException("Не найдено объявление с id {0}", dto.getId()));
+        Advertisement exAd = advertisementRepository.get(dto.getId()).orElseThrow(() -> new EntityNotFoundException("Ad not found with id: {0}", dto.getId()));
         advertisementDtoMapper.update(exAd, newAd);
         advertisementRepository.update(exAd);
     }
 
     @Override
     public void delete(Long id) {
-        Advertisement advertisement=advertisementRepository.get(id).orElseThrow(()->new EntityNotFoundException("Не найдено объявление с id {0}", id));
+        Advertisement advertisement = advertisementRepository.get(id).orElseThrow(() -> new EntityNotFoundException("Ad not found with id: {0}", id));
         advertisementRepository.delete(id);
     }
 }

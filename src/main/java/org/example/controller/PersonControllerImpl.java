@@ -2,6 +2,7 @@ package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.dto.PersonDto;
+import org.example.exception.EntityNotFoundException;
 import org.example.service.impl.PersonServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,6 @@ public class PersonControllerImpl implements PersonController {
 
     @Override
     @PostMapping
-
     public PersonDto create(@RequestBody PersonDto dto) {
         logger.info("create");
         return personService.create(dto);
