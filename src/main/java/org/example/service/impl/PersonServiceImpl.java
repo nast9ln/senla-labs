@@ -11,6 +11,7 @@ import org.example.exception.EntityNotFoundException;
 import org.example.repository.AdvertisementRepository;
 import org.example.repository.PersonRepository;
 import org.example.repository.RoleRepository;
+import org.example.service.AdvertisementService;
 import org.example.service.PersonService;
 import org.example.service.mapper.AdvertisementMapper;
 import org.example.service.mapper.PersonMapper;
@@ -20,7 +21,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -34,6 +34,7 @@ public class PersonServiceImpl implements PersonService {
     private final PersonMapper personDtoMapper;
     private final PersonRepository personRepository;
     private final AdvertisementRepository advertisementRepository;
+    private final AdvertisementService advertisementService;
     private final AdvertisementMapper advertisementDtoMapper;
     private final RoleRepository roleRepository;
 
@@ -43,9 +44,9 @@ public class PersonServiceImpl implements PersonService {
         dto.setId(null);
         Person person = personDtoMapper.toEntity(dto);
         if (person.getRoles() == null || person.getRoles().isEmpty()) {
-            person.getRoles().add(roleRepository.findByName(RoleEnum.USER));
+            person.getRoles().add(roleRepository.findById(RoleEnum.USER.getCode()).orElseThrow());
         } else {
-            Set<Role> roles = person.getRoles().stream().map(role -> roleRepository.findByName(role.getName())).collect(Collectors.toSet());
+            Set<Role> roles = person.getRoles().stream().map(role -> roleRepository.findById(role.getName().getCode()).orElseThrow()).collect(Collectors.toSet());
             person.setRoles(roles);
         }
         person = personRepository.save(person);
@@ -56,7 +57,7 @@ public class PersonServiceImpl implements PersonService {
     public PersonDto read(Long id) {
         logger.info("read");
         Person person = personRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found with id {0}:", id));
-        List<Advertisement> advertisements = advertisementRepository.readByPersonId(id);
+        List<Advertisement> advertisements = advertisementRepository.findByPersonId(id);
         List<AdvertisementDto> advertisementDtos = new ArrayList<>();
 
         for (Advertisement advertisement : advertisements) {
@@ -81,7 +82,8 @@ public class PersonServiceImpl implements PersonService {
     public void delete(Long id) {
         logger.info("delete");
         Person person = personRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found with id {0}", id));
-        advertisementRepository.deleteByPersonId(id);
-        personRepository.deleteById(id);
+        advertisementService.deleteByPersonId(person.getId());
+        person.setDeleted(true);
+        personRepository.save(person);
     }
 }

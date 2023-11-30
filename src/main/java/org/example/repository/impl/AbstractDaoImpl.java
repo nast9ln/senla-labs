@@ -31,6 +31,7 @@ public abstract class AbstractDaoImpl<T extends SoftDeletableEntity, PK extends 
         return resultSet;
     }
 
+
     @Override
     @Transactional
     public Optional<T> get(PK id) {

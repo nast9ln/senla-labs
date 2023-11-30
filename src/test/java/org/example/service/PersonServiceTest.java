@@ -2,6 +2,7 @@ package org.example.service;
 
 import org.example.dto.PersonDto;
 import org.example.entity.Person;
+import org.example.entity.Role;
 import org.example.repository.AdvertisementRepository;
 import org.example.repository.PersonRepository;
 import org.example.repository.RoleRepository;
@@ -30,6 +31,8 @@ public class PersonServiceTest {
 
     @Mock
     private AdvertisementRepository advertisementRepository;
+    @Mock
+    private AdvertisementService advertisementService;
 
     @Mock
     private AdvertisementMapper advertisementMapper;
@@ -49,6 +52,7 @@ public class PersonServiceTest {
         Person person = new Person();
         when(personMapper.toEntity(personDto)).thenReturn(person);
         when(personRepository.save(person)).thenReturn(person);
+        when(roleRepository.findById(any())).thenReturn(Optional.of(new Role()));
 
         PersonDto result = personService.create(personDto);
 
@@ -66,7 +70,7 @@ public class PersonServiceTest {
         personService.read(personId);
 
         verify(personRepository, times(1)).findById(personId);
-        verify(advertisementRepository, times(1)).readByPersonId(personId);
+        verify(advertisementRepository, times(1)).findByPersonId(personId);
     }
 
     @Test
@@ -84,10 +88,12 @@ public class PersonServiceTest {
     public void testDelete() {
         Long personId = 1L;
         Person person = new Person();
+        person.setId(personId);
         when(personRepository.findById(personId)).thenReturn(Optional.of(person));
+        when(advertisementService.deleteByPersonId(personId)).thenReturn(true);
         personService.delete(personId);
 
-        verify(advertisementRepository, times(1)).deleteByPersonId(personId);
-        verify(personRepository, times(1)).deleteById(personId);
+        verify(advertisementService, times(1)).deleteByPersonId(personId);
+        verify(personRepository, times(1)).save(person);
     }
 }

@@ -1,11 +1,10 @@
 package org.example.entity;
 
-import javax.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.*;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter

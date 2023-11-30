@@ -1,7 +1,6 @@
 package org.example.exception;
 
 import java.text.MessageFormat;
-import java.util.Objects;
 
 public class EntityNotFoundException extends RuntimeException {
 

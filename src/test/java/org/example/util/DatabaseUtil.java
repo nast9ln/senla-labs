@@ -37,7 +37,7 @@ public class DatabaseUtil {
         return personRepository.save(build);
     }
 
-    public Advertisement createAdvertisement(){
+    public Advertisement createAdvertisement() {
         Person person = createPerson();
         Advertisement advertisement = Advertisement.builder()
                 .person(person)
@@ -51,7 +51,7 @@ public class DatabaseUtil {
                 .status("ACTIVETest")
                 .mainImageId(null)
                 .build();
-        return advertisementRepository.create(advertisement);
+        return advertisementRepository.save(advertisement);
     }
 
 }

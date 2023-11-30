@@ -1,6 +1,5 @@
 package org.example.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.config.TestConnectionConfig;
 import org.example.dto.AdvertisementDto;
@@ -58,11 +57,11 @@ public class AdvertisementControllerTest {
         AdvertisementDto expected = DataFactory.getAdvertisementDtoForTest(null);
         expected.setPerson(personDto);
         MvcResult mvcResult = mockMvc.perform(post("/advertisement")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(expected)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(expected)))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
-        AdvertisementDto actual = objectMapper.readValue(mvcResult.getResponse().getContentAsString(),AdvertisementDto.class);
+        AdvertisementDto actual = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), AdvertisementDto.class);
         Assert.assertEquals(expected.getDescription(), actual.getDescription());
     }
 
@@ -71,7 +70,7 @@ public class AdvertisementControllerTest {
         Advertisement expected = databaseUtil.createAdvertisement();
 
         MvcResult mvcResult = mockMvc.perform(get("/advertisement/{id}", expected.getId())
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
         AdvertisementDto actual = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), AdvertisementDto.class);
@@ -84,15 +83,15 @@ public class AdvertisementControllerTest {
         AdvertisementDto expected = DataFactory.getAdvertisementDtoForTest(advertisement.getId());
 
         MvcResult mvcResult = mockMvc.perform(put("/advertisement")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(expected)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(expected)))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
 
         Assert.assertEquals(200, mvcResult.getResponse().getStatus());
 
         mvcResult = mockMvc.perform(get("/advertisement/{id}", expected.getId())
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
 
@@ -103,9 +102,9 @@ public class AdvertisementControllerTest {
 
 
     @Test
-    public void testDeleteAdvertisement () throws Exception {
+    public void testDeleteAdvertisement() throws Exception {
         Long id = databaseUtil.createAdvertisement().getId();
-        MvcResult mvcResult= mockMvc.perform(delete("/advertisement/{id}", id))
+        MvcResult mvcResult = mockMvc.perform(delete("/advertisement/{id}", id))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
         Assert.assertEquals(200, mvcResult.getResponse().getStatus());

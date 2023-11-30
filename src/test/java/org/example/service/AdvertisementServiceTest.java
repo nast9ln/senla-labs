@@ -49,53 +49,30 @@ public class AdvertisementServiceTest {
         advertisement.setPerson(person);
         when(advertisementDtoMapper.toEntity(dto)).thenReturn(advertisement);
         when(personRepository.findById(anyLong())).thenReturn(Optional.of(new Person()));
-        when(advertisementRepository.create(any(Advertisement.class))).thenReturn(advertisement);
+        when(advertisementRepository.save(any(Advertisement.class))).thenReturn(advertisement);
 
         AdvertisementDto result = advertisementService.create(dto);
 
         verify(advertisementDtoMapper, times(1)).toEntity(dto);
         verify(personRepository, times(1)).findById(anyLong());
-        verify(advertisementRepository, times(1)).create(advertisement);
+        verify(advertisementRepository, times(1)).save(advertisement);
     }
 
     @Test
     public void testRead() {
         long adId = 1L;
-      //  Advertisement advertisement = new Advertisement();
-        // AdvertisementDto expectedDto = new AdvertisementDto();
 
-        Advertisement advertisement = DataFactory.getAdvertisementForTest(null);
+        Advertisement advertisement = DataFactory.getAdvertisementForTest(adId);
         AdvertisementDto expectedDto = DataFactory.getAdvertisementDtoForTest(null);
-        when(advertisementRepository.get(adId)).thenReturn(Optional.of(advertisement));
+        when(advertisementRepository.findById(adId)).thenReturn(Optional.of(advertisement));
         when(advertisementDtoMapper.toDto(advertisement)).thenReturn(expectedDto);
 
         AdvertisementDto result = advertisementService.read(adId);
 
-        verify(advertisementRepository, times(1)).get(adId);
+        verify(advertisementRepository, times(1)).findById(adId);
         verify(advertisementDtoMapper, times(1)).toDto(advertisement);
     }
 
-//    @Test(expected = EntityNotFoundException.class)
-//    public void testReadWithEntityNotFoundException() {
-//        Advertisement advertisement = DataFactory.getAdvertisementForTest(1L);
-//        when(advertisementRepository.get(advertisement.getId())).thenReturn(null);
-//
-//        advertisementService.read(1L);
-//
-//        verify(advertisementRepository, times(1)).get(advertisement.getId());
-//        verify(advertisementDtoMapper, never()).toDto(any());
-//    }
-
-//    @Test(expected = EntityNotFoundException.class)
-//    public void testReadWithEntityNotFoundException() {
-//        Advertisement advertisement = DataFactory.getAdvertisementForTest(1L);
-//        when(advertisementRepository.get(advertisement.getId())).thenReturn(null);
-//
-//        advertisementService.read(advertisement.getId());
-//
-//        verify(advertisementRepository, times(1)).get(advertisement.getId());
-//        verify(advertisementDtoMapper, never()).toDto(any());
-//    }
 
     @Test
     public void testUpdate() {
@@ -103,48 +80,47 @@ public class AdvertisementServiceTest {
         Advertisement newAd = new Advertisement();
         Advertisement exAd = new Advertisement();
         when(advertisementDtoMapper.toEntity(dto)).thenReturn(newAd);
-        when(advertisementRepository.get(dto.getId())).thenReturn(Optional.of(exAd));
+        when(advertisementRepository.findById(dto.getId())).thenReturn(Optional.of(exAd));
 
         advertisementService.update(dto);
 
         verify(advertisementDtoMapper, times(1)).toEntity(dto);
-        verify(advertisementRepository, times(1)).get(dto.getId());
+        verify(advertisementRepository, times(1)).findById(dto.getId());
         verify(advertisementDtoMapper, times(1)).update(exAd, newAd);
-        verify(advertisementRepository, times(1)).update(exAd);
+        verify(advertisementRepository, times(1)).save(exAd);
     }
 
     @Test(expected = EntityNotFoundException.class)
     public void testUpdateWithEntityNotFoundException() {
         AdvertisementDto dto = new AdvertisementDto();
         when(advertisementDtoMapper.toEntity(dto)).thenReturn(new Advertisement());
-        when(advertisementRepository.get(dto.getId())).thenReturn(Optional.empty());
+        when(advertisementRepository.findById(dto.getId())).thenReturn(Optional.empty());
 
         advertisementService.update(dto);
         verify(advertisementDtoMapper, times(1)).toEntity(dto);
-        verify(advertisementRepository, times(1)).get(dto.getId());
+        verify(advertisementRepository, times(1)).findById(dto.getId());
         verify(advertisementDtoMapper, never()).update(any(), any());
-        verify(advertisementRepository, never()).update(any());
+        verify(advertisementRepository, never()).save(any());
     }
 
     @Test
     public void testDelete() {
         long adId = 1L;
         Advertisement advertisement = new Advertisement();
-        when(advertisementRepository.get(adId)).thenReturn(Optional.of(advertisement));
+        when(advertisementRepository.findById(adId)).thenReturn(Optional.of(advertisement));
 
         advertisementService.delete(adId);
 
-        verify(advertisementRepository, times(1)).get(adId);
-        verify(advertisementRepository, times(1)).delete(adId);
+        verify(advertisementRepository, times(1)).findById(adId);
+        verify(advertisementRepository, never()).delete(advertisement);
     }
 
     @Test(expected = EntityNotFoundException.class)
     public void testDeleteWithEntityNotFoundException() {
-        long adId = 1L;
-        when(advertisementRepository.get(adId)).thenReturn(Optional.empty());
-        advertisementService.delete(1L);
-        verify(advertisementRepository, times(1)).get(adId);
-        verify(advertisementRepository, never()).delete(anyLong());
+        Long adId = 1123123L;
+        when(advertisementRepository.findById(adId)).thenReturn(Optional.empty());
+        advertisementService.delete(adId);
+        verify(advertisementRepository, times(1)).findById(adId);
     }
 
 }

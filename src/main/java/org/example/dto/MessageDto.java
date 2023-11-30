@@ -1,7 +1,5 @@
 package org.example.dto;
 
-import java.time.LocalDateTime;
-
 public class MessageDto {
     private Long id;
     private Long senderId;

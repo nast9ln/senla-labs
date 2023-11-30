@@ -5,5 +5,15 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <include file="db/changelog.xml" relativeToChangelogFile="true"/>
+    <include file="db/sql/001.create-role-table.xml" relativeToChangelogFile="true"/>
+    <include file="db/sql/002.create-person_role-table.xml" relativeToChangelogFile="true"/>
+    <include file="db/sql/003.create-person-table.xml" relativeToChangelogFile="true"/>
+    <include file="db/sql/004.create-advertisement-table.xml" relativeToChangelogFile="true"/>
+    <include file="db/sql/005.create-top_param-table.xml" relativeToChangelogFile="true"/>
+    <include file="db/sql/006.create-category-table.xml" relativeToChangelogFile="true"/>
+    <include file="db/sql/007.create-message-table.xml" relativeToChangelogFile="true"/>
+    <include file="db/sql/008.create-image-table.xml" relativeToChangelogFile="true"/>
+    <include file="db/sql/009.create-comment-table.xml" relativeToChangelogFile="true"/>
+    <include file="db/sql/010.add-foreign-key.xml" relativeToChangelogFile="true"/>
+    <include file="db/sql/011.insert-values.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

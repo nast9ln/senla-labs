@@ -5,9 +5,7 @@ import org.example.dto.RoleDto;
 import org.example.entity.Person;
 import org.example.entity.Role;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.stream.Collectors;

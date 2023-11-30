@@ -16,13 +16,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -35,44 +31,6 @@ public class AdvertisementRepositoryTest extends TestCase {
 
     @Autowired
     private PersonRepository personRepository;
-
-    @PersistenceContext
-    protected EntityManager entityManager;
-
-    @Test
-    public void testDeleteByPersonId() {
-
-        Person person1 = personRepository.save(Person.builder()
-                .gender(Gender.WOMAN)
-                .firstName("test1")
-                .lastName("test1")
-                .birthday(LocalDate.of(2005, 1, 14).atStartOfDay().toInstant(ZoneOffset.UTC))
-                .city("Vitebsk")
-                .phone("+211")
-                .email("nast9ln@h.com")
-                .password("1202")
-                .isDeleted(false)
-                .roles(Set.of(new Role(RoleEnum.USER)))
-                .build());
-
-        advertisementRepository.create(Advertisement.builder()
-                .person(person1)
-                .categoryId(null)
-                .topParamId(null)
-                .createdDate(LocalDateTime.now().toInstant(ZoneOffset.UTC))
-                .cost(100)
-                .city("Minsk")
-                .header("red fur")
-                .description("new red fur")
-                .status("ACTIVE")
-                .mainImageId(null)
-                .isDeleted(false)
-                .build());
-
-
-        advertisementRepository.deleteByPersonId(person1.getId());
-        Assert.assertEquals(Optional.empty(), advertisementRepository.get(person1.getId()));
-    }
 
     @Test
     @Transactional
@@ -103,7 +61,7 @@ public class AdvertisementRepositoryTest extends TestCase {
                 .roles(Set.of(new Role(RoleEnum.USER)))
                 .build());
 
-        advertisementRepository.create(Advertisement.builder()
+        advertisementRepository.save(Advertisement.builder()
                 .person(person1)
                 .categoryId(null)
                 .topParamId(null)
@@ -117,7 +75,7 @@ public class AdvertisementRepositoryTest extends TestCase {
                 .isDeleted(false)
                 .build());
 
-        advertisementRepository.create(Advertisement.builder()
+        advertisementRepository.save(Advertisement.builder()
                 .person(person1)
                 .categoryId(null)
                 .topParamId(null)
@@ -131,132 +89,8 @@ public class AdvertisementRepositoryTest extends TestCase {
                 .isDeleted(false)
                 .build());
 
-        Assert.assertEquals(2, advertisementRepository.readByPersonId(person1.getId()).size());
-        Assert.assertEquals(0, advertisementRepository.readByPersonId(person2.getId()).size());
+        Assert.assertEquals(2, advertisementRepository.findByPersonId(person1.getId()).size());
+        Assert.assertEquals(0, advertisementRepository.findByPersonId(person2.getId()).size());
     }
 
-    @Test
-    @Transactional
-    public void testFindAdvertisements() {
-        entityManager.createQuery("DELETE FROM Advertisement a").executeUpdate();
-
-
-        Person person1 = personRepository.save(Person.builder()
-                .gender(Gender.WOMAN)
-                .firstName("test1")
-                .lastName("test1")
-                .birthday(LocalDate.of(2005, 1, 14).atStartOfDay().toInstant(ZoneOffset.UTC))
-                .city("Vitebsk")
-                .phone("+211")
-                .email("nast9ln@h.com")
-                .password("1202")
-                .isDeleted(false)
-                .roles(Set.of(new Role(RoleEnum.USER)))
-                .build());
-
-        Person person2 = personRepository.save(Person.builder()
-                .gender(Gender.WOMAN)
-                .firstName("test2")
-                .lastName("test2")
-                .birthday(LocalDate.of(2005, 1, 14).atStartOfDay().toInstant(ZoneOffset.UTC))
-                .city("Vitebsk")
-                .phone("+211")
-                .email("nast9ln@h.com")
-                .password("1202")
-                .isDeleted(false)
-                .roles(Set.of(new Role(RoleEnum.USER)))
-                .build());
-
-        advertisementRepository.create(Advertisement.builder()
-                .person(person1)
-                .categoryId(null)
-                .topParamId(null)
-                .createdDate(LocalDateTime.now().toInstant(ZoneOffset.UTC))
-                .cost(100)
-                .city("Minsk")
-                .header("red fur")
-                .description("new red fur")
-                .status("ACTIVE")
-                .mainImageId(null)
-                .isDeleted(false)
-                .build());
-
-        advertisementRepository.create(Advertisement.builder()
-                .person(person1)
-                .categoryId(null)
-                .topParamId(null)
-                .cost(200)
-                .createdDate(LocalDateTime.now().toInstant(ZoneOffset.UTC))
-                .city("Minsk")
-                .header("red fur")
-                .description("new red fur")
-                .status("ACTIVE")
-                .mainImageId(null)
-                .isDeleted(false)
-                .build());
-        List<Advertisement> advertisements = advertisementRepository.findAdvertisements(0, 10);
-        Assert.assertEquals(2, advertisements.size());
-    }
-
-    @Test
-    @Transactional
-    public void testFindAdvertisementsWithEntityGraph() {
-        entityManager.createQuery("DELETE FROM Advertisement a").executeUpdate();
-
-        Person person1 = personRepository.save(Person.builder()
-                .gender(Gender.WOMAN)
-                .firstName("test1")
-                .lastName("test1")
-                .birthday(LocalDate.of(2005, 1, 14).atStartOfDay().toInstant(ZoneOffset.UTC))
-                .city("Vitebsk")
-                .phone("+211")
-                .email("nast9ln@h.com")
-                .password("1202")
-                .isDeleted(false)
-                .roles(Set.of(new Role(RoleEnum.USER)))
-                .build());
-
-        Person person2 = personRepository.save(Person.builder()
-                .gender(Gender.WOMAN)
-                .firstName("test2")
-                .lastName("test2")
-                .birthday(LocalDate.of(2005, 1, 14).atStartOfDay().toInstant(ZoneOffset.UTC))
-                .city("Vitebsk")
-                .phone("+211")
-                .email("nast9ln@h.com")
-                .password("1202")
-                .isDeleted(false)
-                .roles(Set.of(new Role(RoleEnum.USER)))
-                .build());
-
-        advertisementRepository.create(Advertisement.builder()
-                .person(person1)
-                .categoryId(null)
-                .topParamId(null)
-                .createdDate(LocalDateTime.now().toInstant(ZoneOffset.UTC))
-                .cost(100)
-                .city("Minsk")
-                .header("red fur")
-                .description("new red fur")
-                .status("ACTIVE")
-                .mainImageId(null)
-                .isDeleted(false)
-                .build());
-
-        advertisementRepository.create(Advertisement.builder()
-                .person(person1)
-                .categoryId(null)
-                .topParamId(null)
-                .cost(200)
-                .createdDate(LocalDateTime.now().toInstant(ZoneOffset.UTC))
-                .city("Minsk")
-                .header("red fur")
-                .description("new red fur")
-                .status("ACTIVE")
-                .mainImageId(null)
-                .isDeleted(false)
-                .build());
-        List<Advertisement> advertisements = advertisementRepository.findAdvertisementsWithEntityGraph();
-        Assert.assertEquals(advertisementRepository.getAll().size(), advertisements.size());
-    }
 }

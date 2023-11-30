@@ -15,6 +15,7 @@ import java.util.Optional;
 public class AdvertisementMapper {
 
     private final PersonMapper personMapper;
+
     public Advertisement toEntity(AdvertisementDto dto) {
         Person person = new Person();
         if (Objects.nonNull(dto.getPerson())) {

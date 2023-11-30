@@ -1,10 +1,10 @@
 package org.example.entity;
 
-import javax.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.example.enums.Gender;
 
+import javax.persistence.*;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;

@@ -1,15 +1,15 @@
 package org.example.repository;
 
 import org.example.entity.Advertisement;
-import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@NoRepositoryBean
-public interface AdvertisementRepository extends GenericDao<Advertisement, Long> {
-    void deleteByPersonId(Long id);
-    List<Advertisement> readByPersonId(Long id);
-    List<Advertisement> findAdvertisements(int pageNumber, int pageSize);
-     List<Advertisement> findAdvertisementsWithEntityGraph();
+@Repository
+public interface AdvertisementRepository extends JpaRepository<Advertisement, Long> {
 
-    }
+
+    List<Advertisement> findByPersonId(Long id);
+
+}
