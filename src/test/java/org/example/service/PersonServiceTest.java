@@ -14,8 +14,6 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.util.Optional;
 
@@ -50,11 +48,11 @@ public class PersonServiceTest {
         PersonDto personDto = new PersonDto();
         Person person = new Person();
         when(personMapper.toEntity(personDto)).thenReturn(person);
-        when(personRepository.create(person)).thenReturn(person);
+        when(personRepository.save(person)).thenReturn(person);
 
         PersonDto result = personService.create(personDto);
 
-        verify(personRepository, times(1)).create(person);
+        verify(personRepository, times(1)).save(person);
     }
 
 
@@ -62,12 +60,12 @@ public class PersonServiceTest {
     public void testRead() {
         Long personId = 1L;
         Person person = DataFactory.getPersonForTest(personId);
-        when(personRepository.get(personId)).thenReturn(Optional.of(person));
+        when(personRepository.findById(personId)).thenReturn(Optional.of(person));
         when(personMapper.toDto(person)).thenReturn(DataFactory.getPersonDtoForTest(personId));
 
         personService.read(personId);
 
-        verify(personRepository, times(1)).get(personId);
+        verify(personRepository, times(1)).findById(personId);
         verify(advertisementRepository, times(1)).readByPersonId(personId);
     }
 
@@ -75,21 +73,21 @@ public class PersonServiceTest {
     public void testUpdate() {
         PersonDto personDto = new PersonDto();
         Person existingPerson = new Person();
-        when(personRepository.get(personDto.getId())).thenReturn(Optional.of(existingPerson));
+        when(personRepository.findById(personDto.getId())).thenReturn(Optional.of(existingPerson));
 
         personService.update(personDto);
 
-        verify(personRepository, times(1)).update(existingPerson);
+        verify(personRepository, times(1)).save(existingPerson);
     }
 
     @Test
     public void testDelete() {
         Long personId = 1L;
         Person person = new Person();
-        when(personRepository.get(personId)).thenReturn(Optional.of(person));
+        when(personRepository.findById(personId)).thenReturn(Optional.of(person));
         personService.delete(personId);
 
         verify(advertisementRepository, times(1)).deleteByPersonId(personId);
-        verify(personRepository, times(1)).delete(personId);
+        verify(personRepository, times(1)).deleteById(personId);
     }
 }

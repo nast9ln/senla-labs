@@ -6,6 +6,7 @@
 
     <changeSet id="create-person_role-table" author="Anastasia">
         <createTable tableName="person_role">
+            <column name="id" type="bigserial"/>
             <column name="person_id" type="bigint"/>
             <column name="role_id" type="bigint"/>
         </createTable>

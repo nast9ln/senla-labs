@@ -2,21 +2,22 @@ package org.example.entity;
 
 import javax.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.example.enums.Gender;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 @Entity
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "person")
-public class Person extends AbstractEntity {
+public class Person extends SoftDeletableEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,8 +38,6 @@ public class Person extends AbstractEntity {
     private String email;
     @Column
     private String password;
-    @Column(name = "is_deleted")
-    private boolean isDeleted;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

@@ -1,12 +1,13 @@
-package org.example.repository;
+package org.example.repository.impl;
 
 import javax.persistence.EntityGraph;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
-import org.example.AbstractDaoImpl;
+
 import org.example.entity.Advertisement;
 import org.example.entity.Advertisement_;
 import org.example.entity.Person_;
+import org.example.repository.AdvertisementRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

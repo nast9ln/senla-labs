@@ -1,11 +1,11 @@
 package org.example.config;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.*;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -16,44 +16,26 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-//@ComponentScan("org.example")
 @EnableJpaRepositories(basePackages = {"org.example.repository"})
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @Configuration
 @EnableTransactionManagement
 @PropertySource("classpath:application.properties")
 public class HibernateConfig {
-        @Value("${database.url}")
+    @Value("${database.url}")
     private String url;
-//    private String url = "jdbc:postgresql://localhost:5432/coffer";
-        @Value("${database.user}")
+    @Value("${database.user}")
     private String user;
-//    private String user = "postgres";
-        @Value("${database.password}")
+    @Value("${database.password}")
     private String password;
-//    private String password = "postgres";
-        @Value("${hibernate.ddl-auto}")
+    @Value("${hibernate.ddl-auto}")
     private String ddlAuto;
-//    private String ddlAuto = "validate";
-        @Value("${hibernate.dialect}")
+    @Value("${hibernate.dialect}")
     private String dialect;
-//    private String dialect = "org.hibernate.dialect.PostgreSQLDialect";
-        @Value("${hibernate.show_sql}")
+    @Value("${hibernate.show_sql}")
     private boolean showSql;
-//    private boolean showSql = true;
-        @Value("${hibernate.format_sql}")
+    @Value("${hibernate.format_sql}")
     private boolean formatSql;
-//    private boolean formatSql = true;
-
-    @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl(url);
-        dataSource.setUsername(user);
-        dataSource.setPassword(password);
-        return dataSource;
-    }
 
 
     @Bean
@@ -91,8 +73,4 @@ public class HibernateConfig {
         return transactionManager;
     }
 
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
 }

@@ -23,7 +23,7 @@ public class PersonDto {
     @JsonProperty("id")
     private Long id;
 
-    @NotBlank
+    @NotNull
     @JsonProperty("gender")
     private Gender gender;
 
@@ -40,6 +40,8 @@ public class PersonDto {
     @NotNull
     @NotBlank
     @JsonProperty("birthday")
+//    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
+
     private Instant birthday;
 
     @NotNull
@@ -66,8 +68,10 @@ public class PersonDto {
     @NotBlank
     @JsonProperty("isDeleted")
     private boolean isDeleted;
+
     @JsonProperty("roles")
     private Set<RoleDto> roles = new HashSet<>();
+
     @JsonProperty("advertisementDto")
     private List<AdvertisementDto> advertisementDto = new ArrayList<>();
 

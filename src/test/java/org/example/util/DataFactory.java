@@ -11,8 +11,6 @@ import org.example.enums.Gender;
 import org.example.enums.RoleEnum;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.Set;
 
 @UtilityClass
@@ -38,49 +36,48 @@ public class DataFactory {
         return PersonDto.builder()
                 .id(id)
                 .gender(Gender.WOMAN)
-                .firstName("test1")
-                .lastName("test1")
+                .firstName("testDto")
+                .lastName("testDto")
                 .birthday(Instant.ofEpochSecond(1069965734))
-                .city("Vitebsk")
+                .city("VitebskDto")
                 .phone("+211")
                 .email("nast9ln@h.com")
-                .password("1202")
-                .isDeleted(false)
+                .password("1202Dto")
                 .roles(Set.of(new RoleDto(RoleEnum.USER)))
                 .build();
     }
 
     public Advertisement getAdvertisementForTest(Long id) {
-        Person person1 = getPersonForTest(1L);
+        Person person1 = getPersonForTest(null);
         return Advertisement.builder()
+                .id(id)
                 .person(person1)
                 .categoryId(null)
                 .topParamId(null)
-                .createdDate(LocalDateTime.now().toInstant(ZoneOffset.UTC))
+                .createdDate(Instant.ofEpochSecond(1069965734))
                 .cost(100)
                 .city("Minsk")
                 .header("red fur")
                 .description("new red fur")
                 .status("ACTIVE")
                 .mainImageId(null)
-                .isDeleted(false)
                 .build();
     }
 
     public AdvertisementDto getAdvertisementDtoForTest(Long id) {
-        PersonDto person1 = getPersonDtoForTest(1L);
+        PersonDto person1 = getPersonDtoForTest(null);
         return AdvertisementDto.builder()
+                .id(id)
                 .person(person1)
                 .categoryId(null)
                 .topParamId(null)
-                .createdDate(LocalDateTime.now().toInstant(ZoneOffset.UTC))
+                .createdDate(10L)
                 .cost(100)
                 .city("Minsk")
                 .header("red fur")
                 .description("new red fur")
                 .status("ACTIVE")
-                .mainImageId(null)
-                .isDeleted(false)
+                .mainPictureId(null)
                 .build();
     }
 }

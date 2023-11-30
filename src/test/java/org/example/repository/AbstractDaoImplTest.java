@@ -39,17 +39,6 @@ public class AbstractDaoImplTest {
     @PersistenceContext
     protected EntityManager entityManager;
 
-//    @Autowired
-//    private WebApplicationContext webApplicationContext;
-//
-//    private MockMvc mockMvc;
-//
-//    @Before
-//    public void setup() {
-//        MockitoAnnotations.openMocks(this);
-//        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).dispatchOptions(true).build();
-//    }
-
     @Test
     public void testGetAll() {
         entityManager.createQuery("DELETE FROM Comment c WHERE c.advertisement.id IN (SELECT a.id FROM Advertisement a)").executeUpdate();
@@ -57,7 +46,7 @@ public class AbstractDaoImplTest {
         entityManager.createQuery("DELETE FROM Message m WHERE m.advertisement.id IN (SELECT a.id FROM Advertisement a)").executeUpdate();
 
         entityManager.createQuery("DELETE FROM Advertisement a").executeUpdate();
-        Person person1 = personRepository.create(Person.builder()
+        Person person1 = personRepository.save(Person.builder()
                 .gender(Gender.WOMAN)
                 .firstName("test1")
                 .lastName("test1")
@@ -70,7 +59,7 @@ public class AbstractDaoImplTest {
                 .roles(Set.of(new Role(RoleEnum.USER)))
                 .build());
 
-        Person person2 = personRepository.create(Person.builder()
+        Person person2 = personRepository.save(Person.builder()
                 .gender(Gender.WOMAN)
                 .firstName("test2")
                 .lastName("test2")
@@ -115,7 +104,7 @@ public class AbstractDaoImplTest {
 
     @Test
     public void testGet() {
-        Person person1 = personRepository.create(Person.builder()
+        Person person1 = personRepository.save(Person.builder()
                 .gender(Gender.WOMAN)
                 .firstName("test1")
                 .lastName("test1")
@@ -159,7 +148,7 @@ public class AbstractDaoImplTest {
 
     @Test
     public void testUpdate() {
-        Person person1 = personRepository.create(Person.builder()
+        Person person1 = personRepository.save(Person.builder()
                 .gender(Gender.WOMAN)
                 .firstName("test1")
                 .lastName("test1")
@@ -208,7 +197,7 @@ public class AbstractDaoImplTest {
 
     @Test
     public void testDelete() {
-        Person person1 = personRepository.create(Person.builder()
+        Person person1 = personRepository.save(Person.builder()
                 .gender(Gender.WOMAN)
                 .firstName("test1")
                 .lastName("test1")
@@ -245,7 +234,7 @@ public class AbstractDaoImplTest {
     @Test
     @DependsOn("liquibase")
     public void testCreate() {
-        Person person1 = personRepository.create(Person.builder()
+        Person person1 = personRepository.save(Person.builder()
                 .gender(Gender.WOMAN)
                 .firstName("test1")
                 .lastName("test1")
@@ -292,7 +281,7 @@ public class AbstractDaoImplTest {
 
     @Test
     public void testTestDeleteAll() {
-        Person person1 = personRepository.create(Person.builder()
+        Person person1 = personRepository.save(Person.builder()
                 .gender(Gender.WOMAN)
                 .firstName("test1")
                 .lastName("test1")

@@ -34,7 +34,7 @@ public class AdvertisementDto implements Serializable {
     private TopParam topParamId;
 
     @JsonProperty("createdDate")
-    private Instant createdDate;
+    private Long createdDate;
 
     @JsonProperty("cost")
     private int cost;

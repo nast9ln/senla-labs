@@ -19,7 +19,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 @Transactional
@@ -36,20 +40,22 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public PersonDto create(PersonDto dto) {
         logger.info("create");
+        dto.setId(null);
         Person person = personDtoMapper.toEntity(dto);
-        person = personRepository.create(person);
-        Set<Role> roles = new HashSet<>();
-        if (person.getRoles() == null)
-            person.setRoles(new HashSet<>(Arrays.asList(new Role(2L, RoleEnum.USER))));
-        person.getRoles().forEach(r -> roleRepository.findByName(r.getName()).add(r));
-        person.setRoles(roles);
+        if (person.getRoles() == null || person.getRoles().isEmpty()) {
+            person.getRoles().add(roleRepository.findByName(RoleEnum.USER));
+        } else {
+            Set<Role> roles = person.getRoles().stream().map(role -> roleRepository.findByName(role.getName())).collect(Collectors.toSet());
+            person.setRoles(roles);
+        }
+        person = personRepository.save(person);
         return personDtoMapper.toDto(person);
     }
 
     @Override
     public PersonDto read(Long id) {
         logger.info("read");
-        Person person = personRepository.get(id).orElseThrow(() -> new EntityNotFoundException("User not found with id {0}:", id));
+        Person person = personRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found with id {0}:", id));
         List<Advertisement> advertisements = advertisementRepository.readByPersonId(id);
         List<AdvertisementDto> advertisementDtos = new ArrayList<>();
 
@@ -66,24 +72,16 @@ public class PersonServiceImpl implements PersonService {
     public void update(PersonDto dto) {
         logger.info("update");
         Person newPerson = personDtoMapper.toEntity(dto);
-        Person exPerson = personRepository.get(dto.getId()).orElseThrow(() -> new EntityNotFoundException("Ad not found with id: {0}", dto.getId()));
+        Person exPerson = personRepository.findById(dto.getId()).orElseThrow(() -> new EntityNotFoundException("Ad not found with id: {0}", dto.getId()));
         personDtoMapper.update(exPerson, newPerson);
-        personRepository.update(exPerson);
+        personRepository.save(exPerson);
     }
 
     @Override
     public void delete(Long id) {
         logger.info("delete");
-        Person person = personRepository.get(id).orElseThrow(() -> new EntityNotFoundException("User not found with id {0}", id));
+        Person person = personRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found with id {0}", id));
         advertisementRepository.deleteByPersonId(id);
-        personRepository.delete(id);
-    }
-
-    public Set<Person> findAllWithJPQL() {
-        return personRepository.findAllWithJPQL();
-    }
-
-    public Set<Person> findAllWithEntityGraph() {
-        return personRepository.findAllWithEntityGraph();
+        personRepository.deleteById(id);
     }
 }

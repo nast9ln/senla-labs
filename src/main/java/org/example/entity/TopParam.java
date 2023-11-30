@@ -4,22 +4,21 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @Entity
-@Builder
-@Data
-@Table(name = "top_param")
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "top_param")
 public class TopParam extends AbstractEntity {
-    @Id
-    private Long id;
+
     @Column(name = "time_top_start")
     private LocalDateTime timeTopStart;
     @Column(name = "time_in_top")

@@ -2,6 +2,7 @@ package org.example.entity;
 
 import javax.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -10,14 +11,11 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "advertisement")
-public class Advertisement extends AbstractEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Advertisement extends SoftDeletableEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id", referencedColumnName = "id")
@@ -54,10 +52,6 @@ public class Advertisement extends AbstractEntity {
     @EqualsAndHashCode.Exclude
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "advertisement", cascade = CascadeType.ALL)
     private List<Image> images;
-
-
-    @Column(name = "is_deleted")
-    private boolean isDeleted;
 
     @PrePersist
     public void prePersist() {

@@ -39,8 +39,8 @@ public class PersonControllerImpl implements PersonController {
     }
 
     @Override
-    @DeleteMapping("/{person-id}")
-    public void delete(@PathVariable("person-id") Long id) {
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
         logger.info("delete");
         personService.delete(id);
     }

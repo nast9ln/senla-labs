@@ -31,7 +31,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         if (Objects.isNull(personId)) {
             throw new RelativeNotFoundException("Person id must be not null");
         }
-        Person person = personRepository.get(personId)
+        Person person = personRepository.findById(personId)
                 .orElseThrow(() -> new EntityNotFoundException("The user for the ad was not found with the id: {0}", personId));
         advertisement.setPerson(person);
         return advertisementDtoMapper.toDto(advertisementRepository.create(advertisement));

@@ -1,6 +1,5 @@
 package org.example.repository;
 
-import org.example.GenericDao;
 import org.example.entity.Advertisement;
 import org.springframework.data.repository.NoRepositoryBean;
 

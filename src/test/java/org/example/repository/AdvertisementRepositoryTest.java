@@ -13,10 +13,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -35,10 +36,13 @@ public class AdvertisementRepositoryTest extends TestCase {
     @Autowired
     private PersonRepository personRepository;
 
+    @PersistenceContext
+    protected EntityManager entityManager;
+
     @Test
     public void testDeleteByPersonId() {
 
-        Person person1 = personRepository.create(Person.builder()
+        Person person1 = personRepository.save(Person.builder()
                 .gender(Gender.WOMAN)
                 .firstName("test1")
                 .lastName("test1")
@@ -73,7 +77,7 @@ public class AdvertisementRepositoryTest extends TestCase {
     @Test
     @Transactional
     public void testReadByPersonId() {
-        Person person1 = personRepository.create(Person.builder()
+        Person person1 = personRepository.save(Person.builder()
                 .gender(Gender.WOMAN)
                 .firstName("test1")
                 .lastName("test1")
@@ -86,7 +90,7 @@ public class AdvertisementRepositoryTest extends TestCase {
                 .roles(Set.of(new Role(RoleEnum.USER)))
                 .build());
 
-        Person person2 = personRepository.create(Person.builder()
+        Person person2 = personRepository.save(Person.builder()
                 .gender(Gender.WOMAN)
                 .firstName("test2")
                 .lastName("test2")
@@ -132,9 +136,12 @@ public class AdvertisementRepositoryTest extends TestCase {
     }
 
     @Test
+    @Transactional
     public void testFindAdvertisements() {
+        entityManager.createQuery("DELETE FROM Advertisement a").executeUpdate();
 
-        Person person1 = personRepository.create(Person.builder()
+
+        Person person1 = personRepository.save(Person.builder()
                 .gender(Gender.WOMAN)
                 .firstName("test1")
                 .lastName("test1")
@@ -147,7 +154,7 @@ public class AdvertisementRepositoryTest extends TestCase {
                 .roles(Set.of(new Role(RoleEnum.USER)))
                 .build());
 
-        Person person2 = personRepository.create(Person.builder()
+        Person person2 = personRepository.save(Person.builder()
                 .gender(Gender.WOMAN)
                 .firstName("test2")
                 .lastName("test2")
@@ -188,12 +195,15 @@ public class AdvertisementRepositoryTest extends TestCase {
                 .isDeleted(false)
                 .build());
         List<Advertisement> advertisements = advertisementRepository.findAdvertisements(0, 10);
-        Assert.assertEquals(10, advertisements.size());
+        Assert.assertEquals(2, advertisements.size());
     }
 
     @Test
+    @Transactional
     public void testFindAdvertisementsWithEntityGraph() {
-        Person person1 = personRepository.create(Person.builder()
+        entityManager.createQuery("DELETE FROM Advertisement a").executeUpdate();
+
+        Person person1 = personRepository.save(Person.builder()
                 .gender(Gender.WOMAN)
                 .firstName("test1")
                 .lastName("test1")
@@ -206,7 +216,7 @@ public class AdvertisementRepositoryTest extends TestCase {
                 .roles(Set.of(new Role(RoleEnum.USER)))
                 .build());
 
-        Person person2 = personRepository.create(Person.builder()
+        Person person2 = personRepository.save(Person.builder()
                 .gender(Gender.WOMAN)
                 .firstName("test2")
                 .lastName("test2")
@@ -249,4 +259,4 @@ public class AdvertisementRepositoryTest extends TestCase {
         List<Advertisement> advertisements = advertisementRepository.findAdvertisementsWithEntityGraph();
         Assert.assertEquals(advertisementRepository.getAll().size(), advertisements.size());
     }
-    }
+}

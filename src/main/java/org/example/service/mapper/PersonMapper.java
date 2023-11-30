@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
@@ -26,7 +27,7 @@ public class PersonMapper {
                 .email(dto.getEmail())
                 .password(dto.getPassword())
                 .isDeleted(dto.isDeleted())
-                .roles(new HashSet<>(dto.getRoles().stream().map(this::toRole).collect(Collectors.toList())))
+                .roles(new HashSet<>(dto.getRoles().stream().filter(Objects::nonNull).map(this::toRole).collect(Collectors.toList())))
                 .build();
     }
 
@@ -56,7 +57,7 @@ public class PersonMapper {
                 .email(entity.getEmail())
                 .password(entity.getPassword())
                 .isDeleted(entity.isDeleted())
-                .roles(entity.getRoles().stream().map(this::toRoleDto).collect(Collectors.toSet()))
+                .roles(entity.getRoles().stream().filter(Objects::nonNull).map(this::toRoleDto).collect(Collectors.toSet()))
                 .build();
     }
 
