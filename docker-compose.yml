@@ -1,0 +1,8 @@
+version: '3.3'
+services:
+  coffer-app:
+    image: tomcat:8.5-jdk11-corretto
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./target/coffer-1.0-SNAPSHOT.war:/usr/local/tomcat/webapps/coffer.war
