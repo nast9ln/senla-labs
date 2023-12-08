@@ -23,7 +23,7 @@ public class PersonControllerImpl implements PersonController {
     }
 
     @Override
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public PersonDto read(@PathVariable Long id) {
         logger.info("read");
         return personService.read(id);
