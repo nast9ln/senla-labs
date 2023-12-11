@@ -1,19 +1,33 @@
 package org.example.service.mapper;
 
+import lombok.RequiredArgsConstructor;
 import org.example.dto.AdvertisementDto;
 import org.example.entity.Advertisement;
+import org.example.entity.Person;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.util.Objects;
+import java.util.Optional;
+
 @Component
+@RequiredArgsConstructor
 public class AdvertisementMapper {
+
+    private final PersonMapper personMapper;
+
     public Advertisement toEntity(AdvertisementDto dto) {
+        Person person = new Person();
+        if (Objects.nonNull(dto.getPerson())) {
+            person.setId(dto.getPerson().getId());
+        }
         return Advertisement.builder()
                 .id(dto.getId())
-                .person(dto.getPerson())
+                .person(person)
                 .categoryId(dto.getCategoryId())
                 .mainImageId(dto.getMainPictureId())
                 .topParamId(dto.getTopParamId())
-                .createdDate(dto.getCreatedData())
+                .createdDate(Instant.ofEpochSecond(Optional.ofNullable(dto.getCreatedDate()).orElse(0L)))
                 .cost(dto.getCost())
                 .city(dto.getCity())
                 .header(dto.getHeader())
@@ -25,16 +39,27 @@ public class AdvertisementMapper {
     public AdvertisementDto toDto(Advertisement entity) {
         return AdvertisementDto.builder()
                 .id(entity.getId())
-                .person(entity.getPerson())
+                .person(personMapper.toDto(entity.getPerson()))
                 .categoryId(entity.getCategoryId())
                 .mainPictureId(entity.getMainImageId())
                 .topParamId(entity.getTopParamId())
-                .createdData(entity.getCreatedDate())
+                .createdDate(entity.getCreatedDate().getEpochSecond())
                 .cost(entity.getCost())
                 .city(entity.getCity())
                 .header(entity.getHeader())
                 .description(entity.getDescription())
                 .status(entity.getStatus())
                 .build();
+    }
+
+    public void update(Advertisement exAd, Advertisement newAd) {
+        exAd.setHeader(newAd.getHeader());
+        exAd.setCity(newAd.getCity());
+        exAd.setTopParamId(newAd.getTopParamId());
+        exAd.setCost(newAd.getCost());
+        exAd.setDescription(newAd.getDescription());
+        exAd.setStatus(newAd.getStatus());
+        exAd.setMainImageId(newAd.getMainImageId());
+        exAd.setDeleted(newAd.isDeleted());
     }
 }

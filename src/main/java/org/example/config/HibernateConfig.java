@@ -1,12 +1,11 @@
 package org.example.config;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -17,11 +16,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-@Configuration
-@EnableTransactionManagement
-@RequiredArgsConstructor
 @EnableJpaRepositories(basePackages = {"org.example.repository"})
 @EnableAspectJAutoProxy(proxyTargetClass = true)
+@Configuration
+@EnableTransactionManagement
+@PropertySource("classpath:application.properties")
 public class HibernateConfig {
     @Value("${database.url}")
     private String url;
@@ -37,16 +36,6 @@ public class HibernateConfig {
     private boolean showSql;
     @Value("${hibernate.format_sql}")
     private boolean formatSql;
-
-    @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl(url);
-        dataSource.setUsername(user);
-        dataSource.setPassword(password);
-        return dataSource;
-    }
 
 
     @Bean
@@ -83,4 +72,5 @@ public class HibernateConfig {
         transactionManager.setEntityManagerFactory(managerFactoryBean.getObject());
         return transactionManager;
     }
+
 }

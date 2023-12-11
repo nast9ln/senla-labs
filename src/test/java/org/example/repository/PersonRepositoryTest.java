@@ -1,7 +1,6 @@
 package org.example.repository;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import junit.framework.TestCase;
 import org.example.config.TestConnectionConfig;
 import org.example.entity.Person;
 import org.example.entity.Role;
@@ -13,18 +12,20 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.web.WebAppConfiguration;
 
-import java.time.LocalDate;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.time.Instant;
 import java.util.Set;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(
-        classes = {TestConnectionConfig.class},
-        loader = AnnotationConfigContextLoader.class)
-public class PersonRepositoryTest {
+        classes = {TestConnectionConfig.class})
+@WebAppConfiguration
+
+public class PersonRepositoryTest extends TestCase {
     @Autowired
     private PersonRepository personRepository;
 
@@ -34,11 +35,11 @@ public class PersonRepositoryTest {
 
     @Test
     public void testFindByPersonName() {
-        Person person = personRepository.create(Person.builder()
+        Person person = personRepository.save(Person.builder()
                 .gender(Gender.WOMAN)
                 .firstName("test")
                 .lastName("test")
-                .birthday(LocalDate.of(2005, 1, 14))
+                .birthday(Instant.ofEpochSecond(1069965734))
                 .city("Vitebsk")
                 .phone("+211")
                 .email("nast9ln@h.com")
@@ -47,7 +48,7 @@ public class PersonRepositoryTest {
                 .roles(Set.of(new Role(RoleEnum.USER)))
                 .build());
 
-        Person dbPerson = personRepository.findByPersonName("test", "test").get(0);
+        Person dbPerson = personRepository.findByFirstNameAndLastName("test", "test").get();
         Assert.assertEquals(person.getFirstName(), dbPerson.getFirstName());
         Assert.assertEquals(person.getLastName(), dbPerson.getLastName());
         Assert.assertEquals(person.getBirthday(), dbPerson.getBirthday());
@@ -58,90 +59,4 @@ public class PersonRepositoryTest {
         Assert.assertEquals(person.isDeleted(), dbPerson.isDeleted());
         Assert.assertNotNull(dbPerson.getRoles());
     }
-
-
-    @Test
-    @Transactional
-    public void testFindAllWithEntityGraph() {
-        entityManager.createQuery("DELETE FROM Comment c WHERE c.advertisement.id IN (SELECT a.id FROM Advertisement a)").executeUpdate();
-        entityManager.createQuery("DELETE FROM Image i WHERE i.advertisement.id IN (SELECT a.id FROM Advertisement a)").executeUpdate();
-        entityManager.createQuery("DELETE FROM Message m WHERE m.advertisement.id IN (SELECT a.id FROM Advertisement a)").executeUpdate();
-        entityManager.createQuery("DELETE FROM Advertisement a").executeUpdate();
-        entityManager.createQuery("DELETE FROM Person p").executeUpdate();
-
-        Person person1 = personRepository.create(Person.builder()
-                .gender(Gender.WOMAN)
-                .firstName("test1")
-                .lastName("test1")
-                .birthday(LocalDate.of(2005, 1, 14))
-                .city("Vitebsk")
-                .phone("+211")
-                .email("nast9ln@h.com")
-                .password("1202")
-                .isDeleted(false)
-                .roles(Set.of(new Role(RoleEnum.USER)))
-                .build());
-
-        Person person2 = personRepository.create(Person.builder()
-                .gender(Gender.WOMAN)
-                .firstName("test2")
-                .lastName("test2")
-                .birthday(LocalDate.of(2005, 1, 14))
-                .city("Vitebsk")
-                .phone("+211")
-                .email("nast9ln@h.com")
-                .password("1202")
-                .isDeleted(false)
-                .roles(Set.of(new Role(RoleEnum.USER)))
-                .build());
-
-        Set<Person> persons = personRepository.findAllWithEntityGraph();
-
-        Assert.assertEquals(2, persons.size());
-        Assert.assertTrue(persons.contains(person1));
-        Assert.assertTrue(persons.contains(person2));
-    }
-
-    @Test
-    @Transactional
-    public void testTestFindAllWithJPQL() {
-        entityManager.createQuery("DELETE FROM Comment c WHERE c.advertisement.id IN (SELECT a.id FROM Advertisement a)").executeUpdate();
-        entityManager.createQuery("DELETE FROM Image i WHERE i.advertisement.id IN (SELECT a.id FROM Advertisement a)").executeUpdate();
-        entityManager.createQuery("DELETE FROM Message m WHERE m.advertisement.id IN (SELECT a.id FROM Advertisement a)").executeUpdate();
-        entityManager.createQuery("DELETE FROM Advertisement a").executeUpdate();
-        entityManager.createQuery("DELETE FROM Person p").executeUpdate();
-
-        Person person1 = personRepository.create(Person.builder()
-                .gender(Gender.WOMAN)
-                .firstName("test1")
-                .lastName("test1")
-                .birthday(LocalDate.of(2005, 1, 14))
-                .city("Vitebsk")
-                .phone("+211")
-                .email("nast9ln@h.com")
-                .password("1202")
-                .isDeleted(false)
-                .roles(Set.of(new Role(RoleEnum.USER)))
-                .build());
-
-        Person person2 = personRepository.create(Person.builder()
-                .gender(Gender.WOMAN)
-                .firstName("test2")
-                .lastName("test2")
-                .birthday(LocalDate.of(2005, 1, 14))
-                .city("Vitebsk")
-                .phone("+211")
-                .email("nast9ln@h.com")
-                .password("1202")
-                .isDeleted(false)
-                .roles(Set.of(new Role(RoleEnum.USER)))
-                .build());
-
-        Set<Person> persons = personRepository.findAllWithJPQL();
-
-        Assert.assertEquals(2, persons.size());
-        Assert.assertTrue(persons.contains(person1));
-        Assert.assertTrue(persons.contains(person2));
-    }
-
 }

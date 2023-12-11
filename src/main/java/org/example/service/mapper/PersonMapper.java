@@ -7,6 +7,8 @@ import org.example.entity.Role;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component
 public class PersonMapper {
@@ -17,13 +19,13 @@ public class PersonMapper {
                 .gender(dto.getGender())
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())
-                .birthday(dto.getBirthday())
+                .birthday((dto.getBirthday()))
                 .city(dto.getCity())
                 .phone(dto.getPhone())
                 .email(dto.getEmail())
                 .password(dto.getPassword())
                 .isDeleted(dto.isDeleted())
-                .roles(new HashSet<>(dto.getRoles().stream().map(this::toRole).toList()))
+                .roles(new HashSet<>(dto.getRoles().stream().filter(Objects::nonNull).map(this::toRole).collect(Collectors.toList())))
                 .build();
     }
 
@@ -53,7 +55,19 @@ public class PersonMapper {
                 .email(entity.getEmail())
                 .password(entity.getPassword())
                 .isDeleted(entity.isDeleted())
-                .roles(entity.getRoles().stream().map(this::toRoleDto).toList())
+                .roles(entity.getRoles().stream().filter(Objects::nonNull).map(this::toRoleDto).collect(Collectors.toSet()))
                 .build();
+    }
+
+    public void update(Person exPerson, Person newPerson) {
+        exPerson.setGender(newPerson.getGender());
+        exPerson.setFirstName(newPerson.getFirstName());
+        exPerson.setLastName(newPerson.getLastName());
+        exPerson.setBirthday(newPerson.getBirthday());
+        exPerson.setCity(newPerson.getCity());
+        exPerson.setPhone(newPerson.getPhone());
+        exPerson.setEmail(newPerson.getEmail());
+        exPerson.setPassword(newPerson.getPassword());
+        exPerson.setDeleted(newPerson.isDeleted());
     }
 }

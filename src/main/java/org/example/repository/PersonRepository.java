@@ -1,14 +1,13 @@
 package org.example.repository;
 
-import org.example.GenericDao;
 import org.example.entity.Person;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
-public interface PersonRepository extends GenericDao<Person, Long> {
-    List<Person> findByPersonName(String firstName, String lastName);
-    Set<Person> findAllWithJPQL();
-    Set<Person> findAllWithEntityGraph();
+@Repository
+public interface PersonRepository extends JpaRepository<Person, Long> {
+    Optional<Person> findByFirstNameAndLastName(String firstName, String lastName);
 
 }

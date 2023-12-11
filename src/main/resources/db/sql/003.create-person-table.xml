@@ -18,7 +18,7 @@
             <column name="last_name" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="birthday" type="date">
+            <column name="birthday" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
             <column name="city" type="varchar(255)">

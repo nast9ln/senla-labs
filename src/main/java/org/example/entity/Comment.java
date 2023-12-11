@@ -1,15 +1,22 @@
 package org.example.entity;
 
-import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Table(name = "comment")
+@Getter
+@Setter
 @Entity
-public class Comment extends AbstractEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "comment")
+public class Comment extends SoftDeletableEntity {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id")
     private Person person;
@@ -20,6 +27,4 @@ public class Comment extends AbstractEntity {
     private String text;
     @Column(name = "created_data")
     private LocalDateTime createdData;
-    @Column(name = "is_deleted")
-    private boolean isDeleted;
 }

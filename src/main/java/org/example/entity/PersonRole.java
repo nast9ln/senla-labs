@@ -9,7 +9,6 @@ import lombok.experimental.SuperBuilder;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -17,13 +16,13 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "top_param")
-public class TopParam extends AbstractEntity {
+@Table(name = "person_role")
+public class PersonRole extends AbstractEntity {
 
-    @Column(name = "time_top_start")
-    private LocalDateTime timeTopStart;
-    @Column(name = "time_in_top")
-    private int timeInTop;
-    @Column(name = "is_top")
-    private boolean isTop;
+    @Column(name = "person_id")
+    private Long personId;
+
+    @Column(name = "role_id")
+    private Long roleId;
+
 }

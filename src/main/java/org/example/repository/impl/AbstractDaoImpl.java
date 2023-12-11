@@ -1,12 +1,13 @@
-package org.example;
+package org.example.repository.impl;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.criteria.CriteriaQuery;
 import lombok.RequiredArgsConstructor;
-import org.example.entity.AbstractEntity;
+import org.example.entity.SoftDeletableEntity;
+import org.example.repository.GenericDao;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaQuery;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @RequiredArgsConstructor
-public abstract class AbstractDaoImpl<T extends AbstractEntity, PK extends Serializable> implements GenericDao<T, PK> {
+public abstract class AbstractDaoImpl<T extends SoftDeletableEntity, PK extends Serializable> implements GenericDao<T, PK> {
 
     private final Class<T> type;
     @PersistenceContext
@@ -29,6 +30,7 @@ public abstract class AbstractDaoImpl<T extends AbstractEntity, PK extends Seria
         Set<T> resultSet = new HashSet<>(resultList);
         return resultSet;
     }
+
 
     @Override
     @Transactional
@@ -45,7 +47,7 @@ public abstract class AbstractDaoImpl<T extends AbstractEntity, PK extends Seria
     @Override
     @Transactional
     public void delete(PK id) {
-        T entity = entityManager.getReference(type, id);
+        T entity = entityManager.find(type, id);
         entity.setDeleted(true);
         entityManager.merge(entity);
     }

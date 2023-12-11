@@ -12,4 +12,6 @@ public interface AdvertisementService {
 
     void delete(Long id);
 
+    boolean deleteByPersonId(Long id);
+
 }

@@ -1,15 +1,23 @@
 package org.example.entity;
 
-import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Table(name = "message")
+@Getter
+@Setter
 @Entity
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "message")
 public class Message extends AbstractEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_id")
     private Person senderId;

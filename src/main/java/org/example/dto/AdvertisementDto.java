@@ -1,25 +1,29 @@
 package org.example.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.example.entity.Person;
+import lombok.NoArgsConstructor;
 import org.example.entity.TopParam;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AdvertisementDto implements Serializable {
     @JsonProperty("id")
     private Long id;
 
-    @JsonProperty("personId")
-    private Person person;
+    @NotNull
+    @JsonProperty("person")
+    private PersonDto person;
 
-    @JsonProperty("categoryId")
+    @JsonProperty("category")
     private Long categoryId;
 
     @JsonProperty("mainPictureId")
@@ -29,8 +33,7 @@ public class AdvertisementDto implements Serializable {
     private TopParam topParamId;
 
     @JsonProperty("createdDate")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdData;
+    private Long createdDate;
 
     @JsonProperty("cost")
     private int cost;
@@ -38,9 +41,13 @@ public class AdvertisementDto implements Serializable {
     @JsonProperty("city")
     private String city;
 
+    @NotNull
+    @NotBlank
     @JsonProperty("header")
     private String header;
 
+    @NotNull
+    @NotBlank
     @JsonProperty("description")
     private String description;
 
@@ -53,3 +60,4 @@ public class AdvertisementDto implements Serializable {
     @JsonProperty("isDeleted")
     private boolean isDeleted;
 }
+

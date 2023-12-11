@@ -1,21 +1,23 @@
 package org.example.entity;
 
-import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.example.enums.Gender;
 
-import java.time.LocalDate;
+import javax.persistence.*;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 @Entity
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "person")
-public class Person extends AbstractEntity {
+public class Person extends SoftDeletableEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,7 +29,7 @@ public class Person extends AbstractEntity {
     @Column(name = "last_name")
     private String lastName;
     @Column
-    private LocalDate birthday;
+    private Instant birthday;
     @Column
     private String city;
     @Column
@@ -36,17 +38,15 @@ public class Person extends AbstractEntity {
     private String email;
     @Column
     private String password;
-    @Column(name = "is_deleted")
-    private boolean isDeleted;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "person_role", joinColumns = @JoinColumn(name = "person_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "person", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Advertisement> advertisements = new HashSet<>();
 }
