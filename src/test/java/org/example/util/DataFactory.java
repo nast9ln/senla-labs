@@ -20,6 +20,7 @@ public class DataFactory {
         return Person.builder()
                 .id(id)
                 .gender(Gender.WOMAN)
+                .login("test" + Math.random())
                 .firstName("test1")
                 .lastName("test1")
                 .birthday(Instant.ofEpochSecond(1069965734))
@@ -28,7 +29,7 @@ public class DataFactory {
                 .email("nast9ln@h.com")
                 .password("1202")
                 .isDeleted(false)
-                .roles(Set.of(new Role(RoleEnum.USER)))
+                .roles(Set.of(new Role(RoleEnum.ROLE_USER)))
                 .build();
     }
 
@@ -36,6 +37,7 @@ public class DataFactory {
         return PersonDto.builder()
                 .id(id)
                 .gender(Gender.WOMAN)
+                .login("testDto" + Math.random())
                 .firstName("testDto")
                 .lastName("testDto")
                 .birthday(Instant.ofEpochSecond(1069965734))
@@ -43,7 +45,7 @@ public class DataFactory {
                 .phone("+211")
                 .email("nast9ln@h.com")
                 .password("1202Dto")
-                .roles(Set.of(new RoleDto(RoleEnum.USER)))
+                .roles(Set.of(new RoleDto(RoleEnum.ROLE_USER)))
                 .build();
     }
 

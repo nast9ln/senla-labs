@@ -21,6 +21,8 @@ public class Person extends SoftDeletableEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "login")
+    private String login;
     @Column
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -41,7 +43,7 @@ public class Person extends SoftDeletableEntity {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "person_role", joinColumns = @JoinColumn(name = "person_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 

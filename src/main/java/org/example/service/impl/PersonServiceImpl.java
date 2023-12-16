@@ -5,12 +5,9 @@ import org.example.dto.AdvertisementDto;
 import org.example.dto.PersonDto;
 import org.example.entity.Advertisement;
 import org.example.entity.Person;
-import org.example.entity.Role;
-import org.example.enums.RoleEnum;
 import org.example.exception.EntityNotFoundException;
 import org.example.repository.AdvertisementRepository;
 import org.example.repository.PersonRepository;
-import org.example.repository.RoleRepository;
 import org.example.service.AdvertisementService;
 import org.example.service.PersonService;
 import org.example.service.mapper.AdvertisementMapper;
@@ -22,8 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 @Transactional
@@ -36,22 +31,6 @@ public class PersonServiceImpl implements PersonService {
     private final AdvertisementRepository advertisementRepository;
     private final AdvertisementService advertisementService;
     private final AdvertisementMapper advertisementDtoMapper;
-    private final RoleRepository roleRepository;
-
-    @Override
-    public PersonDto create(PersonDto dto) {
-        logger.info("create");
-        dto.setId(null);
-        Person person = personDtoMapper.toEntity(dto);
-        if (person.getRoles() == null || person.getRoles().isEmpty()) {
-            person.getRoles().add(roleRepository.findById(RoleEnum.USER.getCode()).orElseThrow());
-        } else {
-            Set<Role> roles = person.getRoles().stream().map(role -> roleRepository.findById(role.getName().getCode()).orElseThrow()).collect(Collectors.toSet());
-            person.setRoles(roles);
-        }
-        person = personRepository.save(person);
-        return personDtoMapper.toDto(person);
-    }
 
     @Override
     public PersonDto read(Long id) {
@@ -85,5 +64,10 @@ public class PersonServiceImpl implements PersonService {
         advertisementService.deleteByPersonId(person.getId());
         person.setDeleted(true);
         personRepository.save(person);
+    }
+
+    @Override
+    public Person findByLogin(String login) {
+        return personRepository.findByLogin(login);
     }
 }

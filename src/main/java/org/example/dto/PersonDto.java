@@ -29,6 +29,11 @@ public class PersonDto {
 
     @NotNull
     @NotBlank
+    @JsonProperty("login")
+    private String login;
+
+    @NotNull
+    @NotBlank
     @JsonProperty("firstName")
     private String firstName;
 

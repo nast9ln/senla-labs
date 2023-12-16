@@ -16,14 +16,7 @@ public class PersonControllerImpl implements PersonController {
     private static final Logger logger = LoggerFactory.getLogger(PersonControllerImpl.class);
 
     @Override
-    @PostMapping
-    public PersonDto create(@RequestBody PersonDto dto) {
-        logger.info("create");
-        return personService.create(dto);
-    }
-
-    @Override
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public PersonDto read(@PathVariable Long id) {
         logger.info("read");
         return personService.read(id);
