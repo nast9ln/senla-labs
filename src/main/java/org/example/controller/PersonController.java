@@ -4,9 +4,6 @@ import org.example.dto.PersonDto;
 
 public interface PersonController {
 
-
-    PersonDto create(PersonDto dto);
-
     PersonDto read(Long id);
 
     void update(PersonDto dto);

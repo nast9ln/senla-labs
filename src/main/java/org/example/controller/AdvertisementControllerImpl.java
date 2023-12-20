@@ -24,7 +24,7 @@ public class AdvertisementControllerImpl implements AdvertisementController {
     }
 
     @Override
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public AdvertisementDto read(@PathVariable Long id) {
         return advertisementService.read(id);
     }

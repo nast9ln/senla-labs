@@ -6,9 +6,11 @@ import org.example.dto.AdvertisementDto;
 import org.example.dto.PersonDto;
 import org.example.entity.Advertisement;
 import org.example.entity.Person;
+import org.example.enums.RoleEnum;
 import org.example.service.mapper.PersonMapper;
 import org.example.util.DataFactory;
 import org.example.util.DatabaseUtil;
+import org.example.util.TestJwtTokenProvider;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,9 +44,11 @@ public class AdvertisementControllerTest {
     private DatabaseUtil databaseUtil;
     @Autowired
     private PersonMapper personMapper;
+    @Autowired
+    private TestJwtTokenProvider provider;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).dispatchOptions(true).build();
     }
@@ -57,6 +61,7 @@ public class AdvertisementControllerTest {
         AdvertisementDto expected = DataFactory.getAdvertisementDtoForTest(null);
         expected.setPerson(personDto);
         MvcResult mvcResult = mockMvc.perform(post("/advertisement")
+                        .header("Authorization", "Bearer " + provider.buildJwtToken(RoleEnum.ROLE_USER))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(expected)))
                 .andDo(MockMvcResultHandlers.print())
@@ -70,6 +75,7 @@ public class AdvertisementControllerTest {
         Advertisement expected = databaseUtil.createAdvertisement();
 
         MvcResult mvcResult = mockMvc.perform(get("/advertisement/{id}", expected.getId())
+                        .header("Authorization", "Bearer " + provider.buildJwtToken(RoleEnum.ROLE_USER))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
@@ -83,6 +89,7 @@ public class AdvertisementControllerTest {
         AdvertisementDto expected = DataFactory.getAdvertisementDtoForTest(advertisement.getId());
 
         MvcResult mvcResult = mockMvc.perform(put("/advertisement")
+                        .header("Authorization", "Bearer " + provider.buildJwtToken(RoleEnum.ROLE_USER))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(expected)))
                 .andDo(MockMvcResultHandlers.print())
@@ -91,6 +98,7 @@ public class AdvertisementControllerTest {
         Assert.assertEquals(200, mvcResult.getResponse().getStatus());
 
         mvcResult = mockMvc.perform(get("/advertisement/{id}", expected.getId())
+                        .header("Authorization", "Bearer " + provider.buildJwtToken(RoleEnum.ROLE_USER))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
@@ -104,7 +112,8 @@ public class AdvertisementControllerTest {
     @Test
     public void testDeleteAdvertisement() throws Exception {
         Long id = databaseUtil.createAdvertisement().getId();
-        MvcResult mvcResult = mockMvc.perform(delete("/advertisement/{id}", id))
+        MvcResult mvcResult = mockMvc.perform(delete("/advertisement/{id}", id)
+                        .header("Authorization", "Bearer " + provider.buildJwtToken(RoleEnum.ROLE_USER)))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
         Assert.assertEquals(200, mvcResult.getResponse().getStatus());

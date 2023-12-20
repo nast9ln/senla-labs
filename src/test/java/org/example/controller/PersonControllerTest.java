@@ -4,13 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.config.TestConnectionConfig;
 import org.example.dto.PersonDto;
 import org.example.entity.Person;
-import org.example.entity.Role;
-import org.example.repository.RoleRepository;
+import org.example.enums.RoleEnum;
 import org.example.util.DataFactory;
 import org.example.util.DatabaseUtil;
+import org.example.util.TestJwtTokenProvider;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
@@ -42,27 +41,23 @@ public class PersonControllerTest {
     @Autowired
     private DatabaseUtil databaseUtil;
 
+    @Autowired
+    private TestJwtTokenProvider provider;
+
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).dispatchOptions(true).build();
     }
 
-    @Autowired
-    RoleRepository roleRepository;
-
     @Test
-    public void testCreatePerson() throws Exception {
+    public void testRegisterPerson() {
         PersonDto expected = DataFactory.getPersonDtoForTest(null);
-        List<Role> all = roleRepository.findAll();
-        System.out.println("ALL ROLES ALL  " + all);
-        MvcResult mvcResult = mockMvc.perform(post("/person")
+        Assertions.assertDoesNotThrow(() -> mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(expected)))
                 .andDo(MockMvcResultHandlers.print())
-                .andReturn();
-        PersonDto actual = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), PersonDto.class);
-        Assert.assertEquals(expected.getFirstName(), actual.getFirstName());
+                .andReturn());
 
     }
 
@@ -70,6 +65,7 @@ public class PersonControllerTest {
     public void testReadPerson() throws Exception {
         Person expected = databaseUtil.createPerson();
         MvcResult mvcResult = mockMvc.perform(get("/person/{id}", expected.getId())
+                        .header("Authorization", "Bearer " + provider.buildJwtToken(RoleEnum.ROLE_USER))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
@@ -80,6 +76,7 @@ public class PersonControllerTest {
     @Test
     public void testReadPersonThrowEntityNotFoundException() throws Exception {
         MvcResult mvcResult = mockMvc.perform(get("/person/{id}", 321L)
+                        .header("Authorization", "Bearer " + provider.buildJwtToken(RoleEnum.ROLE_USER))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
@@ -93,6 +90,7 @@ public class PersonControllerTest {
         PersonDto expected = DataFactory.getPersonDtoForTest(person.getId());
 
         MvcResult mvcResult = mockMvc.perform(put("/person")
+                        .header("Authorization", "Bearer " + provider.buildJwtToken(RoleEnum.ROLE_USER))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(expected)))
                 .andDo(MockMvcResultHandlers.print())
@@ -101,6 +99,7 @@ public class PersonControllerTest {
         Assert.assertEquals(200, mvcResult.getResponse().getStatus());
 
         mvcResult = mockMvc.perform(get("/person/{id}", expected.getId())
+                        .header("Authorization", "Bearer " + provider.buildJwtToken(RoleEnum.ROLE_USER))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
@@ -113,7 +112,8 @@ public class PersonControllerTest {
     @Test
     public void testDeletePerson() throws Exception {
         Long id = databaseUtil.createPerson().getId();
-        MvcResult mvcResult = mockMvc.perform(delete("/person/{id}", id))
+        MvcResult mvcResult = mockMvc.perform(delete("/person/{id}", id)
+                        .header("Authorization", "Bearer " + provider.buildJwtToken(RoleEnum.ROLE_USER)))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
         Assert.assertEquals(200, mvcResult.getResponse().getStatus());

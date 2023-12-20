@@ -37,6 +37,7 @@ public class AdvertisementRepositoryTest extends TestCase {
     public void testReadByPersonId() {
         Person person1 = personRepository.save(Person.builder()
                 .gender(Gender.WOMAN)
+                .login("test1")
                 .firstName("test1")
                 .lastName("test1")
                 .birthday(LocalDate.of(2005, 1, 14).atStartOfDay().toInstant(ZoneOffset.UTC))
@@ -45,11 +46,12 @@ public class AdvertisementRepositoryTest extends TestCase {
                 .email("nast9ln@h.com")
                 .password("1202")
                 .isDeleted(false)
-                .roles(Set.of(new Role(RoleEnum.USER)))
+                .roles(Set.of(new Role(RoleEnum.ROLE_USER)))
                 .build());
 
         Person person2 = personRepository.save(Person.builder()
                 .gender(Gender.WOMAN)
+                .login("test2")
                 .firstName("test2")
                 .lastName("test2")
                 .birthday(LocalDate.of(2005, 1, 14).atStartOfDay().toInstant(ZoneOffset.UTC))
@@ -58,7 +60,7 @@ public class AdvertisementRepositoryTest extends TestCase {
                 .email("nast9ln@h.com")
                 .password("1202")
                 .isDeleted(false)
-                .roles(Set.of(new Role(RoleEnum.USER)))
+                .roles(Set.of(new Role(RoleEnum.ROLE_USER)))
                 .build());
 
         advertisementRepository.save(Advertisement.builder()

@@ -46,21 +46,6 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void testCreate() {
-        // Arrange
-        PersonDto personDto = new PersonDto();
-        Person person = new Person();
-        when(personMapper.toEntity(personDto)).thenReturn(person);
-        when(personRepository.save(person)).thenReturn(person);
-        when(roleRepository.findById(any())).thenReturn(Optional.of(new Role()));
-
-        PersonDto result = personService.create(personDto);
-
-        verify(personRepository, times(1)).save(person);
-    }
-
-
-    @Test
     public void testRead() {
         Long personId = 1L;
         Person person = DataFactory.getPersonForTest(personId);

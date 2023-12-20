@@ -1,7 +1,9 @@
 package org.example.controller.advice;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.example.exception.EntityNotFoundException;
+import org.example.exception.JwtAuthenticationException;
 import org.example.exception.RelativeNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,20 @@ public class CustomExceptionHandler extends DefaultHandlerExceptionResolver {
         log.info(exception.getMessage());
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
+                .body(exception.getLocalizedMessage());
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<String> handleExpiredJwtException(ExpiredJwtException exception) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(exception.getLocalizedMessage());
+    }
+
+    @ExceptionHandler(JwtAuthenticationException.class)
+    public ResponseEntity<String> handleJwtException(JwtAuthenticationException exception) {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
                 .body(exception.getLocalizedMessage());
     }
 

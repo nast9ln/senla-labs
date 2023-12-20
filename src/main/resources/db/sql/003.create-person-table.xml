@@ -38,5 +38,11 @@
         </createTable>
     </changeSet>
 
-
+    <changeSet id="add-login-column" author="Anastasia">
+        <addColumn tableName="person">
+            <column name="login" type="VARCHAR(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
