@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/coffer
+#    url: jdbc:postgresql://host.docker.internal:5432/coffer
+    username: postgres
+    driver-class-name: org.postgresql.Driver
+    password: postgres
+  jpa:
+    show-sql: true
+  liquibase:
+    change-log: changelog.xml
+    default-schema: public
+
+
+#jwt:
+#  secret: secretKeyForGenerateTokenILoveSenlaAndMedovik
+#  sessionTime: 3600000
