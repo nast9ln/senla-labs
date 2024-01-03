@@ -5,10 +5,12 @@ import com.example.demo.entity.Comment;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(uses = {PersonMapper.class, AdvertisementMapper.class})
 public interface CommentMapper {
     Comment toEntity(CommentDto dto);
     CommentDto toDto(Comment comment);
+    void update (Comment exComment, @MappingTarget Comment newComment);
 }

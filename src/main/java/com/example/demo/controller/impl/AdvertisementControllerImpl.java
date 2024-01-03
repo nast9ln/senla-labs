@@ -7,7 +7,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +33,6 @@ public class AdvertisementControllerImpl implements AdvertisementController {
     }
 
     @Override
-    @Transactional
     @PutMapping
     public void update(@RequestBody AdvertisementDto dto) {
         advertisementService.update(dto);
@@ -47,7 +45,7 @@ public class AdvertisementControllerImpl implements AdvertisementController {
     }
 
     @Override
-    @GetMapping("/find")
+    @GetMapping("/page")
     public Page<AdvertisementDto> findAllOrderedByTopAndCreatedDate(Pageable pageable) {
         return advertisementService.findAllOrderedByTopAndCreatedDate(pageable);
     }

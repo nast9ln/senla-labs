@@ -42,8 +42,10 @@ public class Advertisement extends SoftDeletableEntity {
     private String description;
     @Column
     private String status;
-    @Column(name = "main_image_id")
-    private Long mainImageId;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "main_image_id", referencedColumnName = "id")
+    private Image mainImage;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

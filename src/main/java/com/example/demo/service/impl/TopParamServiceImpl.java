@@ -4,6 +4,7 @@ import com.example.demo.dto.TopParamDto;
 import com.example.demo.entity.AbstractEntity;
 import com.example.demo.entity.TopParam;
 import com.example.demo.exception.EntityNotFoundException;
+import com.example.demo.repository.AdvertisementRepository;
 import com.example.demo.repository.TopParamRepository;
 import com.example.demo.service.TopParamService;
 import com.example.demo.service.mapper.TopParamMapper;
@@ -23,6 +24,8 @@ import java.util.stream.Collectors;
 public class TopParamServiceImpl implements TopParamService {
     private final TopParamRepository topParamRepository;
     private final TopParamMapper topParamMapper;
+    private final AdvertisementRepository advertisementRepository;
+
     @Override
     public List<Long> getCurrentTopParamIds() {
         List<TopParam> topParams = topParamRepository.findByIsTopIsTrue();
@@ -35,7 +38,7 @@ public class TopParamServiceImpl implements TopParamService {
     public void update(TopParamDto dto) {
         TopParam newTopParam = topParamMapper.toEntity(dto);
         TopParam exTopParam = topParamRepository.findById(dto.getId())
-                .orElseThrow(()-> new EntityNotFoundException("Top param not found with id {0}", dto.getId()));
+                .orElseThrow(() -> new EntityNotFoundException("Top param not found with id {0}", dto.getId()));
         topParamMapper.update(exTopParam, newTopParam);
         topParamRepository.save(exTopParam);
     }
@@ -43,17 +46,27 @@ public class TopParamServiceImpl implements TopParamService {
     @Override
     public void updateIsTop() {
         List<TopParam> topParams = topParamRepository.findByIsTopIsTrue();
-        for (TopParam topParam : topParams){
+        for (TopParam topParam : topParams) {
             Instant currentTime = Instant.now();
-            Instant endTime = topParam.getTimeTopStart().plusSeconds(topParam.getTimeInTop()*60);
+            Instant endTime = topParam.getTimeTopStart().plusSeconds(topParam.getTimeInTop() * 60);
 
-            if (currentTime.isAfter(endTime)){
+            if (currentTime.isAfter(endTime)) {
                 topParam.setTop(false);
-                topParamRepository.save(topParam);
             }
         }
+        topParamRepository.saveAll(topParams);
 
     }
 
-
+    @Override
+    public void extend(Integer extendTime, Long advId) {
+        TopParam topParam = advertisementRepository.findById(advId)
+                .orElseThrow(() -> new EntityNotFoundException("Advertisement was not found with id: {0}", advId))
+                .getTopParam();
+        if (topParam.isTop()) {
+            Instant currentEndTime = topParam.getTimeTopStart().plusSeconds(topParam.getTimeInTop());
+            topParam.setTimeInTop(topParam.getTimeInTop() + extendTime);
+            topParamRepository.save(topParam);
+        }
+    }
 }

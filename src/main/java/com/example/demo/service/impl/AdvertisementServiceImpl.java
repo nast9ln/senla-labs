@@ -1,12 +1,17 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dto.AdvertisementDto;
+import com.example.demo.dto.CategoryDto;
+import com.example.demo.dto.PersonDto;
 import com.example.demo.entity.Advertisement;
+import com.example.demo.entity.Category;
+import com.example.demo.entity.Image;
 import com.example.demo.entity.Person;
-import com.example.demo.exception.EmptyException;
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.exception.RelativeNotFoundException;
 import com.example.demo.repository.AdvertisementRepository;
+import com.example.demo.repository.CategoryRepository;
+import com.example.demo.repository.ImageRepository;
 import com.example.demo.repository.PersonRepository;
 import com.example.demo.service.AdvertisementService;
 import com.example.demo.service.mapper.AdvertisementMapper;
@@ -18,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -27,18 +33,36 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     private final AdvertisementMapper advertisementDtoMapper;
     private final AdvertisementRepository advertisementRepository;
     private final PersonRepository personRepository;
+    private final ImageRepository imageRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public AdvertisementDto create(AdvertisementDto dto) {
         dto.setId(null);
         Advertisement advertisement = advertisementDtoMapper.toEntity(dto);
-        Long personId = advertisement.getPerson().getId();
+
+        Long personId = Optional.ofNullable(dto.getPerson()).map(PersonDto::getId).orElse(null);
         if (Objects.isNull(personId)) {
             throw new RelativeNotFoundException("Person id must be not null");
         }
-        Person person = personRepository.findById(personId)
-                .orElseThrow(() -> new EntityNotFoundException("The user for the ad was not found with the id: {0}", personId));
+
+        Long categoryId = Optional.ofNullable(dto.getCategory()).map(CategoryDto::getId).orElse(null);
+        if (Objects.isNull(categoryId)) {
+            throw new RelativeNotFoundException("Category id must be not null");
+        }
+        Person person = personRepository.getReferenceById(personId);
         advertisement.setPerson(person);
+
+        Category category = categoryRepository.getReferenceById(categoryId);
+        advertisement.setCategory(category);
+
+        List<Image> images = advertisement.getImages();
+        List<Image> savedImages = imageRepository.saveAll(images);
+        advertisement.setImages(savedImages);
+
+        Image image = imageRepository.save(advertisement.getMainImage());
+        advertisement.setMainImage(image);
+
         return advertisementDtoMapper.toDto(advertisementRepository.save(advertisement));
     }
 
@@ -79,29 +103,24 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     @Override
     public Page<AdvertisementDto> findAllByCategoryId(Long id, Pageable pageable) {
-        Page<Advertisement> advertisements = advertisementRepository.findAllByCategoryIdOrderByTopParamIdDescCreatedDateDesc(id, pageable);
-        return advertisements.map(advertisementDtoMapper::toDto);
+        return advertisementRepository.findAllByCategoryIdOrderByTopParamIdDescCreatedDateDesc(id, pageable)
+                .map(advertisementDtoMapper::toDto);
     }
 
     @Override
     public Page<AdvertisementDto> findAllByCostLessThan(Integer cost, Pageable pageable) {
         Page<Advertisement> advertisements = advertisementRepository.findAllByCostLessThanOrderByTopParamIdDescCreatedDateDesc(cost, pageable);
-        if (advertisements.stream().toList().isEmpty()){
-            throw new EmptyException("There are no advertisements whose price id lower then this price: {0}", cost);
-        }
         return advertisements.map(advertisementDtoMapper::toDto);
     }
 
     @Override
     public Page<AdvertisementDto> findAllByCostGreaterThan(Integer cost, Pageable pageable) {
         Page<Advertisement> advertisements = advertisementRepository.findAllByCostGreaterThanOrderByTopParamIdDescCreatedDateDesc(cost, pageable);
-        if (advertisements.stream().toList().isEmpty()){
-            throw new EmptyException("There are no advertisements whose price id greater then this price: {0}", cost);
-        }
         return advertisements.map(advertisementDtoMapper::toDto);
     }
 
-    public List<AdvertisementDto> findByPersonId (Long id) {
+    @Override
+    public List<AdvertisementDto> findByPersonId(Long id) {
         return advertisementRepository.findByPersonId(id).stream().map(advertisementDtoMapper::toDto).collect(Collectors.toList());
     }
 

@@ -74,9 +74,9 @@ public class PersonDto {
     private boolean isDeleted;
 
     @JsonProperty("roles")
-    private Set<RoleDto> roles = new HashSet<>();
+    private Set<RoleDto> roles;
 
-    @JsonProperty("advertisementDto")
-    private List<AdvertisementDto> advertisement= new ArrayList<>();
+    @JsonProperty("advertisements")
+    private List<AdvertisementDto> advertisements;
 
 }

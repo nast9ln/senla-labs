@@ -13,5 +13,7 @@ public interface PersonMapper {
     PersonDto toDto(Person entity);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "roles", ignore = true)
+    @Mapping(target = "advertisements", ignore = true)
     void update(@MappingTarget Person exPerson, Person newPerson);
 }

@@ -23,9 +23,9 @@ public class ImageControllerImpl implements ImageController {
         return imageService.read(id);
     }
 
-    @PutMapping("/{id}")
-    public void update (@PathVariable Long id, @RequestBody ImageDto dto){
-        imageService.update(id, dto);
+    @PutMapping
+    public void update (@RequestBody ImageDto dto){
+        imageService.update(dto);
     }
 
     @DeleteMapping("/{image-id}")
@@ -33,11 +33,9 @@ public class ImageControllerImpl implements ImageController {
         imageService.delete(id);
     }
 
-    @DeleteMapping("/deleteByAdId/{adv-id}")
+    @DeleteMapping("/delete-by-adv-id/{adv-id}")
     public void deleteByAdvertisementId(@PathVariable("adv-id") Long id){
         imageService.deleteByAdvertisementId(id);
     }
-
-
 
 }

@@ -16,10 +16,10 @@ import java.time.LocalDateTime;
 public class MessageDto {
     @JsonProperty("id")
     private Long id;
-    @JsonProperty("sender_id")
-    private Long senderId;
+    @JsonProperty("sender")
+    private PersonDto sender;
     @JsonProperty("advertisement")
-    private Long advertisementId;
+    private AdvertisementDto advertisement;
     @JsonProperty("text")
     private String text;
     @JsonProperty("created_date")

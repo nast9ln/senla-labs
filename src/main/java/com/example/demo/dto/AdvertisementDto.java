@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
+import java.util.List;
 
 @SuperBuilder
 @Data
@@ -16,8 +17,10 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdvertisementDto {
+
     @JsonProperty("id")
     private Long id;
+
     @NotNull
     @JsonProperty("personDto")
     private PersonDto person;
@@ -25,8 +28,11 @@ public class AdvertisementDto {
     @JsonProperty("categoryDto")
     private CategoryDto category;
 
-    @JsonProperty("mainPictureId")
-    private Long mainPictureId;
+    @JsonProperty("mainImage")
+    private ImageDto mainImage;
+
+    @JsonProperty("images")
+    private List<ImageDto> images;
 
     @JsonProperty("topParamDto")
     private TopParamDto topParam;

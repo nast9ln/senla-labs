@@ -5,11 +5,8 @@ import com.example.demo.entity.Message;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper
-public interface MessageMapper {
-
-    @Mapping(target = "sender.id", source = "senderId")
-    @Mapping(target = "advertisement.id", source = "advertisementId")
+@Mapper(uses = {PersonMapper.class})
+public interface MessageMapper  {
     Message toEntity(MessageDto dto);
 
     MessageDto toDto(Message entity);

@@ -1,8 +1,6 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dto.AdvertisementDto;
 import com.example.demo.dto.PersonDto;
-import com.example.demo.entity.Advertisement;
 import com.example.demo.entity.Person;
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.repository.AdvertisementRepository;
@@ -14,12 +12,8 @@ import com.example.demo.service.mapper.PersonMapper;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @Transactional
@@ -37,16 +31,7 @@ public class PersonServiceImpl implements PersonService {
     public PersonDto read(Long id) {
         logger.info("read");
         Person person = personRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found with id {0}:", id));
-        List<Advertisement> advertisements = advertisementRepository.findByPersonId(id);
-        List<AdvertisementDto> advertisementDtos = new ArrayList<>();
-
-        for (Advertisement advertisement : advertisements) {
-            advertisementDtos.add(advertisementDtoMapper.toDto(advertisement));
-        }
-
-        PersonDto personDto = personDtoMapper.toDto(person);
-        personDto.setAdvertisement(advertisementDtos);
-        return personDto;
+        return personDtoMapper.toDto(person);
     }
 
     @Override
@@ -69,6 +54,6 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Person findByLogin(String login) {
-        return personRepository.findByLogin(login).orElseThrow(()-> new EntityNotFoundException("Person not found with login {0}", login));
+        return personRepository.findByLogin(login).orElseThrow(() -> new EntityNotFoundException("Person not found with login {0}", login));
     }
 }

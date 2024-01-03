@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = {AdvertisementMapper.class})
+@Mapper
 public interface ImageMapper {
     Image toEntity(ImageDto dto);
 

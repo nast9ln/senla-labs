@@ -6,7 +6,6 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
-import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -53,10 +52,10 @@ public class Person extends SoftDeletableEntity {
     @EqualsAndHashCode.Exclude
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "person_role", joinColumns = @JoinColumn(name = "person_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "person", fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<Advertisement> advertisements = new HashSet<>();
+    private Set<Advertisement> advertisements;
 }
