@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.AdvertisementDto;
-import com.example.demo.entity.Advertisement;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -20,9 +19,12 @@ public interface AdvertisementService {
     boolean deleteByPersonId(Long id);
 
     Page<AdvertisementDto> findAllOrderedByTopAndCreatedDate(Pageable pageable);
-    Page<AdvertisementDto> findAllByCategoryId (Long id, Pageable pageable);
-    Page<AdvertisementDto> findAllByCostLessThan (Integer cost, Pageable pageable);
-    Page<AdvertisementDto> findAllByCostGreaterThan (Integer cost, Pageable pageable);
+
+    Page<AdvertisementDto> findAllByCategoryId(Long id, Pageable pageable);
+
+    Page<AdvertisementDto> findAllByCostLessThan(Integer cost, Pageable pageable);
+
+    Page<AdvertisementDto> findAllByCostGreaterThan(Integer cost, Pageable pageable);
 
 
     List<AdvertisementDto> findByPersonId(Long id);

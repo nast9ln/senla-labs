@@ -3,6 +3,7 @@ package com.example.demo.security;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,17 +11,15 @@ import java.util.Collection;
 
 @Data
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
-public class JwtPerson implements UserDetails {
+public class AuthenticationRequest implements UserDetails {
     private String login;
     private String password;
-    private boolean isDeleted;
-    private final Collection<? extends GrantedAuthority> authorities;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return null;
     }
 
     @Override
@@ -30,21 +29,21 @@ public class JwtPerson implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isEnabled() {
-        return !isDeleted;
+        return false;
     }
 }

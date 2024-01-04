@@ -1,6 +1,5 @@
 package com.example.demo.dto;
 
-import com.example.demo.enums.CategoryType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

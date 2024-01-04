@@ -1,13 +1,12 @@
 package com.example.demo.controller.advice;
 
-//import com.example.demo.exception.JwtAuthenticationException;
 import com.example.demo.exception.EmptyException;
 import com.example.demo.exception.RelativeNotFoundException;
-import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -45,6 +44,14 @@ public class CustomExceptionHandler extends DefaultHandlerExceptionResolver {
                 .status(HttpStatus.NOT_FOUND)
                 .body(exception.getLocalizedMessage());
     }
+
+//    @ExceptionHandler(DataIntegrityViolationException.class)
+//    public ResponseEntity<String> handleDataIntegrityViolationException(RelativeNotFoundException exception) {
+//        log.info(exception.getMessage());
+//        return ResponseEntity
+//                .status(HttpStatus.NOT_FOUND)
+//                .body(exception.getLocalizedMessage());
+//    }
 
 //    @ExceptionHandler(ExpiredJwtException.class)
 //    public ResponseEntity<String> handleExpiredJwtException(ExpiredJwtException exception) {

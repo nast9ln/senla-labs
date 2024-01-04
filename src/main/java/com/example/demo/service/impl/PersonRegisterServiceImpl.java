@@ -29,7 +29,7 @@ public class PersonRegisterServiceImpl implements PersonRegisterService {
         Set<Role> personRoles = new HashSet<>();
         personRoles.add(rolePerson);
 
-     //   person.setPassword(passwordEncoder.encode(person.getPassword()));
+        //   person.setPassword(passwordEncoder.encode(person.getPassword()));
         person.setRoles(personRoles);
 
         Person registerPerson = personRepository.save(person);

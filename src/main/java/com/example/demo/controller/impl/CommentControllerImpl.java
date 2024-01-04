@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class CommentControllerImpl implements CommentController {
     private final CommentService commentService;
+
     @Override
     @PostMapping
     public CommentDto create(CommentDto commentDto) {

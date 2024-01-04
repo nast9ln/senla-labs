@@ -17,12 +17,13 @@ public interface AdvertisementController {
 
     void delete(Long id);
 
-    public Page<AdvertisementDto> findAllOrderedByTopAndCreatedDate(Pageable pageable);
+    Page<AdvertisementDto> findAllOrderedByTopAndCreatedDate(Pageable pageable);
 
-    public Page<AdvertisementDto> findAllByCategoryId(Long id, Pageable pageable);
+    Page<AdvertisementDto> findAllByCategoryId(Long id, Pageable pageable);
 
-    public Page<AdvertisementDto> findAllByCostLessThan(Integer cost, Pageable pageable);
-    public Page<AdvertisementDto> findAllByCostGreaterThan(Integer cost, Pageable pageable);
+    Page<AdvertisementDto> findAllByCostLessThan(Integer cost, Pageable pageable);
+
+    Page<AdvertisementDto> findAllByCostGreaterThan(Integer cost, Pageable pageable);
 
     List<AdvertisementDto> getAdvertisementByPersonId(Long id);
 

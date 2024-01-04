@@ -1,10 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.AdvertisementDto;
 import com.example.demo.dto.PersonDto;
-import com.example.demo.entity.Advertisement;
-
-import java.util.List;
 
 public interface PersonController {
 

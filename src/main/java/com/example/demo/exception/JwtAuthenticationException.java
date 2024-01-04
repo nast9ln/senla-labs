@@ -2,7 +2,7 @@ package com.example.demo.exception;
 
 import java.text.MessageFormat;
 
-public class JwtAuthenticationException extends RuntimeException{
+public class JwtAuthenticationException extends RuntimeException {
     public JwtAuthenticationException() {
     }
 

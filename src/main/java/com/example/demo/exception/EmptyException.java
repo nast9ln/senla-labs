@@ -2,11 +2,11 @@ package com.example.demo.exception;
 
 import java.text.MessageFormat;
 
-public class EmptyException extends RuntimeException{
-    public EmptyException(){
+public class EmptyException extends RuntimeException {
+    public EmptyException() {
     }
 
-    public EmptyException(String message){
+    public EmptyException(String message) {
         super(message);
     }
 

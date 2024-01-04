@@ -8,7 +8,6 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -28,7 +27,7 @@ public class Comment extends SoftDeletableEntity {
     private String text;
     @Column(name = "created_date")
     private Instant createdDate;
-    @Column(name="is_deleted")
+    @Column(name = "is_deleted")
     private boolean isDeleted;
 }
 

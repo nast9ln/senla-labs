@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ImageControllerImpl implements ImageController {
     private final ImageService imageService;
+
     @Override
 
     @PostMapping
@@ -24,7 +25,7 @@ public class ImageControllerImpl implements ImageController {
     }
 
     @PutMapping
-    public void update (@RequestBody ImageDto dto){
+    public void update(@RequestBody ImageDto dto) {
         imageService.update(dto);
     }
 
@@ -34,7 +35,7 @@ public class ImageControllerImpl implements ImageController {
     }
 
     @DeleteMapping("/delete-by-adv-id/{adv-id}")
-    public void deleteByAdvertisementId(@PathVariable("adv-id") Long id){
+    public void deleteByAdvertisementId(@PathVariable("adv-id") Long id) {
         imageService.deleteByAdvertisementId(id);
     }
 

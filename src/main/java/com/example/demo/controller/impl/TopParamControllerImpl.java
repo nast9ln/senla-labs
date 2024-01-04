@@ -14,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TopParamControllerImpl implements TopParamController {
     private final TopParamService topParamService;
+
     @Override
     @GetMapping
     public List<Long> getCurrentTopIds() {

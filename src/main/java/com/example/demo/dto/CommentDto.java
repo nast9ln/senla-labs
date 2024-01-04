@@ -1,7 +1,5 @@
 package com.example.demo.dto;
 
-import com.example.demo.entity.Advertisement;
-import com.example.demo.entity.Person;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 @Data
 @Builder
