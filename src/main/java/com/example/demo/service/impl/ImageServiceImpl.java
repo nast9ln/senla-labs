@@ -7,7 +7,7 @@ import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.repository.AdvertisementRepository;
 import com.example.demo.repository.ImageRepository;
 import com.example.demo.service.ImageService;
-import com.example.demo.service.mapper.ImageMapper;
+import com.example.demo.mapper.ImageMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.example.demo.security;
+package com.example.demo.service.security;
 
 import com.example.demo.entity.Person;
 import com.example.demo.exception.EntityNotFoundException;

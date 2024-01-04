@@ -10,11 +10,8 @@ spring:
   liquibase:
     change-log: changelog.xml
     default-schema: public
-    drop-first: true
+    drop-first: false
     enabled: true
 jwt:
   secret: dgdgsgdgdhdgdgsgdgdhdgdgsgdgdhdgdgsgdgdhdgdgsgdgdh
 
-#jwt:
-#  secret: secretKeyForGenerateTokenILoveSenlaAndMedovik
-#  sessionTime: 3600000

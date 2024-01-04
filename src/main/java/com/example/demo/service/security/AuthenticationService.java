@@ -1,11 +1,14 @@
-package com.example.demo.security;
+package com.example.demo.service.security;
 
 import com.example.demo.entity.Person;
 import com.example.demo.entity.Role;
+import com.example.demo.entity.security.AuthenticationRequest;
+import com.example.demo.entity.security.AuthenticationResponse;
 import com.example.demo.enums.RoleEnum;
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.repository.PersonRepository;
 import com.example.demo.repository.RoleRepository;
+import com.example.demo.dto.security.JwtPerson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,6 +37,7 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(
                         request.getPassword()
                 ))
+                .roles(roles)
                 .isDeleted(false)
                 .build();
         try {
@@ -53,7 +57,7 @@ public class AuthenticationService {
                 new UsernamePasswordAuthenticationToken(request.getLogin(), request.getPassword())
         );
         Person person = personRepository.findByLogin(request.getLogin())
-                .orElseThrow(() -> new EntityNotFoundException("person npt found with login: {0}", request.getLogin()));
+                .orElseThrow(() -> new EntityNotFoundException("person not found with login: {0}", request.getLogin()));
         String token = jwtService.generateToken(request);
         return AuthenticationResponse.builder()
                 .login(person.getLogin())

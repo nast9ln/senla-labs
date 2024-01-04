@@ -10,7 +10,7 @@ import com.example.demo.repository.AdvertisementRepository;
 import com.example.demo.repository.CommentRepository;
 import com.example.demo.repository.PersonRepository;
 import com.example.demo.service.CommentService;
-import com.example.demo.service.mapper.CommentMapper;
+import com.example.demo.mapper.CommentMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

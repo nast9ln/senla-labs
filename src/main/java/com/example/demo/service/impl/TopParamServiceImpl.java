@@ -7,7 +7,7 @@ import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.repository.AdvertisementRepository;
 import com.example.demo.repository.TopParamRepository;
 import com.example.demo.service.TopParamService;
-import com.example.demo.service.mapper.TopParamMapper;
+import com.example.demo.mapper.TopParamMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

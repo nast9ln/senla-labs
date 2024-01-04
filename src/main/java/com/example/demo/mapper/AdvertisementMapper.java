@@ -1,4 +1,4 @@
-package com.example.demo.service.mapper;
+package com.example.demo.mapper;
 
 import com.example.demo.dto.AdvertisementDto;
 import com.example.demo.entity.Advertisement;

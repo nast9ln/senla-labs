@@ -14,7 +14,7 @@ import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.ImageRepository;
 import com.example.demo.repository.PersonRepository;
 import com.example.demo.service.AdvertisementService;
-import com.example.demo.service.mapper.AdvertisementMapper;
+import com.example.demo.mapper.AdvertisementMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
