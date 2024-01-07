@@ -14,4 +14,7 @@ spring:
     enabled: true
 jwt:
   secret: dgdgsgdgdhdgdgsgdgdhdgdgsgdgdhdgdgsgdgdhdgdgsgdgdh
+logging:
+  level:
+    org.springframework.security: TRACE
 

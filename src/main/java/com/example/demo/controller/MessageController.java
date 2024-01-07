@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface MessageController {
-    Page<MessageDto> getDialog(Long personId, Long advertisementId, Pageable pageable);
+    Page<MessageDto> getDialog(Long advertisementId, Pageable pageable);
 
     void sendMessage(MessageDto messageDto);
 }

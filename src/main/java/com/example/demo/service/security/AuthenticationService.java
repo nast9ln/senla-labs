@@ -1,15 +1,15 @@
 package com.example.demo.service.security;
 
-import com.example.demo.entity.Person;
-import com.example.demo.entity.Role;
 import com.example.demo.dto.security.AuthenticationRequest;
 import com.example.demo.dto.security.AuthenticationResponse;
+import com.example.demo.dto.security.JwtPerson;
+import com.example.demo.entity.Person;
+import com.example.demo.entity.Role;
 import com.example.demo.enums.RoleEnum;
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.mapper.JwtPersonMapper;
 import com.example.demo.repository.PersonRepository;
 import com.example.demo.repository.RoleRepository;
-import com.example.demo.dto.security.JwtPerson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -49,6 +49,7 @@ public class AuthenticationService {
         String token = jwtService.generateToken(jwtPersonMapper.toJwtPerson(person));
         return AuthenticationResponse
                 .builder()
+                .login(request.getLogin())
                 .token(token)
                 .build();
     }

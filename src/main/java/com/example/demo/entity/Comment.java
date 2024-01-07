@@ -29,5 +29,10 @@ public class Comment extends SoftDeletableEntity {
     private Instant createdDate;
     @Column(name = "is_deleted")
     private boolean isDeleted;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdDate = Instant.now();
+    }
 }
 

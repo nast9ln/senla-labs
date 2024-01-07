@@ -17,8 +17,8 @@ public class MessageControllerImpl implements MessageController {
     private final MessageService messageService;
 
     @GetMapping
-    public Page<MessageDto> getDialog(@RequestParam(name = "personId") Long personId, @RequestParam(name = "advertisementId") Long advertisementId, Pageable pageable) {
-        return messageService.getDialog(personId, advertisementId, pageable);
+    public Page<MessageDto> getDialog(@RequestParam(name = "advertisementId") Long advertisementId, Pageable pageable) {
+        return messageService.getDialog(advertisementId, pageable);
     }
 
     @Override

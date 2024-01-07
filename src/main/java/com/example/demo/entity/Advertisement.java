@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @SuperBuilder
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+//@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Table(name = "advertisement")
 @Where(clause = "is_deleted = false")

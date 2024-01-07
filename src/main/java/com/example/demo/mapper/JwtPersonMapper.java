@@ -9,6 +9,6 @@ public interface JwtPersonMapper {
 
     JwtPerson toJwtPerson(Person person);
 
-    Person toDto(JwtPerson jwtPerson);
+    Person toPerson(JwtPerson jwtPerson);
 
 }

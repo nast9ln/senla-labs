@@ -34,4 +34,9 @@ public class Message extends AbstractEntity {
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdDate = Instant.now();
+    }
 }

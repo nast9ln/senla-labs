@@ -1,5 +1,6 @@
 package com.example.demo.security;
 
+import com.example.demo.dto.security.JwtPerson;
 import com.example.demo.service.security.JwtService;
 import com.example.demo.service.security.PersonDetailService;
 import jakarta.servlet.FilterChain;
@@ -40,8 +41,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         userLogin = jwtService.extractLogin(jwt);
 
         if (Objects.nonNull(userLogin) && Objects.isNull(SecurityContextHolder.getContext().getAuthentication())) {
-            UserDetails userDetails = personDetailService.loadUserByUsername(userLogin);
+            JwtPerson userDetails = personDetailService.loadUserByUsername(userLogin);
             if (jwtService.isTokenValid(jwt, userDetails)) {
+
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
                 authenticationToken.setDetails(

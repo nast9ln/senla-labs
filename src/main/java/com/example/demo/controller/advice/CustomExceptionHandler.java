@@ -43,29 +43,6 @@ public class CustomExceptionHandler extends DefaultHandlerExceptionResolver {
                 .status(HttpStatus.NOT_FOUND)
                 .body(exception.getLocalizedMessage());
     }
-
-//    @ExceptionHandler(DataIntegrityViolationException.class)
-//    public ResponseEntity<String> handleDataIntegrityViolationException(RelativeNotFoundException exception) {
-//        log.info(exception.getMessage());
-//        return ResponseEntity
-//                .status(HttpStatus.NOT_FOUND)
-//                .body(exception.getLocalizedMessage());
-//    }
-
-//    @ExceptionHandler(ExpiredJwtException.class)
-//    public ResponseEntity<String> handleExpiredJwtException(ExpiredJwtException exception) {
-//        return ResponseEntity
-//                .status(HttpStatus.UNAUTHORIZED)
-//                .body(exception.getLocalizedMessage());
-//    }
-
-//    @ExceptionHandler(JwtAuthenticationException.class)
-//    public ResponseEntity<String> handleJwtException(JwtAuthenticationException exception) {
-//        return ResponseEntity
-//                .status(HttpStatus.FORBIDDEN)
-//                .body(exception.getLocalizedMessage());
-//    }
-
     @Override
     protected ModelAndView handleMethodArgumentNotValidException(MethodArgumentNotValidException ex, HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
         log.info(ex.getMessage());

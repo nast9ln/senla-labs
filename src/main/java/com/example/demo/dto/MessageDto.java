@@ -16,9 +16,9 @@ public class MessageDto {
     @JsonProperty("id")
     private Long id;
     @JsonProperty("sender")
-    private PersonDto sender;
-    @JsonProperty("advertisement")
-    private AdvertisementDto advertisement;
+    private Long senderId;
+    @JsonProperty("advertisementId")
+    private Long advertisementId;
     @JsonProperty("text")
     private String text;
     @JsonProperty("created_date")

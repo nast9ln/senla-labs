@@ -1,8 +1,10 @@
 package com.example.demo.service.security;
 
+import com.example.demo.dto.security.JwtPerson;
 import com.example.demo.entity.Person;
 import com.example.demo.entity.Role;
 import com.example.demo.exception.EntityNotFoundException;
+import com.example.demo.mapper.JwtPersonMapper;
 import com.example.demo.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,9 +21,10 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class PersonDetailService implements UserDetailsService {
     private final PersonService personService;
+    private final JwtPersonMapper personMapper;
 
     @Override
-    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+    public JwtPerson loadUserByUsername(String login) throws UsernameNotFoundException {
         Person person = personService.findByLogin(login);
         if (Objects.isNull(person)) {
             throw new EntityNotFoundException("Person with login " + login + " not found");
@@ -29,7 +32,7 @@ public class PersonDetailService implements UserDetailsService {
         return buildUserDetails(person);
     }
 
-    private UserDetails buildUserDetails(Person person) {
-        return new User(person.getLogin(), person.getPassword(), person.getAuthorities());
+    private JwtPerson buildUserDetails(Person person) {
+        return personMapper.toJwtPerson(person);
     }
 }
