@@ -2,10 +2,11 @@ package com.example.demo.service.security;
 
 import com.example.demo.entity.Person;
 import com.example.demo.entity.Role;
-import com.example.demo.entity.security.AuthenticationRequest;
-import com.example.demo.entity.security.AuthenticationResponse;
+import com.example.demo.dto.security.AuthenticationRequest;
+import com.example.demo.dto.security.AuthenticationResponse;
 import com.example.demo.enums.RoleEnum;
 import com.example.demo.exception.EntityNotFoundException;
+import com.example.demo.mapper.JwtPersonMapper;
 import com.example.demo.repository.PersonRepository;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.dto.security.JwtPerson;
@@ -26,8 +27,8 @@ public class AuthenticationService {
     private final RoleRepository roleRepository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private
-    final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtPersonMapper jwtPersonMapper;
 
     public AuthenticationResponse register(JwtPerson request) {
         Set<Role> roles = new HashSet<>();
@@ -41,11 +42,11 @@ public class AuthenticationService {
                 .isDeleted(false)
                 .build();
         try {
-            personRepository.save(person);
+            person = personRepository.save(person);
         } catch (DataIntegrityViolationException e) {
             throw e;
         }
-        String token = jwtService.generateToken(request);
+        String token = jwtService.generateToken(jwtPersonMapper.toJwtPerson(person));
         return AuthenticationResponse
                 .builder()
                 .token(token)
@@ -58,7 +59,7 @@ public class AuthenticationService {
         );
         Person person = personRepository.findByLogin(request.getLogin())
                 .orElseThrow(() -> new EntityNotFoundException("person not found with login: {0}", request.getLogin()));
-        String token = jwtService.generateToken(request);
+        String token = jwtService.generateToken(jwtPersonMapper.toJwtPerson(person));
         return AuthenticationResponse.builder()
                 .login(person.getLogin())
                 .token(token)

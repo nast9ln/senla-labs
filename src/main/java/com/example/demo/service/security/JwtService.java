@@ -1,5 +1,6 @@
 package com.example.demo.service.security;
 
+import com.example.demo.dto.security.JwtPerson;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -26,20 +27,24 @@ public class JwtService {
 
     public <T> T extractClaims(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
+
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(JwtPerson userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
 
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+    public String generateToken(Map<String, Object> extraClaims, JwtPerson jwtPerson) {
         return Jwts.builder()
                 .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
+                .setSubject(jwtPerson.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24 * 100))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
+                .claim("id", jwtPerson.getId())
+                .claim("login", jwtPerson.getLogin())
+                .claim("authorities", jwtPerson.getAuthorities())
                 .compact();
     }
 

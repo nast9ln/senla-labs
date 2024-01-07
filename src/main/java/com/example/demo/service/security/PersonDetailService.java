@@ -1,15 +1,18 @@
 package com.example.demo.service.security;
 
 import com.example.demo.entity.Person;
+import com.example.demo.entity.Role;
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.service.PersonService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Objects;
 
 @Component
@@ -27,6 +30,6 @@ public class PersonDetailService implements UserDetailsService {
     }
 
     private UserDetails buildUserDetails(Person person) {
-        return new User(person.getLogin(), person.getPassword(), null);
+        return new User(person.getLogin(), person.getPassword(), person.getAuthorities());
     }
 }

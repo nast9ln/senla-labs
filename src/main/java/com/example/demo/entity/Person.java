@@ -4,8 +4,10 @@ import com.example.demo.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -58,4 +60,9 @@ public class Person extends SoftDeletableEntity {
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "person", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Advertisement> advertisements;
+
+    public List<SimpleGrantedAuthority> getAuthorities() {
+        return this.roles.stream().map(Role::getAuthorities).flatMap(List::stream).toList();
+    }
+
 }

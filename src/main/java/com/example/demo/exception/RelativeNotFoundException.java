@@ -1,6 +1,6 @@
 package com.example.demo.exception;
 
-public class RelativeNotFoundException extends RuntimeException {
+public class RelativeNotFoundException extends BaseException {
 
     public RelativeNotFoundException() {
     }
@@ -8,4 +8,9 @@ public class RelativeNotFoundException extends RuntimeException {
     public RelativeNotFoundException(String message) {
         super(message);
     }
+
+    public RelativeNotFoundException(String message, Object... args) {
+        super(message, args);
+    }
+
 }

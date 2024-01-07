@@ -12,6 +12,7 @@ import java.util.Collection;
 @Builder
 @AllArgsConstructor
 public class JwtPerson implements UserDetails {
+    private Long id;
     private String login;
     private String password;
     private boolean isDeleted;

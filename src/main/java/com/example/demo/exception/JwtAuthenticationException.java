@@ -1,8 +1,7 @@
 package com.example.demo.exception;
 
-import java.text.MessageFormat;
+public class JwtAuthenticationException extends BaseException {
 
-public class JwtAuthenticationException extends RuntimeException {
     public JwtAuthenticationException() {
     }
 
@@ -11,6 +10,7 @@ public class JwtAuthenticationException extends RuntimeException {
     }
 
     public JwtAuthenticationException(String message, Object... args) {
-        super(MessageFormat.format(message, args));
+        super(message, args);
     }
+
 }

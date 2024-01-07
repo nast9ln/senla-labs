@@ -1,7 +1,7 @@
 package com.example.demo.controller.impl;
 
-import com.example.demo.entity.security.AuthenticationRequest;
-import com.example.demo.entity.security.AuthenticationResponse;
+import com.example.demo.dto.security.AuthenticationRequest;
+import com.example.demo.dto.security.AuthenticationResponse;
 import com.example.demo.service.security.AuthenticationService;
 import com.example.demo.dto.security.JwtPerson;
 import lombok.RequiredArgsConstructor;
