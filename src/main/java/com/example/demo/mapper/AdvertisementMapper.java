@@ -5,9 +5,16 @@ import com.example.demo.entity.Advertisement;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
+import org.mapstruct.factory.Mappers;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", uses = {PersonMapper.class, CategoryMapper.class, TopParamMapper.class, ImageMapper.class})
 public interface AdvertisementMapper {
+    AdvertisementMapper INSTANCE = Mappers.getMapper(AdvertisementMapper.class);
+
     Advertisement toEntity(AdvertisementDto dto);
 
     AdvertisementDto toDto(Advertisement advertisement);
@@ -19,4 +26,5 @@ public interface AdvertisementMapper {
     @Mapping(target = "images", ignore = true)
     @Mapping(target = "topParam", ignore = true)
     void update(Advertisement exAd, @MappingTarget Advertisement newAd);
+
 }

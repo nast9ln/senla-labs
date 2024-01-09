@@ -18,17 +18,6 @@ public class ImageControllerImpl implements ImageController {
         imageService.create(dto);
     }
 
-    @Override
-    @GetMapping("{id}")
-    public ImageDto read(@PathVariable Long id) {
-        return imageService.read(id);
-    }
-
-    @PutMapping
-    public void update(@RequestBody ImageDto dto) {
-        imageService.update(dto);
-    }
-
     @DeleteMapping("/{image-id}")
     public void delete(@PathVariable("image-id") Long id) {
         imageService.delete(id);

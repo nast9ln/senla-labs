@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dto.CommentDto;
+import com.example.demo.dto.security.JwtPerson;
 import com.example.demo.entity.Advertisement;
 import com.example.demo.entity.Comment;
 import com.example.demo.entity.Person;
@@ -11,6 +12,7 @@ import com.example.demo.repository.CommentRepository;
 import com.example.demo.repository.PersonRepository;
 import com.example.demo.service.CommentService;
 import com.example.demo.mapper.CommentMapper;
+import com.example.demo.service.security.JwtAuthorizationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -30,22 +32,21 @@ public class CommentServiceImpl implements CommentService {
     private final CommentMapper commentMapper;
     private final PersonRepository personRepository;
     private final AdvertisementRepository advertisementRepository;
+    private final JwtAuthorizationService jwtAuthorizationService;
+
 
     @Override
     public CommentDto create(CommentDto dto) {
         dto.setId(null);
+        JwtPerson jwtPerson = jwtAuthorizationService.extractJwtPerson();
+        Long personId = jwtPerson.getId();
         Comment comment = commentMapper.toEntity(dto);
-        Long personId = Optional.ofNullable(comment.getPerson()).map(Person::getId).orElse(null);
-        Long advertisementId = Optional.ofNullable(comment.getAdvertisement()).map(Advertisement::getId).orElse(null);
+        Advertisement advertisement = advertisementRepository.getReferenceById(dto.getAdvertisementId());
 
-        if (Objects.isNull(personId)) {
-            throw new RelativeNotFoundException("Person id must not be null");
-        }
-        if (Objects.isNull(advertisementId)) {
+        if (Objects.isNull(advertisement.getId())) {
             throw new RelativeNotFoundException("Adv id mist not be null");
         }
         Person person = personRepository.getReferenceById(personId);
-        Advertisement advertisement = advertisementRepository.getReferenceById(advertisementId);
 
         comment.setPerson(person);
         comment.setAdvertisement(advertisement);

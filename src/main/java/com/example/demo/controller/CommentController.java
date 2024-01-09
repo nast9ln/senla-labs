@@ -1,15 +1,12 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.CommentDto;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface CommentController {
-    CommentDto create(CommentDto commentDto);
-
-    CommentDto read(Long id);
-
-    void update(CommentDto dto);
+    CommentDto create(@Valid CommentDto commentDto);
 
     void delete(Long id);
 

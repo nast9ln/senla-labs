@@ -15,13 +15,13 @@ import java.time.Instant;
 public class CommentDto {
     @JsonProperty("id")
     private Long id;
-    @JsonProperty("person")
-    private PersonDto person;
-    @JsonProperty("advertisement")
-    private AdvertisementDto advertisement;
+    @JsonProperty("personId")
+    private Long personId;
+    @JsonProperty("advertisementId")
+    private Long advertisementId;
     @JsonProperty("text")
     private String text;
-    @JsonProperty("createdData")
+    @JsonProperty("createdDate")
     private Instant createdDate;
     @JsonProperty("isDeleted")
     private boolean isDeleted;

@@ -2,12 +2,18 @@ package com.example.demo.controller.impl;
 
 
 import com.example.demo.controller.PersonController;
+import com.example.demo.dto.AdvertisementDto;
 import com.example.demo.dto.PersonDto;
+import com.example.demo.entity.Advertisement;
 import com.example.demo.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 @RestController
 @RequestMapping("/person")
@@ -35,5 +41,11 @@ public class PersonControllerImpl implements PersonController {
     public void delete(@PathVariable Long id) {
         logger.info("delete");
         personService.delete(id);
+    }
+
+    @Override
+    @GetMapping("/adv")
+    public Page<AdvertisementDto> getAdvertisements(Pageable pageable) {
+        return personService.findAdvertisementByPersonId(pageable);
     }
 }

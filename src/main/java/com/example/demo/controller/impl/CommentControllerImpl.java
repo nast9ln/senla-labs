@@ -3,6 +3,7 @@ package com.example.demo.controller.impl;
 import com.example.demo.controller.CommentController;
 import com.example.demo.dto.CommentDto;
 import com.example.demo.service.CommentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,21 +19,8 @@ public class CommentControllerImpl implements CommentController {
 
     @Override
     @PostMapping
-    public CommentDto create(CommentDto commentDto) {
+    public CommentDto create(@Valid @RequestBody CommentDto commentDto) {
         return commentService.create(commentDto);
-    }
-
-    @Override
-    @GetMapping("/{id}")
-
-    public CommentDto read(@PathVariable Long id) {
-        return commentService.read(id);
-    }
-
-    @Override
-    @PutMapping
-    public void update(@RequestBody CommentDto dto) {
-        commentService.update(dto);
     }
 
     @Override

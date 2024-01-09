@@ -73,7 +73,4 @@ public class PersonDto {
     @JsonProperty("roles")
     private Set<RoleDto> roles;
 
-    @JsonProperty("advertisements")
-    private List<AdvertisementDto> advertisements;
-
 }

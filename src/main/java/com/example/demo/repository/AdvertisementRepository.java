@@ -24,6 +24,7 @@ public interface AdvertisementRepository extends JpaRepository<Advertisement, Lo
     Page<Advertisement> findAllByCostLessThanOrderByTopParamIdDescCreatedDateDesc(Integer cost, Pageable pageable);
 
     Page<Advertisement> findAllByCostGreaterThanOrderByTopParamIdDescCreatedDateDesc(Integer cost, Pageable pageable);
+    Page<Advertisement> findByPersonId(Long id, Pageable pageable);
 
 
 }

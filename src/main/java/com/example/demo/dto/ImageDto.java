@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 public class ImageDto {
     @JsonProperty("id")
     private Long id;
-    @JsonProperty("advertisementDto")
-    private AdvertisementDto advertisement;
+    @JsonProperty("advertisementId")
+    private Long advertisementId;
     @JsonProperty("path")
     private byte[] path;
 }
