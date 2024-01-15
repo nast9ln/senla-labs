@@ -53,8 +53,8 @@ public class AdvertisementDto {
     @JsonProperty("description")
     private String description;
 
-    @JsonProperty("type")
-    private String type;
+//    @JsonProperty("type")
+//    private String type;
 
     @JsonProperty("status")
     private String status;

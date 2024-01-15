@@ -40,8 +40,8 @@ public class Advertisement extends SoftDeletableEntity {
     private String header;
     @Column
     private String description;
-    @Column
-    private String status;
+//    @Column
+//    private String status;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "main_image_id", referencedColumnName = "id")
