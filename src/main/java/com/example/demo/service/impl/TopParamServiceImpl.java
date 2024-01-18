@@ -4,10 +4,10 @@ import com.example.demo.dto.TopParamDto;
 import com.example.demo.entity.AbstractEntity;
 import com.example.demo.entity.TopParam;
 import com.example.demo.exception.EntityNotFoundException;
+import com.example.demo.mapper.TopParamMapper;
 import com.example.demo.repository.AdvertisementRepository;
 import com.example.demo.repository.TopParamRepository;
 import com.example.demo.service.TopParamService;
-import com.example.demo.mapper.TopParamMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,6 +25,11 @@ public class TopParamServiceImpl implements TopParamService {
     private final TopParamRepository topParamRepository;
     private final TopParamMapper topParamMapper;
     private final AdvertisementRepository advertisementRepository;
+
+    public void create(TopParamDto topParamDto) {
+        TopParam topParam = topParamMapper.toEntity(topParamDto);
+        topParamRepository.save(topParam);
+    }
 
     @Override
     public List<Long> getCurrentTopParamIds() {

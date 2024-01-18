@@ -12,9 +12,9 @@ spring:
       console:
         enabled: true
   liquibase:
-     change-log: changelog.xml
-     default-schema: public
-     enabled: true
+    change-log: changelog.xml
+    default-schema: public
+    enabled: true
 
 jwt:
   secret: dgdgsgdgdhdgdgsgdgdhdgdgsgdgdhdgdgsgdgdhdgdgsgdgdh

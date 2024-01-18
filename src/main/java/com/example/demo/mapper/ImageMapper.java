@@ -15,6 +15,7 @@ public interface ImageMapper {
     @Mapping(target = "advertisementId", source = "advertisement.id")
     ImageDto toDto(Image entity);
 
-    void update(Image exImage, @MappingTarget Image newImage);
+    @Mapping(target = "id", ignore = true)
+    void update(@MappingTarget Image exImage, Image newImage);
 
 }

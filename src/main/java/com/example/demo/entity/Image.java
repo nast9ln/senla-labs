@@ -18,7 +18,7 @@ public class Image extends SoftDeletableEntity {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "advertisement_id")
     private Advertisement advertisement;
-    @Column(name = "path")
+    @Column(name = "png")
     @Lob
-    private byte[] path;
+    private byte[] png;
 }

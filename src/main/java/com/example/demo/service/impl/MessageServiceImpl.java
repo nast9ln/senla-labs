@@ -1,28 +1,23 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dto.AdvertisementDto;
 import com.example.demo.dto.MessageDto;
-import com.example.demo.dto.PersonDto;
 import com.example.demo.dto.security.JwtPerson;
 import com.example.demo.entity.Advertisement;
 import com.example.demo.entity.Message;
 import com.example.demo.entity.Person;
+import com.example.demo.mapper.AdvertisementMapper;
+import com.example.demo.mapper.MessageMapper;
+import com.example.demo.mapper.PersonMapper;
 import com.example.demo.repository.AdvertisementRepository;
 import com.example.demo.repository.MessageRepository;
 import com.example.demo.repository.PersonRepository;
 import com.example.demo.service.MessageService;
-import com.example.demo.mapper.AdvertisementMapper;
-import com.example.demo.mapper.MessageMapper;
-import com.example.demo.mapper.PersonMapper;
 import com.example.demo.service.security.JwtAuthorizationService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @Slf4j

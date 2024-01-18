@@ -15,6 +15,6 @@ public class ImageDto {
     private Long id;
     @JsonProperty("advertisementId")
     private Long advertisementId;
-    @JsonProperty("path")
-    private byte[] path;
+    @JsonProperty("png")
+    private byte[] png;
 }

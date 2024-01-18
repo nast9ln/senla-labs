@@ -22,10 +22,10 @@ public class AdvertisementDto {
     private Long id;
 
     @NotNull
-    @JsonProperty("personDto")
+    @JsonProperty("person")
     private PersonDto person;
 
-    @JsonProperty("categoryDto")
+    @JsonProperty("category")
     private CategoryDto category;
 
     @JsonProperty("mainImage")
@@ -34,7 +34,7 @@ public class AdvertisementDto {
     @JsonProperty("images")
     private List<ImageDto> images;
 
-    @JsonProperty("topParamDto")
+    @JsonProperty("topParam")
     private TopParamDto topParam;
 
     @JsonProperty("createdDate")
@@ -52,9 +52,6 @@ public class AdvertisementDto {
     @NotNull
     @JsonProperty("description")
     private String description;
-
-//    @JsonProperty("type")
-//    private String type;
 
     @JsonProperty("status")
     private String status;

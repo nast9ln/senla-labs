@@ -7,11 +7,11 @@ import com.example.demo.entity.Comment;
 import com.example.demo.entity.Person;
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.exception.RelativeNotFoundException;
+import com.example.demo.mapper.CommentMapper;
 import com.example.demo.repository.AdvertisementRepository;
 import com.example.demo.repository.CommentRepository;
 import com.example.demo.repository.PersonRepository;
 import com.example.demo.service.CommentService;
-import com.example.demo.mapper.CommentMapper;
 import com.example.demo.service.security.JwtAuthorizationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

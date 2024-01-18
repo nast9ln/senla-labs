@@ -3,18 +3,17 @@ package com.example.demo.service.impl;
 import com.example.demo.dto.AdvertisementDto;
 import com.example.demo.dto.CategoryDto;
 import com.example.demo.dto.PersonDto;
+import com.example.demo.dto.TopParamDto;
 import com.example.demo.entity.Advertisement;
 import com.example.demo.entity.Category;
-import com.example.demo.entity.Image;
 import com.example.demo.entity.Person;
+import com.example.demo.entity.TopParam;
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.exception.RelativeNotFoundException;
-import com.example.demo.repository.AdvertisementRepository;
-import com.example.demo.repository.CategoryRepository;
-import com.example.demo.repository.ImageRepository;
-import com.example.demo.repository.PersonRepository;
-import com.example.demo.service.AdvertisementService;
 import com.example.demo.mapper.AdvertisementMapper;
+import com.example.demo.mapper.TopParamMapper;
+import com.example.demo.repository.*;
+import com.example.demo.service.AdvertisementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +34,8 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     private final PersonRepository personRepository;
     private final ImageRepository imageRepository;
     private final CategoryRepository categoryRepository;
+    private final TopParamMapper topParamMapper;
+    private final TopParamRepository topParamRepository;
 
     @Override
     public AdvertisementDto create(AdvertisementDto dto) {
@@ -55,13 +56,6 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
         Category category = categoryRepository.getReferenceById(categoryId);
         advertisement.setCategory(category);
-
-        List<Image> images = advertisement.getImages();
-        List<Image> savedImages = imageRepository.saveAll(images);
-        advertisement.setImages(savedImages);
-
-        Image image = imageRepository.save(advertisement.getMainImage());
-        advertisement.setMainImage(image);
 
         return advertisementDtoMapper.toDto(advertisementRepository.save(advertisement));
     }
@@ -122,6 +116,18 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     @Override
     public List<AdvertisementDto> findByPersonId(Long id) {
         return advertisementRepository.findByPersonId(id).stream().map(advertisementDtoMapper::toDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public void addTopParam(Long advertisementId, TopParamDto topParamDto) {
+        Advertisement advertisement = advertisementRepository.findById(advertisementId).orElseThrow(() -> new EntityNotFoundException("Ad not found with id: {0}", advertisementId));
+
+        topParamDto.setId(null);
+        TopParam topParam = topParamMapper.toEntity(topParamDto);
+        topParamRepository.save(topParam);
+
+        advertisement.setTopParam(topParamMapper.toEntity(topParamDto));
+        advertisementRepository.save(advertisement);
     }
 
 }

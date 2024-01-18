@@ -26,6 +26,8 @@ public class Role extends AbstractEntity {
 
     public List<SimpleGrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.name.name()));
+        //  return List.copyOf(List.of(new SimpleGrantedAuthority(this.name.name())));
+
     }
 
 }

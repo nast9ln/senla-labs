@@ -3,22 +3,20 @@ package com.example.demo.controller.advice;
 import com.example.demo.exception.EmptyException;
 import com.example.demo.exception.RelativeNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
-
-import java.io.IOException;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @Slf4j
 @RestControllerAdvice
-public class CustomExceptionHandler extends DefaultHandlerExceptionResolver {
+public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException exception) {
@@ -43,9 +41,11 @@ public class CustomExceptionHandler extends DefaultHandlerExceptionResolver {
                 .status(HttpStatus.NOT_FOUND)
                 .body(exception.getLocalizedMessage());
     }
+
     @Override
-    protected ModelAndView handleMethodArgumentNotValidException(MethodArgumentNotValidException ex, HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         log.info(ex.getMessage());
-        return super.handleMethodArgumentNotValidException(ex, request, response, handler);
+        return super.handleMethodArgumentNotValid(ex, headers, status, request);
     }
+
 }

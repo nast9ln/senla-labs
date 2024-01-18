@@ -2,8 +2,8 @@ package com.example.demo.controller.impl;
 
 import com.example.demo.dto.security.AuthenticationRequest;
 import com.example.demo.dto.security.AuthenticationResponse;
-import com.example.demo.service.security.AuthenticationService;
 import com.example.demo.dto.security.JwtPerson;
+import com.example.demo.service.security.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

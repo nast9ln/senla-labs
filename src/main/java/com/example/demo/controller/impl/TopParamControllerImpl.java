@@ -20,4 +20,6 @@ public class TopParamControllerImpl implements TopParamController {
     public List<Long> getCurrentTopIds() {
         return topParamService.getCurrentTopParamIds();
     }
+
+
 }

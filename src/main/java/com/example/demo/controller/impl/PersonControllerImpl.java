@@ -4,7 +4,6 @@ package com.example.demo.controller.impl;
 import com.example.demo.controller.PersonController;
 import com.example.demo.dto.AdvertisementDto;
 import com.example.demo.dto.PersonDto;
-import com.example.demo.entity.Advertisement;
 import com.example.demo.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -12,8 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Set;
 
 @RestController
 @RequestMapping("/person")
@@ -37,10 +34,10 @@ public class PersonControllerImpl implements PersonController {
     }
 
     @Override
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    @DeleteMapping
+    public void delete() {
         logger.info("delete");
-        personService.delete(id);
+        personService.delete();
     }
 
     @Override

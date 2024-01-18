@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.AdvertisementDto;
+import com.example.demo.dto.TopParamDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -29,4 +30,5 @@ public interface AdvertisementService {
 
     List<AdvertisementDto> findByPersonId(Long id);
 
+    void addTopParam(Long advertisementId, TopParamDto topParamDto);
 }

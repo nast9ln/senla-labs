@@ -11,7 +11,7 @@ public interface PersonController {
 
     void update(PersonDto dto);
 
-    void delete(Long id);
     Page<AdvertisementDto> getAdvertisements(Pageable pageable);
 
-    }
+    void delete();
+}
