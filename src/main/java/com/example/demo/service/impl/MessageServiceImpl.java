@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dto.MessageDto;
+import com.example.demo.dto.PersonDto;
 import com.example.demo.dto.security.JwtPerson;
 import com.example.demo.entity.Advertisement;
 import com.example.demo.entity.Message;
@@ -40,6 +41,14 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
+    public Page<MessageDto> getDialog(Long advertisementId, Long personId, Pageable pageable) {
+        JwtPerson jwtPerson = jwtAuthorizationService.extractJwtPerson();
+        log.info("Get dialog between person with id {} in advertisement with id {}", jwtPerson.getId(), advertisementId);
+        Page<Message> dialog =  messageRepository.findDialogByCreator(advertisementId, jwtPerson.getId(), personId, pageable);
+        return dialog.map(messageMapper::toDto);
+    }
+
+    @Override
     public void sendMessage(MessageDto dto) {
         dto.setId(null);
         JwtPerson jwtPerson = jwtAuthorizationService.extractJwtPerson();
@@ -51,5 +60,12 @@ public class MessageServiceImpl implements MessageService {
         Advertisement advertisement = advertisementRepository.getReferenceById(dto.getAdvertisementId());
         message.setAdvertisement(advertisement);
         messageRepository.save(message);
+    }
+
+    @Override
+    public Page<PersonDto> getPersonsWithDialogsByCreator(Pageable pageable) {
+        JwtPerson jwtPerson = jwtAuthorizationService.extractJwtPerson();
+        Page<Person> persons =messageRepository.findPersonsWithDialogByCreator(jwtPerson.getId(), pageable);
+        return persons.map(personMapper::toDto);
     }
 }

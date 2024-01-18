@@ -2,6 +2,7 @@ package com.example.demo.controller.impl;
 
 import com.example.demo.controller.MessageController;
 import com.example.demo.dto.MessageDto;
+import com.example.demo.dto.PersonDto;
 import com.example.demo.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,5 +26,16 @@ public class MessageControllerImpl implements MessageController {
     @PostMapping
     public void sendMessage(@RequestBody MessageDto messageDto) {
         messageService.sendMessage(messageDto);
+    }
+
+    @Override
+    @GetMapping("/creator")
+    public Page<PersonDto> getPersonsWithDialogsByCreator(Pageable pageable) {
+        return messageService.getPersonsWithDialogsByCreator(pageable);
+    }
+
+    @GetMapping("/byCreator")
+    public Page<MessageDto> getDialogByCreator (@RequestParam(name = "advertisementId") Long advertisementId, @RequestParam(name = "personId") Long personId, Pageable pageable){
+        return messageService.getDialog(advertisementId, personId, pageable);
     }
 }
