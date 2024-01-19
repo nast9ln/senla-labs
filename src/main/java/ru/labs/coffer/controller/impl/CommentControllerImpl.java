@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.labs.coffer.controller.CommentController;
@@ -19,25 +20,27 @@ public class CommentControllerImpl implements CommentController {
 
     @Override
     @PostMapping
-    public CommentDto create(@Valid @RequestBody CommentDto commentDto) {
-        return commentService.create(commentDto);
+    public ResponseEntity<CommentDto> create(@Valid @RequestBody CommentDto commentDto) {
+        return ResponseEntity.ok(commentService.create(commentDto));
     }
 
     @Override
     @DeleteMapping("/{comment-id}")
-    public void delete(@PathVariable("comment-id") Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("comment-id") Long id) {
         commentService.delete(id);
+        return ResponseEntity.ok().build();
     }
 
     @Override
     @DeleteMapping("/advertisement/{id}")
-    public void deleteByAdvertisementId(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteByAdvertisementId(@PathVariable Long id) {
         commentService.deleteByAdvertisementId(id);
+        return ResponseEntity.ok().build();
     }
 
     @Override
     @GetMapping("/advertisement/{id}")
-    public Page<CommentDto> findAllByAdvertisementId(@PathVariable Long id, Pageable pageable) {
-        return commentService.findAllByAdvertisementId(id, pageable);
+    public ResponseEntity<Page<CommentDto>> findAllByAdvertisementId(@PathVariable Long id, Pageable pageable) {
+        return ResponseEntity.ok(commentService.findAllByAdvertisementId(id, pageable));
     }
 }

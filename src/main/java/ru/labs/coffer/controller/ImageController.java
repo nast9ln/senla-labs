@@ -1,11 +1,12 @@
 package ru.labs.coffer.controller;
 
+import org.springframework.http.ResponseEntity;
 import ru.labs.coffer.dto.ImageDto;
 
 public interface ImageController {
-    void create(ImageDto dto);
+    ResponseEntity<Void> create(ImageDto dto);
 
-    void delete(Long id);
+    ResponseEntity<Void> delete(Long id);
 
-    void deleteByAdvertisementId(Long id);
+    ResponseEntity<Void> deleteByAdvertisementId(Long id);
 }

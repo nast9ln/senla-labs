@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.labs.coffer.controller.MessageController;
 import ru.labs.coffer.dto.MessageDto;
@@ -19,25 +20,26 @@ public class MessageControllerImpl implements MessageController {
 
     @GetMapping
     @Override
-    public Page<MessageDto> getDialog(@RequestParam(name = "advertisementId") Long advertisementId, Pageable pageable) {
-        return messageService.getDialog(advertisementId, pageable);
+    public ResponseEntity<Page<MessageDto>> getDialog(@RequestParam(name = "advertisementId") Long advertisementId, Pageable pageable) {
+        return ResponseEntity.ok(messageService.getDialog(advertisementId, pageable));
     }
 
     @Override
     @PostMapping
-    public void sendMessage(@RequestBody MessageDto messageDto) {
+    public ResponseEntity<Void> sendMessage(@RequestBody MessageDto messageDto) {
         messageService.sendMessage(messageDto);
+        return ResponseEntity.ok().build();
     }
 
     @Override
     @GetMapping("/creator")
-    public Page<PersonDto> getPersonsWithDialogsByCreator(Pageable pageable) {
-        return messageService.getPersonsWithDialogsByCreator(pageable);
+    public ResponseEntity<Page<PersonDto>> getPersonsWithDialogsByCreator(Pageable pageable) {
+        return ResponseEntity.ok(messageService.getPersonsWithDialogsByCreator(pageable));
     }
 
     @Override
     @GetMapping("/byCreator")
-    public Page<MessageDto> getDialogByCreator(@RequestParam(name = "advertisementId") Long advertisementId, @RequestParam(name = "personId") Long personId, Pageable pageable) {
-        return messageService.getDialog(advertisementId, personId, pageable);
+    public ResponseEntity<Page<MessageDto>> getDialogByCreator(@RequestParam(name = "advertisementId") Long advertisementId, @RequestParam(name = "personId") Long personId, Pageable pageable) {
+        return ResponseEntity.ok(messageService.getDialog(advertisementId, personId, pageable));
     }
 }

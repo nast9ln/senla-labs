@@ -3,28 +3,29 @@ package ru.labs.coffer.controller;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import ru.labs.coffer.dto.AdvertisementDto;
 
 import java.util.List;
 
 public interface AdvertisementController {
 
-    AdvertisementDto create(@Valid AdvertisementDto dto);
+    ResponseEntity<AdvertisementDto> create(@Valid AdvertisementDto dto);
 
-    AdvertisementDto read(Long id);
+    ResponseEntity<AdvertisementDto> read(Long id);
 
-    void update(AdvertisementDto dto);
+    ResponseEntity<Void> update(AdvertisementDto dto);
 
-    void delete(Long id);
+    ResponseEntity<Void> delete(Long id);
 
-    Page<AdvertisementDto> findAllOrderedByTopAndCreatedDate(Pageable pageable);
+    ResponseEntity<Page<AdvertisementDto>> findAllOrderedByTopAndCreatedDate(Pageable pageable);
 
-    Page<AdvertisementDto> findAllByCategoryId(Long id, Pageable pageable);
+    ResponseEntity<Page<AdvertisementDto>> findAllByCategoryId(Long id, Pageable pageable);
 
-    Page<AdvertisementDto> findAllByCostLessThan(Integer cost, Pageable pageable);
+    ResponseEntity<Page<AdvertisementDto>> findAllByCostLessThan(Integer cost, Pageable pageable);
 
-    Page<AdvertisementDto> findAllByCostGreaterThan(Integer cost, Pageable pageable);
+    ResponseEntity<Page<AdvertisementDto>> findAllByCostGreaterThan(Integer cost, Pageable pageable);
 
-    List<AdvertisementDto> getAdvertisementByPersonId(Long id);
+    ResponseEntity<List<AdvertisementDto>> getAdvertisementByPersonId(Long id);
 
 }

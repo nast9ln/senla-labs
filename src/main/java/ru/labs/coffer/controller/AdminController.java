@@ -1,20 +1,21 @@
 package ru.labs.coffer.controller;
 
+import org.springframework.http.ResponseEntity;
 import ru.labs.coffer.dto.RoleDto;
 import ru.labs.coffer.dto.TopParamDto;
 
 import java.util.Set;
 
 public interface AdminController {
-    void changePersonRole(Long id, Set<RoleDto> roles);
+    ResponseEntity<Void> changePersonRole(Long id, Set<RoleDto> roles);
 
-    void addTopParam(Long advertisementId, TopParamDto topParamDto);
+    ResponseEntity<Void> addTopParam(Long advertisementId, TopParamDto topParamDto);
 
-    void deletePerson(Long id);
+    ResponseEntity<Void> deletePerson(Long id);
 
-    void deleteComment(Long id);
+    ResponseEntity<Void> deleteComment(Long id);
 
-    void deleteAdvertisement(Long id);
+    ResponseEntity<Void> deleteAdvertisement(Long id);
 
-    void changeTopParam(TopParamDto topParamDto);
+    ResponseEntity<Void> changeTopParam(TopParamDto topParamDto);
 }

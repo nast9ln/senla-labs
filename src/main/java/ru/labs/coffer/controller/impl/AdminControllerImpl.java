@@ -1,6 +1,7 @@
 package ru.labs.coffer.controller.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.labs.coffer.controller.AdminController;
 import ru.labs.coffer.dto.RoleDto;
@@ -23,37 +24,43 @@ public class AdminControllerImpl implements AdminController {
 
     @Override
     @PutMapping("/persons/{id}")
-    public void changePersonRole(@PathVariable Long id, @RequestBody Set<RoleDto> roles) {
+    public ResponseEntity<Void> changePersonRole(@PathVariable Long id, @RequestBody Set<RoleDto> roles) {
         personService.updatePersonRole(id, roles);
+        return ResponseEntity.ok().build();
     }
 
     @Override
     @PostMapping("/top/{advertisementId}")
-    public void addTopParam(@PathVariable Long advertisementId, @RequestBody TopParamDto topParamDto) {
+    public ResponseEntity<Void> addTopParam(@PathVariable Long advertisementId, @RequestBody TopParamDto topParamDto) {
         advertisementService.addTopParam(advertisementId, topParamDto);
+        return ResponseEntity.ok().build();
     }
 
     @Override
     @DeleteMapping("/person/{id}")
-    public void deletePerson(@PathVariable Long id) {
+    public ResponseEntity<Void> deletePerson(@PathVariable Long id) {
         personService.delete(id);
+        return ResponseEntity.ok().build();
     }
 
     @Override
     @DeleteMapping("/comment/{id}")
-    public void deleteComment(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
         commentService.delete(id);
+        return ResponseEntity.ok().build();
     }
 
     @Override
     @DeleteMapping("/adv/{id}")
-    public void deleteAdvertisement(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteAdvertisement(@PathVariable Long id) {
         advertisementService.delete(id);
+        return ResponseEntity.ok().build();
     }
 
     @Override
     @PutMapping("/top")
-    public void changeTopParam(@RequestBody TopParamDto topParamDto) {
+    public ResponseEntity<Void> changeTopParam(@RequestBody TopParamDto topParamDto) {
         topParamService.update(topParamDto);
+        return ResponseEntity.ok().build();
     }
 }

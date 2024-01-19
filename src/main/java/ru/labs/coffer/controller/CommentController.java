@@ -3,14 +3,15 @@ package ru.labs.coffer.controller;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import ru.labs.coffer.dto.CommentDto;
 
 public interface CommentController {
-    CommentDto create(@Valid CommentDto commentDto);
+    ResponseEntity<CommentDto> create(@Valid CommentDto commentDto);
 
-    void delete(Long id);
+    ResponseEntity<Void> delete(Long id);
 
-    void deleteByAdvertisementId(Long id);
+    ResponseEntity<Void>  deleteByAdvertisementId(Long id);
 
-    Page<CommentDto> findAllByAdvertisementId(Long id, Pageable pageable);
+    ResponseEntity<Page<CommentDto>> findAllByAdvertisementId(Long id, Pageable pageable);
 }

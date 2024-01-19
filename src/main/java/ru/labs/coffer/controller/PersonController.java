@@ -2,16 +2,17 @@ package ru.labs.coffer.controller;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import ru.labs.coffer.dto.AdvertisementDto;
 import ru.labs.coffer.dto.PersonDto;
 
 public interface PersonController {
 
-    PersonDto read(Long id);
+    ResponseEntity<PersonDto> read(Long id);
 
-    void update(PersonDto dto);
+    ResponseEntity<Void> update(PersonDto dto);
 
-    Page<AdvertisementDto> getAdvertisements(Pageable pageable);
+    ResponseEntity<Page<AdvertisementDto>> getAdvertisements(Pageable pageable);
 
-    void delete();
+    ResponseEntity<Void> delete();
 }

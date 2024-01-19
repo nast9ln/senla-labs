@@ -1,6 +1,7 @@
 package ru.labs.coffer.controller.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.labs.coffer.controller.ImageController;
 import ru.labs.coffer.dto.ImageDto;
@@ -13,20 +14,23 @@ public class ImageControllerImpl implements ImageController {
 
     @Override
     @PostMapping
-    public void create(@RequestBody ImageDto dto) {
+    public ResponseEntity<Void> create(@RequestBody ImageDto dto) {
         imageService.create(dto);
+        return ResponseEntity.ok().build();
     }
 
     @Override
     @DeleteMapping("/{image-id}")
-    public void delete(@PathVariable("image-id") Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("image-id") Long id) {
         imageService.delete(id);
+        return ResponseEntity.ok().build();
     }
 
     @Override
     @DeleteMapping("/delete-by-adv-id/{adv-id}")
-    public void deleteByAdvertisementId(@PathVariable("adv-id") Long id) {
+    public ResponseEntity<Void> deleteByAdvertisementId(@PathVariable("adv-id") Long id) {
         imageService.deleteByAdvertisementId(id);
+        return ResponseEntity.ok().build();
     }
 
 }

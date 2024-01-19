@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.labs.coffer.controller.PersonController;
 import ru.labs.coffer.dto.AdvertisementDto;
@@ -21,28 +22,30 @@ public class PersonControllerImpl implements PersonController {
 
     @Override
     @GetMapping("{id}")
-    public PersonDto read(@PathVariable Long id) {
+    public ResponseEntity<PersonDto> read(@PathVariable Long id) {
         logger.info("read");
-        return personService.read(id);
+        return ResponseEntity.ok(personService.read(id));
     }
 
     @Override
     @PutMapping
-    public void update(@RequestBody PersonDto dto) {
+    public ResponseEntity<Void> update(@RequestBody PersonDto dto) {
         logger.info("update");
         personService.update(dto);
+        return ResponseEntity.ok().build();
     }
 
     @Override
     @DeleteMapping
-    public void delete() {
+    public ResponseEntity<Void> delete() {
         logger.info("delete");
         personService.delete();
+        return ResponseEntity.ok().build();
     }
 
     @Override
     @GetMapping("/adv")
-    public Page<AdvertisementDto> getAdvertisements(Pageable pageable) {
-        return personService.findAdvertisementByPersonId(pageable);
+    public ResponseEntity<Page<AdvertisementDto>> getAdvertisements(Pageable pageable) {
+        return ResponseEntity.ok(personService.findAdvertisementByPersonId(pageable));
     }
 }
