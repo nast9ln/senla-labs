@@ -1,0 +1,22 @@
+version: '3.7'
+services:
+
+  coffer-service:
+    image: 'coffer-service:latest'
+    container_name: coffer-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      DATABASE_HOST_PORT: host.docker.internal:5432
+
+  postgres:
+     image: postgres:13.3
+     environment:
+       POSTGRES_DB: "coffer"
+       POSTGRES_USER: "postgres"
+       POSTGRES_PASSWORD: "postgres"
+     ports:
+       - "5432:5432"

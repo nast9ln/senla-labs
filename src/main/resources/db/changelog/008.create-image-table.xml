@@ -10,7 +10,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="advertisement_id" type="bigint"/>
-            <column name="path" type="bytea"/>
+            <column name="png" type="bytea"/>
             <column name="is_deleted" type="boolean">
                 <constraints nullable="false"/>
             </column>
