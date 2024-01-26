@@ -21,7 +21,6 @@ import java.util.Set;
 public class PersonRegisterServiceImpl implements PersonRegisterService {
     private final PersonRepository personRepository;
     private final RoleRepository roleRepository;
-//    private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public Person register(Person person) {
@@ -29,7 +28,6 @@ public class PersonRegisterServiceImpl implements PersonRegisterService {
         Set<Role> personRoles = new HashSet<>();
         personRoles.add(rolePerson);
 
-        //   person.setPassword(passwordEncoder.encode(person.getPassword()));
         person.setRoles(personRoles);
 
         Person registerPerson = personRepository.save(person);

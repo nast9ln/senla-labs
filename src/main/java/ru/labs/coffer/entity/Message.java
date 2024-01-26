@@ -18,11 +18,15 @@ import java.time.Instant;
 @Table(name = "message")
 public class Message extends AbstractEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sender_id")
     private Person sender;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "recipient_id")
+    private Person recipient;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "advertisement_id")
     private Advertisement advertisement;
 

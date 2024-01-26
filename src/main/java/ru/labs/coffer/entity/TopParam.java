@@ -22,8 +22,6 @@ public class TopParam extends AbstractEntity {
     private Instant timeTopStart;
     @Column(name = "time_in_top")
     private Integer timeInTop;
-    @Column(name = "is_top")
-    private boolean isTop;
 
 }
 

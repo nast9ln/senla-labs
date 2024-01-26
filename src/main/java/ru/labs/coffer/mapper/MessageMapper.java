@@ -12,7 +12,7 @@ public interface MessageMapper {
     @InheritInverseConfiguration
     Message toEntity(MessageDto dto);
 
-
+    @Mapping(target = "recipientId", source = "recipient.id")
     @Mapping(target = "senderId", source = "sender.id")
     @Mapping(target = "advertisementId", source = "advertisement.id")
     MessageDto toDto(Message entity);

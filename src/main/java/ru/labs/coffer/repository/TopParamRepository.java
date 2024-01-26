@@ -6,5 +6,4 @@ import ru.labs.coffer.entity.TopParam;
 import java.util.List;
 
 public interface TopParamRepository extends JpaRepository<TopParam, Long> {
-    List<TopParam> findByIsTopIsTrue();
 }

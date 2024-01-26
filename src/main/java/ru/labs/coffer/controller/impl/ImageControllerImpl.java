@@ -26,11 +26,4 @@ public class ImageControllerImpl implements ImageController {
         return ResponseEntity.ok().build();
     }
 
-    @Override
-    @DeleteMapping("/delete-by-adv-id/{adv-id}")
-    public ResponseEntity<Void> deleteByAdvertisementId(@PathVariable("adv-id") Long id) {
-        imageService.deleteByAdvertisementId(id);
-        return ResponseEntity.ok().build();
-    }
-
 }

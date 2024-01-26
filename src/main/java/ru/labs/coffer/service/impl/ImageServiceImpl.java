@@ -44,14 +44,14 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public void delete(Long id) {
         Image image = imageRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Image not found with id: {0}", id));
-        image.setDeleted(true);
+        image.setIsDeleted(true);
         imageRepository.save(image);
     }
 
     public void deleteByAdvertisementId(Long id) {
         Advertisement advertisement = advertisementRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Ad not found whit {0}", id));
         List<Image> images = imageRepository.findAllByAdvertisementId(advertisement.getId()).stream()
-                .peek(image -> image.setDeleted(true)).collect(Collectors.toList());
+                .peek(image -> image.setIsDeleted(true)).collect(Collectors.toList());
         imageRepository.saveAll(images);
     }
 }

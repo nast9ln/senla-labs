@@ -61,13 +61,16 @@ public class PersonDto {
 
     @NotNull
     @NotBlank
-    @JsonProperty("password")
-    private String password;
+    private Integer rating;
+
+    @NotNull
+    @NotBlank
+    private Integer totalRatings;
 
     @NotNull
     @NotBlank
     @JsonProperty("isDeleted")
-    private boolean isDeleted;
+    private Boolean isDeleted;
 
     @JsonProperty("roles")
     private Set<RoleDto> roles;

@@ -32,13 +32,6 @@ public class CommentControllerImpl implements CommentController {
     }
 
     @Override
-    @DeleteMapping("/advertisement/{id}")
-    public ResponseEntity<Void> deleteByAdvertisementId(@PathVariable Long id) {
-        commentService.deleteByAdvertisementId(id);
-        return ResponseEntity.ok().build();
-    }
-
-    @Override
     @GetMapping("/advertisement/{id}")
     public ResponseEntity<Page<CommentDto>> findAllByAdvertisementId(@PathVariable Long id, Pageable pageable) {
         return ResponseEntity.ok(commentService.findAllByAdvertisementId(id, pageable));

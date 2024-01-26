@@ -44,12 +44,14 @@ public class Person extends SoftDeletableEntity {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "rating")
+    private Integer rating;
+
+    @Column(name = "total_ratings")
+    private Integer totalRatings;
+
     @Column(name = "password")
     private String password;
-
-    @Column(name = "is_deleted")
-    private boolean isDeleted;
-
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToMany(fetch = FetchType.EAGER)

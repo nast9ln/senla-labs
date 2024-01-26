@@ -1,5 +1,6 @@
 package ru.labs.coffer.service.impl;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +15,12 @@ import ru.labs.coffer.dto.security.JwtPerson;
 import ru.labs.coffer.entity.Person;
 import ru.labs.coffer.entity.Role;
 import ru.labs.coffer.exception.EntityNotFoundException;
+import ru.labs.coffer.exception.RelativeNotFoundException;
 import ru.labs.coffer.mapper.AdvertisementMapper;
 import ru.labs.coffer.mapper.PersonMapper;
 import ru.labs.coffer.mapper.RoleMapper;
 import ru.labs.coffer.repository.AdvertisementRepository;
+import ru.labs.coffer.repository.MessageRepository;
 import ru.labs.coffer.repository.PersonRepository;
 import ru.labs.coffer.service.AdvertisementService;
 import ru.labs.coffer.service.PersonService;
@@ -34,9 +37,8 @@ public class PersonServiceImpl implements PersonService {
 
     private final PersonMapper personDtoMapper;
     private final PersonRepository personRepository;
-    private final AdvertisementRepository advertisementRepository;
+    private final MessageRepository messageRepository;
     private final AdvertisementService advertisementService;
-    private final AdvertisementMapper advertisementDtoMapper;
     private final JwtAuthorizationService jwtAuthorizationService;
     private final RoleMapper roleMapper;
 
@@ -50,8 +52,9 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public void update(PersonDto dto) {
         logger.info("update");
-        Person newPerson = personDtoMapper.toEntity(dto);
         JwtPerson jwtPerson = jwtAuthorizationService.extractJwtPerson();
+        dto.setId(jwtPerson.getId());
+        Person newPerson = personDtoMapper.toEntity(dto);
         Person exPerson = personRepository.findById(jwtPerson.getId()).orElseThrow(() -> new EntityNotFoundException("Person not found with id: {0}", dto.getId()));
         personDtoMapper.update(exPerson, newPerson);
         personRepository.save(exPerson);
@@ -62,7 +65,7 @@ public class PersonServiceImpl implements PersonService {
         logger.info("delete");
         Person person = personRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found with id {0}", id));
         advertisementService.deleteByPersonId(person.getId());
-        person.setDeleted(true);
+        person.setIsDeleted(true);
         personRepository.save(person);
     }
 
@@ -71,20 +74,13 @@ public class PersonServiceImpl implements PersonService {
         JwtPerson jwtPerson = jwtAuthorizationService.extractJwtPerson();
         Person person = personRepository.findById(jwtPerson.getId()).orElseThrow(() -> new EntityNotFoundException("User not found with id {0}", jwtPerson.getId()));
         advertisementService.deleteByPersonId(jwtPerson.getId());
-        person.setDeleted(true);
+        person.setIsDeleted(true);
         personRepository.save(person);
     }
 
     @Override
     public Person findByLogin(String login) {
         return personRepository.findByLogin(login).orElseThrow(() -> new EntityNotFoundException("Person not found with login {0}", login));
-    }
-
-    @Override
-    public Page<AdvertisementDto> findAdvertisementByPersonId(Pageable pageable) {
-        JwtPerson jwtPerson = jwtAuthorizationService.extractJwtPerson();
-
-        return advertisementRepository.findByPersonId(jwtPerson.getId(), pageable).map(advertisementDtoMapper::toDto);
     }
 
     @Override
@@ -97,5 +93,26 @@ public class PersonServiceImpl implements PersonService {
         }
         person.setRoles(roles);
         personRepository.save(person);
+    }
+
+    @Override
+    public void ratePerson(Long id, Integer score) {
+        Person creator = personRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found with id {0}", id));
+        JwtPerson person = jwtAuthorizationService.extractJwtPerson();
+
+        if (messageRepository.existsDialog(person.getId(), creator.getId())) {
+            Integer currentRating = creator.getRating();
+            Integer currentTotalRatings = creator.getTotalRatings();
+
+            Integer newTotalRatings = currentTotalRatings + 1;
+            Integer newRating = (currentRating * currentTotalRatings + score) / newTotalRatings;
+
+            creator.setRating(newRating);
+            creator.setTotalRatings(newTotalRatings);
+
+            personRepository.save(creator);
+        } else {
+            throw new RelativeNotFoundException("Dialog is not found");
+        }
     }
 }

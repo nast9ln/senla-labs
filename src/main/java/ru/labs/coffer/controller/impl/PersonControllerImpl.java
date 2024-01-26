@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.labs.coffer.controller.PersonController;
 import ru.labs.coffer.dto.AdvertisementDto;
 import ru.labs.coffer.dto.PersonDto;
+import ru.labs.coffer.dto.RatingDto;
 import ru.labs.coffer.service.PersonService;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/person")
@@ -44,8 +47,9 @@ public class PersonControllerImpl implements PersonController {
     }
 
     @Override
-    @GetMapping("/adv")
-    public ResponseEntity<Page<AdvertisementDto>> getAdvertisements(Pageable pageable) {
-        return ResponseEntity.ok(personService.findAdvertisementByPersonId(pageable));
+    @PutMapping("/rate")
+    public ResponseEntity<Void> ratePerson(@RequestBody RatingDto dto) {
+        personService.ratePerson(dto.getPersonId(), dto.getScore());
+        return ResponseEntity.ok().build();
     }
 }

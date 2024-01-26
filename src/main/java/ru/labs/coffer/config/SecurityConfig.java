@@ -20,8 +20,13 @@ import ru.labs.coffer.security.JwtAuthenticationFilter;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private static final String ADMIN_ENDPOINT = "/admin/**";
-    private static final String LOGIN_ENDPOINT = "/auth/**";
-
+    private static final String[] AUTH_WHITELIST = {
+            "/auth/**",
+            "/swagger-resources/**",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/webjars/**"
+    };
     private final JwtAuthenticationFilter jwtAuthFilter;
 
     @Bean
@@ -36,7 +41,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> {
                     auth
                             .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
-                            .requestMatchers(LOGIN_ENDPOINT).permitAll()
+                            .requestMatchers(AUTH_WHITELIST).permitAll()
                             .requestMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
                             .anyRequest().authenticated();
                 })

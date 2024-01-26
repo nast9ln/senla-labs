@@ -20,7 +20,7 @@ public interface PersonService {
 
     Person findByLogin(String login);
 
-    Page<AdvertisementDto> findAdvertisementByPersonId(Pageable pageable);
-
     void updatePersonRole(Long id, Set<RoleDto> roles);
+
+    void ratePerson(Long id, Integer score);
 }

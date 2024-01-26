@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @SuperBuilder
 @AllArgsConstructor
-//@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Table(name = "advertisement")
 @Where(clause = "is_deleted = false")
@@ -25,7 +25,7 @@ public class Advertisement extends SoftDeletableEntity {
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person person;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "top_param_id", referencedColumnName = "id")
     private TopParam topParam;
 
@@ -56,6 +56,11 @@ public class Advertisement extends SoftDeletableEntity {
     @EqualsAndHashCode.Exclude
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "advertisement", cascade = CascadeType.ALL)
     private List<Image> images;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "advertisement", cascade = CascadeType.ALL)
+    private List<Message> messages;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

@@ -25,8 +25,7 @@ import static ru.labs.coffer.util.DatabaseUtil.TEST_LOGIN;
 public class BaseMock {
     @Autowired
     protected MockMvc mockMvc;
-    @Autowired
-    protected ObjectMapper mapper;
+    protected ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
     @MockBean
     private JwtService jwtService;
 

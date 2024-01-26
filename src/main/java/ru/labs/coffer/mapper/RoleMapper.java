@@ -8,6 +8,5 @@ import ru.labs.coffer.entity.Role;
 
 public interface RoleMapper {
     Role toEntity(RoleDto dto);
-
     RoleDto toDto(Role entity);
 }

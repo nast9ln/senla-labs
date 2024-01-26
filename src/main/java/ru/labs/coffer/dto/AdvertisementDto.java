@@ -57,5 +57,5 @@ public class AdvertisementDto {
     private String status;
 
     @JsonProperty("isDeleted")
-    private boolean isDeleted;
+    private Boolean isDeleted;
 }

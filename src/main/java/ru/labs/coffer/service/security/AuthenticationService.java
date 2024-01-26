@@ -1,7 +1,6 @@
 package ru.labs.coffer.service.security;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,7 +11,9 @@ import ru.labs.coffer.dto.security.JwtPerson;
 import ru.labs.coffer.entity.Person;
 import ru.labs.coffer.entity.Role;
 import ru.labs.coffer.enums.RoleEnum;
+import ru.labs.coffer.exception.BaseException;
 import ru.labs.coffer.exception.EntityNotFoundException;
+import ru.labs.coffer.exception.LoginDuplicateException;
 import ru.labs.coffer.mapper.JwtPersonMapper;
 import ru.labs.coffer.repository.PersonRepository;
 import ru.labs.coffer.repository.RoleRepository;
@@ -43,8 +44,8 @@ public class AuthenticationService {
                 .build();
         try {
             person = personRepository.save(person);
-        } catch (DataIntegrityViolationException e) {
-            throw e;
+        } catch (Exception e) {
+            throw new LoginDuplicateException("The username is already taken: {0}", person.getLogin());
         }
         String token = jwtService.generateToken(jwtPersonMapper.toJwtPerson(person));
         return AuthenticationResponse

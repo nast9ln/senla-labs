@@ -1,9 +1,7 @@
 package ru.labs.coffer.util;
 
-import ru.labs.coffer.dto.AdvertisementDto;
-import ru.labs.coffer.dto.CategoryDto;
-import ru.labs.coffer.dto.PersonDto;
-import ru.labs.coffer.dto.RoleDto;
+import ru.labs.coffer.dto.*;
+import ru.labs.coffer.dto.security.JwtPerson;
 import ru.labs.coffer.entity.Advertisement;
 import ru.labs.coffer.entity.Person;
 import ru.labs.coffer.entity.Role;
@@ -31,6 +29,27 @@ public class DataFactory {
                 .phone("+211")
                 .email("nast9ln@h.com")
                 .password("1202")
+                .rating(0)
+                .totalRatings(0)
+                .isDeleted(false)
+                .roles(Set.of(new Role(RoleEnum.ROLE_USER)))
+                .build();
+    }
+
+    public Person getPersonForTest(Long id, String login) {
+        return Person.builder()
+                .id(id)
+                .gender(Gender.WOMAN)
+                .login(login)
+                .firstName("test1")
+                .lastName("test1")
+                .birthday(Instant.ofEpochSecond(1069965734))
+                .city("Vitebsk")
+                .phone("+211")
+                .email("nast9ln@h.com")
+                .password("1202")
+                .rating(0)
+                .totalRatings(0)
                 .isDeleted(false)
                 .roles(Set.of(new Role(RoleEnum.ROLE_USER)))
                 .build();
@@ -47,7 +66,9 @@ public class DataFactory {
                 .city("VitebskDto")
                 .phone("+211")
                 .email("nast9ln@h.com")
-                .password("1202Dto")
+                //    .password("1202Dto")
+                .totalRatings(0)
+                .rating(0)
                 .roles(Set.of(new RoleDto(RoleEnum.ROLE_USER)))
                 .build();
     }
@@ -85,6 +106,7 @@ public class DataFactory {
                 .description("new red fur")
                 .status("ACTIVE")
                 .mainImage(null)
+                .isDeleted(false)
                 .build();
     }
 
@@ -92,6 +114,30 @@ public class DataFactory {
         return CategoryDto.builder()
                 .id(id)
                 .name(CategoryType.CLOTHING.name())
+                .build();
+    }
+
+    public RatingDto getRatingDtoForTest(Long id, Integer score) {
+        return RatingDto.builder()
+                .personId(id)
+                .score(score)
+                .build();
+    }
+
+    public MessageDto createMessage() {
+        MessageDto messageDto = MessageDto
+                .builder()
+                .text("test")
+                .createdDate(Instant.now())
+                .isDeleted(false)
+                .build();
+        return messageDto;
+    }
+
+    public static JwtPerson getJwtPersonForTest() {
+        return JwtPerson.builder()
+                .login("testRegister")
+                .password("testReg")
                 .build();
     }
 }

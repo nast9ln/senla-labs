@@ -1,8 +1,6 @@
 package ru.labs.coffer.controller.impl;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -10,9 +8,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.labs.coffer.controller.AdvertisementController;
 import ru.labs.coffer.dto.AdvertisementDto;
+import ru.labs.coffer.dto.search.AdvertisementSearchDto;
 import ru.labs.coffer.service.AdvertisementService;
-
-import java.util.List;
 
 @Validated
 @RestController
@@ -24,7 +21,7 @@ public class AdvertisementControllerImpl implements AdvertisementController {
 
     @Override
     @PostMapping
-    public ResponseEntity<AdvertisementDto> create(@Valid @RequestBody AdvertisementDto dto) {
+    public ResponseEntity<AdvertisementDto> create(@RequestBody AdvertisementDto dto) {
         return ResponseEntity.ok(advertisementService.create(dto));
     }
 
@@ -37,8 +34,8 @@ public class AdvertisementControllerImpl implements AdvertisementController {
     @Override
     @PutMapping
     public ResponseEntity<Void> update(@RequestBody AdvertisementDto dto) {
-       advertisementService.update(dto);
-       return ResponseEntity.ok().build();
+        advertisementService.update(dto);
+        return ResponseEntity.ok().build();
     }
 
     @Override
@@ -49,32 +46,16 @@ public class AdvertisementControllerImpl implements AdvertisementController {
     }
 
     @Override
-    @GetMapping("/page")
-    public ResponseEntity<Page<AdvertisementDto>> findAllOrderedByTopAndCreatedDate(Pageable pageable) {
-        return ResponseEntity.ok(advertisementService.findAllOrderedByTopAndCreatedDate(pageable));
+    @GetMapping("/history/{id}")
+    public ResponseEntity<Page<AdvertisementDto>> getHistoryByPersonId(@PathVariable Long id, Pageable pageable) {
+        return ResponseEntity.ok(advertisementService.getHistoryByPersonId(id, pageable));
     }
 
     @Override
-    @GetMapping("/category/{id}")
-    public ResponseEntity<Page<AdvertisementDto>> findAllByCategoryId(@PathVariable Long id, Pageable pageable) {
-        return ResponseEntity.ok(advertisementService.findAllByCategoryId(id, pageable));
+    @PostMapping("/search")
+    public ResponseEntity<Page<AdvertisementDto>> findAll(@RequestBody AdvertisementSearchDto advertisementSearchDto) {
+        return ResponseEntity.ok(advertisementService.findAll(advertisementSearchDto));
     }
 
-    @Override
-    @GetMapping("/cost-less/{cost}")
-    public ResponseEntity<Page<AdvertisementDto>> findAllByCostLessThan(@PathVariable Integer cost, Pageable pageable) {
-        return ResponseEntity.ok(advertisementService.findAllByCostLessThan(cost, pageable));
-    }
 
-    @Override
-    @GetMapping("/cost-greater/{cost}")
-    public ResponseEntity<Page<AdvertisementDto>> findAllByCostGreaterThan(@PathVariable Integer cost, Pageable pageable) {
-        return ResponseEntity.ok(advertisementService.findAllByCostGreaterThan(cost, pageable));
-    }
-
-    @Override
-    @GetMapping("/user/{id}")
-    public ResponseEntity<List<AdvertisementDto>> getAdvertisementByPersonId(@PathVariable Long id) {
-        return ResponseEntity.ok(advertisementService.findByPersonId(id));
-    }
 }

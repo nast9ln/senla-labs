@@ -15,9 +15,6 @@
             <column name="time_in_top" type="int">
                 <constraints nullable="false"/>
             </column>
-            <column name="is_top" type="boolean">
-                <constraints nullable="false"/>
-            </column>
         </createTable>
     </changeSet>
 
